@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}My Blog{% endblock %}</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      line-height: 1.7;
+      color: #222;
+      background: #fafaf8;
+      margin: 0;
+      padding: 0;
+    }
+
+    .site-header {
+      border-bottom: 2px solid #222;
+      padding: 1.5rem 0;
+      margin-bottom: 3rem;
+    }
+
+    .site-header a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .site-header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      letter-spacing: -0.5px;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .site-footer {
+      border-top: 1px solid #ddd;
+      margin-top: 4rem;
+      padding: 1.5rem 0;
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    a { color: #1a5276; }
+    a:hover { color: #2e86c1; }
+
+    code {
+      background: #f0f0ec;
+      padding: 0.1em 0.35em;
+      border-radius: 3px;
+      font-size: 0.9em;
+      font-family: 'Courier New', monospace;
+    }
+
+    pre {
+      background: #f0f0ec;
+      padding: 1rem 1.2rem;
+      border-radius: 4px;
+      overflow-x: auto;
+      border-left: 3px solid #aaa;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #eee;
+      color: #444;
+      font-size: 0.75rem;
+      font-family: sans-serif;
+      padding: 0.15em 0.6em;
+      border-radius: 2px;
+      margin-right: 0.3rem;
+      text-transform: lowercase;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="/">My Blog</a></h1>
+    </div>
+  </header>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      Built with Flask and Markdown.
+    </div>
+  </footer>
+</body>
+</html>

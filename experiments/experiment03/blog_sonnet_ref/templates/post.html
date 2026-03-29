@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block content %}
+<article>
+    <h1>{{ post.title }}</h1>
+    <div class="post-meta">
+        {{ post.date.strftime("%B %d, %Y") }}
+        {% for tag in post.tags %}
+            <span class="tag">{{ tag }}</span>
+        {% endfor %}
+    </div>
+    <div class="post-body">
+        {{ post.content_html | safe }}
+    </div>
+</article>
+<p><a href="/">&larr; Back to all posts</a></p>
+{% endblock %}

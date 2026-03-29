@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>codeOath Social Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #111;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+  .instructions {
+    color: #999;
+    font-family: monospace;
+    font-size: 14px;
+    max-width: 600px;
+    margin-bottom: 40px;
+    line-height: 1.6;
+  }
+  .instructions h2 {
+    color: #ccc;
+    font-size: 16px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .instructions ol {
+    margin: 12px 0 12px 20px;
+  }
+  .instructions p {
+    margin: 8px 0;
+  }
+
+  .preview {
+    width: 1280px;
+    height: 640px;
+    background: #0b0e13;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    outline: 2px dashed #ff0000;
+    outline-offset: 0px;
+  }
+
+  .preview::after {
+    content: '';
+    position: absolute;
+    top: 28px; left: 28px; right: 28px; bottom: 28px;
+    border: 3.5px solid rgba(255,255,255,0.3);
+    pointer-events: none;
+  }
+
+  .container {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .title {
+    font-family: 'DM Serif Display', Georgia, serif;
+    color: #ffffff;
+    font-size: 120px;
+    font-weight: 400;
+    letter-spacing: -1px;
+    margin-bottom: 34px;
+  }
+  .tagline {
+    font-family: 'DM Sans', sans-serif;
+    color: rgba(255,255,255,0.85);
+    font-size: 34px;
+    font-weight: 500;
+    margin-bottom: 18px;
+    letter-spacing: 0.2px;
+  }
+  .subtitle {
+    font-family: 'DM Sans', sans-serif;
+    color: rgba(255,255,255,0.35);
+    font-size: 22px;
+    font-weight: 300;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<div class="instructions">
+  <h2>Social Preview Image Source</h2>
+  <p>This file generates the GitHub social preview card (shown when someone shares the repo link).</p>
+  <ol>
+    <li>The red dashed border shows the exact 1280x640px boundary</li>
+    <li>Take a screenshot INSIDE the red border (do not include the border)</li>
+    <li>Save as PNG</li>
+    <li>Upload to GitHub: repo Settings > General > Social Preview > Edit > Upload</li>
+  </ol>
+  <p>To change text or styling, edit this file and take a new screenshot. Fonts load from Google Fonts (needs internet).</p>
+</div>
+
+<div class="preview">
+  <div class="container">
+    <div class="title">codeOath</div>
+    <div class="tagline">Your AI project will not fall apart.</div>
+    <div class="subtitle">Start simple. Add structure when it hurts.</div>
+  </div>
+</div>
+
+</body>
+</html>

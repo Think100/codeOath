@@ -1,0 +1,19 @@
+[project]
+name = "expense-tracker"
+version = "0.2.0"
+requires-python = ">=3.14"
+
+[project.scripts]
+expense-tracker = "expense_tracker.main:main"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "B", "S", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[dependency-groups]
+dev = ["pytest", "ruff"]

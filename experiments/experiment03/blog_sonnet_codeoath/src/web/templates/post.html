@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} - My Blog{% endblock %}
+
+{% block content %}
+<article>
+  <header style="margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #ddd;">
+    <h1 style="margin: 0 0 0.5rem 0; font-size: 2rem; line-height: 1.25;">{{ post.title }}</h1>
+    <div style="font-size:0.85rem; color:#888; font-family:sans-serif;">
+      {{ post.date.strftime('%B %-d, %Y') if post.date else '' }}
+      {% for tag in post.tags %}
+        <span class="tag">{{ tag }}</span>
+      {% endfor %}
+    </div>
+  </header>
+
+  <div class="post-content">
+    {{ post.content_html | safe }}
+  </div>
+</article>
+
+<div style="margin-top: 3rem;">
+  <a href="{{ url_for('blog.index') }}">&larr; All posts</a>
+</div>
+{% endblock %}

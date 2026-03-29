@@ -1,0 +1,136 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Georgia, "Times New Roman", serif;
+    line-height: 1.7;
+    color: #333;
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    background: #fafafa;
+}
+
+header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #ddd;
+}
+
+.site-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: #222;
+}
+
+h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    color: #111;
+}
+
+h2 {
+    font-size: 1.4rem;
+    margin-bottom: 0.25rem;
+}
+
+h2 a {
+    text-decoration: none;
+    color: #1a5276;
+}
+
+h2 a:hover {
+    text-decoration: underline;
+}
+
+time {
+    display: block;
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 0.3rem;
+}
+
+.tags {
+    margin: 0.3rem 0;
+}
+
+.tag {
+    display: inline-block;
+    background: #e8e8e8;
+    color: #555;
+    padding: 0.1rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    margin-right: 0.3rem;
+}
+
+.post-summary {
+    margin-bottom: 1.8rem;
+}
+
+.post-body {
+    margin-top: 1.5rem;
+}
+
+.post-body p {
+    margin-bottom: 1rem;
+}
+
+.post-body pre {
+    background: #f0f0f0;
+    padding: 1rem;
+    overflow-x: auto;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.post-body code {
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 0.9em;
+}
+
+.post-body h2 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.post-body h3 {
+    margin-top: 1.2rem;
+    margin-bottom: 0.4rem;
+}
+
+.post-body ul, .post-body ol {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.post-body blockquote {
+    border-left: 3px solid #ccc;
+    padding-left: 1rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 2rem;
+    color: #1a5276;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+footer {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid #ddd;
+    font-size: 0.85rem;
+    color: #999;
+    text-align: center;
+}

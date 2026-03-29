@@ -1,0 +1,14 @@
+# Secrets
+.env
+.env.*
+*.key
+*.pem
+secrets/
+
+# Local AI tool config (machine-specific, may contain personal settings)
+.claude/settings.local.json
+
+# Python cache and test artifacts
+__pycache__/
+*.pyc
+.pytest_cache/
