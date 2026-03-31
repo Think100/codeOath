@@ -55,6 +55,30 @@ myproject/
 └── README.md
 ```
 
+Minimal `.gitignore` for Python projects:
+
+```text
+# secrets
+config/.env
+
+# bytecode
+__pycache__/
+*.pyc
+
+# virtual environment
+.venv/
+
+# build artifacts
+dist/
+build/
+*.egg-info/
+
+# tool caches
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+```
+
 Minimal `pyproject.toml`:
 
 ```toml
@@ -80,6 +104,48 @@ uv sync                     # install dependencies
 uv run python -m myproject  # run the project
 uv run pytest               # run tests
 ```
+
+### Configuration
+
+Keep all settings in one place. Do not scatter `os.getenv()` calls across your code. In [grow.md](../grow.md), `config/` is where settings live. In Python, a typed dataclass works well for this.
+
+Define your settings in `config/.env` (never committed to git):
+
+```bash
+# config/.env
+DB_PATH=/data/app.sqlite
+API_URL=https://api.example.com
+MAX_RETRIES=3
+DEBUG=false
+```
+
+Load them into a typed dataclass:
+
+```python
+# config/settings.py
+import os
+from dataclasses import dataclass
+from pathlib import Path
+
+@dataclass(frozen=True)
+class AppConfig:
+    db_path: Path                # where the database file lives on disk
+    api_url: str                 # URL to an external service
+    max_retries: int
+    debug: bool
+
+def load_config() -> AppConfig:
+    """Load paths, URLs, and settings from environment variables.
+    Fails fast on startup if required values are missing."""
+    return AppConfig(
+        db_path=Path(os.environ["DB_PATH"]),
+        api_url=os.environ["API_URL"],
+        max_retries=int(os.getenv("MAX_RETRIES", "3")),
+        debug=os.getenv("DEBUG", "false").lower() == "true",
+    )
+```
+
+Call `load_config()` once in `main.py` and pass the result to whatever needs it. Domain code never imports `config/` or reads environment variables directly; it receives values as parameters.
 
 ### Stage 2: Domain and adapters separated
 

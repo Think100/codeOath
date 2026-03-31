@@ -11,13 +11,15 @@ If you are not sure you need this, check [triggers.md](resources/triggers.md). I
 
 ### Import Enforcement
 
-The rule "domain must never import from adapters" was a convention. Your AI can ignore conventions. Import enforcement turns it into an automated check that fails if violated.
+The rule "domain must never import from adapters" was a convention. Your AI or you can ignore conventions. Import enforcement turns it into an automated check that fails if violated.
 
-This is the wall that codeOath talks about: not a rule that someone might forget, but a check that physically prevents the violation.
+One of codeOath's core philosophies: not a rule that someone might forget, but a check that physically prevents the violation.
 
-The specific tool depends on your language (e.g., import-linter for Python). The principle is the same: define which modules may import from which, and fail if violated.
+The specific tool depends on your language. Some have dedicated linters (import-linter for Python, eslint-plugin-boundaries for JavaScript). Some enforce boundaries through their compiler (Rust's module visibility, Go's `internal/` packages). Others have test-based tools (Java's ArchUnit, .NET's NetArchTest). The principle is the same: define which modules may import from which, and fail if violated.
 
-> "Read my AGENTS.md and the architecture rules. Set up import enforcement for this project. The rule is: domain/ must never import from adapters/ or application/. adapters/ may import from domain/. Fail the build if violated."
+> "Read my AGENTS.md and the architecture rules. Set up import enforcement for this project. The rule is: domain/ must never import from adapters/ or application/. adapters/ may import from domain/. Fail the build if violated. Use the standard tool for my language. If no dedicated tool exists and the compiler does not enforce it, write a script that checks for violations."
+
+If your AI generates a custom script instead of using an established tool: **review it before adding it as a pre-commit hook.** A script that parses imports with regex is not as reliable as a tool that understands the language. Test it against known violations and known valid code before you trust it.
 
 ### Pre-Commit Hooks
 

@@ -549,9 +549,10 @@ Use these after reading the sections above. The prompts reference concepts expla
 
 The following approach uses AI to actively search for vulnerabilities in your code. It has proven effective at finding real security issues that other reviews miss.
 
-> **Warning: This is dangerous.** The `--dangerously-skip-permissions` flag gives the AI **unrestricted access to your entire system**: it can read any file, execute any command, access the network, delete data, and install software. It is not limited to your project directory.
+> **Warning: This is dangerous.** The `--dangerously-skip-permissions` flag gives the AI **unrestricted access to your entire system**: it can read any file, execute any command, access the network, delete data, and install software. It is not limited to your project directory. **Run it in a virtual machine**.
 >
 > **Requirements before running:**
+>
 > - Run in a disposable environment only (Docker container, VM, cloud instance that you will destroy afterward)
 > - No real credentials, API keys, or sensitive data accessible from the environment
 > - No network access to production systems
@@ -621,6 +622,12 @@ This is a starting point, not a finish line. Completing this list does not mean 
 - [ ] Container image versions pinned (not `latest`)
 - [ ] Cloud metadata endpoint (169.254.169.254) blocked in SSRF protection
 - [ ] Instance/service roles follow least privilege
+
+### AI-specific
+
+- [ ] LLM-facing code: user input separated from system prompts (prompt injection protection)
+- [ ] Dependencies verified as real, maintained packages (not hallucinated by AI)
+- [ ] No proprietary code or customer data pasted into AI tools without checking data policy
 
 ### Automation
 

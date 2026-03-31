@@ -94,6 +94,7 @@ Look things up when you need them. Not required reading.
 | [AI Workflow](docs/ai-workflow.md) | Session habits, multi-perspective reviews, reusable agents |
 | [Language Conventions](docs/resources/language-conventions.md) | Which language to use where (code, comments, docs, commits) |
 | [Prompt Cheatsheet](docs/resources/prompts.md) | Every copy-paste prompt in one place |
+| [Release Checklist](docs/resources/release-checklist.md) | What to check before publishing a project |
 | [Triggers](docs/resources/triggers.md) | When to move from one stage to the next |
 
 **Background (for when you want to understand why):**

@@ -15,7 +15,7 @@ This table lists real symptoms and what to do about them. No file-count threshol
 When you do add structure: one step at a time. Add the layer separation, see if it helps, then decide if you need more. Do not jump from Stage 1 to Stage 3 in one session.
 
 
-## Already Have a Project?
+## Already Have a Project? (Refactoring)
 
 If you already have a codebase and want to add codeOath structure, read the trigger tables below and find the symptoms that match your current pain. That tells you which stage to aim for. You do not have to start at Stage 1 if your project already has the problems of Stage 2 or 3.
 

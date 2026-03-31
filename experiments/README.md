@@ -153,6 +153,8 @@ Test case: Medium. Prompt: Blog/CMS. Models: Sonnet 4, Opus 4. Evaluated by: Son
 | Sonnet reference | `experiment03/blog_sonnet_ref/` | **8/12** | Single file | Clean monolith, good code clarity, no layers |
 | Opus reference | `experiment03/blog_opus_ref/` | **7/12** | Single file | Custom regex frontmatter parser, no contracts |
 
+**Note:** All experiments were run with Claude Sonnet 4 and Claude Opus 4 in March 2026. AI model behavior changes over time. Results with newer models or different providers may differ.
+
 ### Key Findings
 
 **1. codeOath consistently adds +2 through architecture.** Both models jump from 0 (monolith) to 2 (clear layers with direction) when given the one-line codeOath reference. The delta is identical for Sonnet (+2) and Opus (+2). This is the single largest effect.

@@ -55,7 +55,7 @@ Not all operations cost the same. This table shows rough orders of magnitude:
 
 | Operation | Approximate time | Relative cost |
 |---|---|---|
-| In-memory operation (L1 cache) | 1 ns | 1x |
+| In-memory operation (L1 cache) | 3 ns | 1x |
 | In-memory operation (hash map lookup) | 50-200 ns | 100x |
 | Disk read (SSD) | 100 us | 100,000x |
 | Network call (same datacenter) | 1-5 ms | 1,000,000x |
@@ -600,13 +600,13 @@ This covers the most common performance issues. It is not exhaustive.
 
 ### General
 
-- [ ] Expected scale documented in project definition
+- [ ] Expected scale documented (target user count, data volume)
 - [ ] Performance measured, not guessed (timing on critical operations)
 - [ ] All external calls have configurable timeouts
 - [ ] No full-data fetches where partial would suffice
 - [ ] Expensive operations not inside loops (network calls, DB queries)
 - [ ] Large data uses streaming or pagination
-- [ ] Retry logic uses exponential backoff with jitter
+- [ ] Retry logic uses exponential backoff with jitter (increasing delays between retries, randomized to avoid thundering herd)
 - [ ] Caching used for frequently read, rarely changed data
 
 ### Database
@@ -616,11 +616,19 @@ This covers the most common performance issues. It is not exhaustive.
 - [ ] All queries have LIMIT and ORDER BY where appropriate
 - [ ] Pagination for user-facing data lists
 - [ ] SQLite: WAL mode enabled on local storage (if applicable)
+- [ ] Connection pooling for remote databases (PostgreSQL, MySQL)
+- [ ] EXPLAIN checked on slow or frequent queries (large tables)
+
+### Crash Recovery
+
+- [ ] Write operations are crash-safe (write to temp file first, then rename to final name)
+- [ ] Operations are idempotent (safe to run twice after crash)
+- [ ] Stale "running" state reset on startup
 
 ### Resources
 
 - [ ] Heavy resources loaded lazily (on first use, not at startup)
-- [ ] Long-lived resources unloaded after idle timeout
+- [ ] Heavy resources (ML models, GPU memory, DB connections) released when no longer needed
 - [ ] Graceful shutdown with timeout for running operations
 - [ ] No unbounded growth in lists/dicts/sets (memory leak prevention)
 

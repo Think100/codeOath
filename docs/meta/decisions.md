@@ -45,6 +45,10 @@ files under `languages/`. This avoids the credibility problem of claiming
 ## 2026-03-25: CC BY-NC-SA 4.0 license
 **Status:** replaced by 2026-03-29 decision
 
+## 2026-03-31: No deployment guide in codeOath
+**Status:** active
+Deployment (Docker, hosting, CI/CD pipelines) is too broad and platform-specific. codeOath covers project structure and code quality, not infrastructure. Adding deployment guidance would expand scope beyond what we can maintain and dilute the focus on AI-assisted development patterns.
+
 ## 2026-03-29: CC BY 4.0 license (replaces NC-SA)
 **Status:** active
 NonCommercial was blocking adoption without providing real protection (ideas

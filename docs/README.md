@@ -38,6 +38,7 @@ Everything that is not part of the core path. Look things up when you need them.
 | [language-conventions.md](resources/language-conventions.md) | Which language to use where (code, comments, docs, commits) |
 | [philosophy.md](resources/philosophy.md) | Five principles, Pace Layers, why codeOath works |
 | [prompts.md](resources/prompts.md) | All copy-paste AI prompts on one page |
+| [release-checklist.md](resources/release-checklist.md) | What to check before publishing a project |
 
 
 ## Language Guides

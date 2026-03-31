@@ -19,6 +19,17 @@ The core prompt was always the same: "I want to track my expenses from the termi
 | **Enforcement** | none | none | none | pre-commit, import-linter, CI |
 | **Dependencies** | stdlib only | stdlib only | stdlib only | click, import-linter |
 
+**Note:** These examples were generated with Claude Sonnet 4 in March 2026. AI model behavior changes over time. Results with newer models or different providers may differ.
+
+## What We Learned
+
+**The AI builds more than you ask for.** Stage 1 was supposed to be "simple, nothing fancy." The AI added tests, a package structure, and a pyproject.toml on its own. Stage 2a was supposed to stop before Ports, but the AI added them anyway. This is not a bug. AI models in 2026 already produce structured code by default.
+
+**Same prompt, different results.** Stage 2a chose SQLite, Stage 2b chose JSON. Stage 2a uses Decimal for money, Stage 2b uses float. Neither was specified. The AI makes its own design decisions, and they vary between runs.
+
+**The guide shapes the architecture, not the details.** What changes clearly between stages is the structure: flat code (Stage 1), domain/adapters split (Stage 2), full enforcement with CI and rules (Stage 3). The implementation details (which database, which types) are up to the AI.
+
+**Constraining the AI is harder than guiding it.** We tried limiting Stage 1 with "nothing fancy" and Stage 2a with "up to You can stop here." The AI read the docs and made its own judgment. codeOath works best as a guide, not a constraint.
 
 ## Stage 1
 
@@ -54,14 +65,3 @@ Prompt given to Claude Sonnet:
 > I want to track my expenses from the terminal. Python CLI. Read docs/start.md, docs/grow.md, and docs/enforce.md. Follow all three stages. Build it in examples/stage-3/. No other steps.
 
 The AI built the full stack: domain/application/adapters layers, `.claude/rules/` with per-layer constraints, pre-commit hooks, CI pipeline, import-linter enforcement, and formal ADRs. It also adopted the repo's language conventions (German AGENTS.md, English code).
-
-
-## What We Learned
-
-**The AI builds more than you ask for.** Stage 1 was supposed to be "simple, nothing fancy." The AI added tests, a package structure, and a pyproject.toml on its own. Stage 2a was supposed to stop before Ports, but the AI added them anyway. This is not a bug. AI models in 2026 already produce structured code by default.
-
-**Same prompt, different results.** Stage 2a chose SQLite, Stage 2b chose JSON. Stage 2a uses Decimal for money, Stage 2b uses float. Neither was specified. The AI makes its own design decisions, and they vary between runs.
-
-**The guide shapes the architecture, not the details.** What changes clearly between stages is the structure: flat code (Stage 1), domain/adapters split (Stage 2), full enforcement with CI and rules (Stage 3). The implementation details (which database, which types) are up to the AI.
-
-**Constraining the AI is harder than guiding it.** We tried limiting Stage 1 with "nothing fancy" and Stage 2a with "up to You can stop here." The AI read the docs and made its own judgment. codeOath works best as a guide, not a constraint.
