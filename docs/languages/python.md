@@ -149,7 +149,7 @@ Call `load_config()` once in `main.py` and pass the result to whatever needs it.
 
 ### Stage 2: Domain and adapters separated
 
-Your core logic (`domain/`) is now separate from everything that talks to the outside world (`adapters/`). Why? Because your AI sees clear boundaries: in `domain/`, no database imports allowed. You can test your logic without a real database. You can swap SQLite for PostgreSQL without touching your logic. See [ports-and-adapters.md](../resources/ports-and-adapters.md) for the full explanation.
+Your core logic (`domain/`) is now separate from everything that talks to the outside world (`adapters/`). Why? Because your AI sees clear boundaries: in `domain/`, no database imports allowed. You can test your logic without a real database. You can swap SQLite for PostgreSQL without touching your logic. See [domain-and-adapters.md](../resources/domain-and-adapters.md) for the full explanation.
 
 ```text
 myproject/

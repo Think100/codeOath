@@ -1,6 +1,6 @@
-> [README](../../README.md) > [Docs](../) > **Alternatives**
+> [README](../../README.md) > [Docs](../) > **Architecture Patterns**
 
-# Architecture Alternatives
+# Architecture Patterns
 
 > **TL;DR (reference)** -- When domain/ grows too large or features keep colliding: feature-sliced (organize by feature area), modular monolith (hard module boundaries with public APIs), or vertical slices (one folder per user operation). All three work with codeOath's stages. Choose what fits, not what sounds impressive. You only need this when the default layered architecture no longer fits.
 
@@ -11,7 +11,7 @@ If you are in Stage 1, skip this entirely. If you are in Stage 2 and things work
 
 ## When the Default Is Not Enough
 
-codeOath's default path is a layered architecture (Hexagonal Architecture, see [ports-and-adapters.md](ports-and-adapters.md)). It organizes code by technical role: logic vs. infrastructure. This works well when:
+codeOath's default path is a layered architecture (Hexagonal Architecture, see [domain-and-adapters.md](domain-and-adapters.md)). It organizes code by technical role: logic vs. infrastructure. This works well when:
 
 - The project has one clear domain area
 - Changes tend to cut across layers (new feature = new domain model + new adapter)

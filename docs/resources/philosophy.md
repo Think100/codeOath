@@ -118,7 +118,7 @@ When your folder structure mirrors this architecture, a linter can enforce the i
 
 Important: This wall only exists when you add enforcement tooling (Stage 3). At Stage 1 and 2, the structure helps but does not prevent violations automatically. Be honest about this distinction.
 
-For a detailed explanation, see [ports-and-adapters.md](ports-and-adapters.md).
+For a detailed explanation, see [domain-and-adapters.md](domain-and-adapters.md).
 
 Architecture must be proportional to the problem. A 400-line editor does not need four use case classes and three layers of protocols. A 4000-line application might. The same principles apply at every scale, but the mechanisms change. At Stage 1, a single file with clear functions is enough. At Stage 2, separate files per layer. At Stage 3, enforced boundaries with tooling. Applying Stage 3 mechanisms to a Stage 1 project creates complexity without benefit, and complexity that exceeds the problem is just as much a violation of "Maintenance must be cheap" as no structure at all.
 

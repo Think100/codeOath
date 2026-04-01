@@ -33,8 +33,8 @@ Everything that is not part of the core path. Look things up when you need them.
 | [testing.md](resources/testing.md) | How testing works, TDD with AI, what to test |
 | [security.md](resources/security.md) | Input validation, secrets, auth, common vulnerabilities |
 | [performance.md](resources/performance.md) | Database, caching, timeouts, crash recovery |
-| [ports-and-adapters.md](resources/ports-and-adapters.md) | The architecture pattern behind Stage 2 |
-| [alternatives.md](resources/alternatives.md) | Feature-sliced, modular monolith, vertical slices |
+| [domain-and-adapters.md](resources/domain-and-adapters.md) | The architecture pattern behind Stage 2 |
+| [architecture-patterns.md](resources/architecture-patterns.md) | Feature-sliced, modular monolith, vertical slices |
 | [language-conventions.md](resources/language-conventions.md) | Which language to use where (code, comments, docs, commits) |
 | [philosophy.md](resources/philosophy.md) | Five principles, Pace Layers, why codeOath works |
 | [prompts.md](resources/prompts.md) | All copy-paste AI prompts on one page |

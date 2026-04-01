@@ -1,12 +1,28 @@
 # codeOath
 
-**Your AI project will not fall apart. One file, a few rules, done.**
+Define your project in plain text. Your AI reads it, follows the rules, stops guessing.
 
-A project guide for AI-assisted development.
+You code with AI because it is fast and fun. But after a few weeks, things drift: files appear you did not ask for, decisions get forgotten, your AI starts doing its own thing.
 
-You code with AI. It works fast. After two weeks, nobody understands the codebase anymore. Your AI creates files you did not ask for and rewrites things you did not want touched. You come back after a break and neither of you remembers what was decided.
+codeOath starts with one text file where you write down what your project is, what it should not do, and what rules apply. Your AI reads it every session. As your project grows, you add structure step by step. The building blocks behind it are proven programming practices. You do not need to understand them to use them. Your AI does.
 
-codeOath fixes all of that. Here is what that one file looks like:
+No framework, no install, no workflow to learn. Works with any AI tool today and will keep working when the tools change.
+
+
+## Get Started
+
+Read [start.md](docs/start.md). You will have your first project running in one vibe-coding session.
+
+Or tell your AI right now:
+
+> *"Create AGENTS.md with a project definition (what it is, what it is NOT, rules, structure), docs/todo.md, src/, tests/, and .gitignore. Show me the AGENTS.md before committing so I can review it."*
+
+Already have a project that needs structure? [Start here](docs/resources/triggers.md#already-have-a-project).
+
+
+## What AGENTS.md Looks Like
+
+You write this file yourself. It is a plain text contract between you and your AI.
 
 ```markdown
 # myproject
@@ -36,78 +52,47 @@ CLI tool that converts CSV files to JSON.
 - Tasks and open questions: docs/todo.md
 ```
 
-That is your `AGENTS.md`. You read it when you come back after months. Your AI reads it at the start of each session, if you tell it to (or if your tool loads it automatically).
-
 *Every AI tool has its own file for project instructions: Claude Code uses `CLAUDE.md`, Cursor uses `.cursorrules`, Copilot uses `.github/copilot-instructions.md`. codeOath calls it `AGENTS.md` because it works with any tool. Either rename it to match your tool, or add a one-liner to your tool's file: "Read AGENTS.md for project rules."*
 
 
-## Get Started
+## The Three Stages
 
-One document to start: [start.md](docs/start.md). Everything else is optional until you need it. Ten minutes to understand, thirty to set up.
+Stage 1 is enough for most projects. Only add more structure when something starts going wrong.
 
-Or tell your AI right now:
+| Stage | When | What | Guide |
+|---|---|---|---|
+| **1. Start** | Any project | AGENTS.md + todo.md | [start.md](docs/start.md) |
+| **2. Grow** | Things get messy | Separate logic from infrastructure, document decisions | [grow.md](docs/grow.md) |
+| **3. Enforce** | Rules keep getting broken | Automated checks, pick what you need | [enforce.md](docs/enforce.md) |
 
-> *"Create AGENTS.md with a project definition (what it is, what it is NOT, rules, structure), docs/todo.md, src/, tests/, and .gitignore. Show me the AGENTS.md before committing so I can review it."*
-
-Already have a project that needs structure? [Start here](docs/resources/triggers.md#already-have-a-project).
+Not sure if you should move stage? Check the [triggers](docs/resources/triggers.md).
 
 
 ## See It in Action
 
-Same project, four prompts, four levels of structure. Each built from scratch by an AI that only read the matching guide.
+One prompt, four outcomes. Each example was built by an AI that only read the matching guide.
 
-> *" I want to track my expenses from the terminal use Python"*
+> *"I want to track my expenses from the terminal. Use Python."*
 
-| Stage | Project | What the AI built |
-|---|---|---|
-| **1** | [expense-tracker](examples/stage-1/expense-tracker/) | Python CLI, JSON storage, tests, package structure |
-| **2a** | [expense-tracker](examples/stage-2a/expense-tracker/) | domain/adapters split, SQLite, decisions.md |
-| **2b** | [expense-tracker](examples/stage-2b/expense-tracker/) | Ports (Protocol), services layer, frozen dataclasses |
-| **3** | [expense-tracker](examples/stage-3/expense-tracker/) | Layer enforcement, pre-commit hooks, CI, ADRs, path-specific rules |
-
-[Full walkthrough and prompts used](examples/README.md)
-
-
-## When You Need More
-
-Most projects do fine at Stage 1. When yours outgrows it, move when you feel the pain, not on a schedule.
-
-| Stage | When | What | Guide |
-|---|---|---|---|
-| **1. Start** | New project | AGENTS.md + todo.md | [start.md](docs/start.md) |
-| **2. Grow** | Things get messy | Separate logic from infrastructure, document decisions | [grow.md](docs/grow.md) |
-| **3. Enforce** | Rules keep getting broken | Automated checks, pick what you need | [enforce.md](docs/enforce.md) |
-
-Not sure if you should move? Check the [triggers](docs/resources/triggers.md).
-
-Stage 2's first addition is `decisions.md`: when your AI asks "should we use JSON or YAML?", the answer is already written down.
-
-
-## Reference
-
-Look things up when you need them. Not required reading.
-
-**Practical:**
-
-| Guide | What it covers |
+| Stage | Result |
 |---|---|
-| [AI Workflow](docs/ai-workflow.md) | Session habits, multi-perspective reviews, reusable agents |
-| [Language Conventions](docs/resources/language-conventions.md) | Which language to use where (code, comments, docs, commits) |
-| [Prompt Cheatsheet](docs/resources/prompts.md) | Every copy-paste prompt in one place |
-| [Release Checklist](docs/resources/release-checklist.md) | What to check before publishing a project |
-| [Triggers](docs/resources/triggers.md) | When to move from one stage to the next |
+| [1: Start](examples/stage-1/expense-tracker/) | CLI, JSON storage, tests |
+| [2a: Grow](examples/stage-2a/expense-tracker/) | domain/adapters split, SQLite, decisions.md |
+| [2b: Grow](examples/stage-2b/expense-tracker/) | Ports, services layer, frozen dataclasses |
+| [3: Enforce](examples/stage-3/expense-tracker/) | Import enforcement, pre-commit hooks, CI, ADRs |
 
-**Background (for when you want to understand why):**
+[Full walkthrough and prompts](examples/README.md)
 
-| Guide | What it covers |
-|---|---|
-| [Testing](docs/resources/testing.md) | AI writes tests, you review, domain-first testing |
-| [Security](docs/resources/security.md) | Input validation, secrets, auth, common vulnerabilities |
-| [Performance](docs/resources/performance.md) | Database, caching, timeouts, crash recovery |
-| [Ports and Adapters](docs/resources/ports-and-adapters.md) | The architecture pattern behind Stage 2 |
-| [Alternatives](docs/resources/alternatives.md) | Feature-sliced, modular monolith, vertical slices |
-| [Philosophy](docs/resources/philosophy.md) | The principles behind codeOath |
-| [Python guide](docs/languages/python.md) | How codeOath concepts translate to Python |
+
+## All Guides
+
+**Core:** [start.md](docs/start.md) · [grow.md](docs/grow.md) · [enforce.md](docs/enforce.md) · [AI Workflow](docs/ai-workflow.md)
+
+**Resources:** [Triggers](docs/resources/triggers.md) · [Prompts](docs/resources/prompts.md) · [Testing](docs/resources/testing.md) · [Security](docs/resources/security.md) · [Performance](docs/resources/performance.md) · [Release Checklist](docs/resources/release-checklist.md)
+
+**Architecture:** [Domain and Adapters](docs/resources/domain-and-adapters.md) · [Architecture Patterns](docs/resources/architecture-patterns.md) · [Philosophy](docs/resources/philosophy.md)
+
+**Language Guides:** [Python](docs/languages/python.md) · [Language Conventions](docs/resources/language-conventions.md)
 
 
 ## FAQ
@@ -122,19 +107,19 @@ No. Stage 1 works for anyone who can use an AI coding tool. Your AI can teach yo
 No. Just conventions and file structures. Nothing to install.
 
 **My project is already messy. Where do I start?**
-Stage 1 anyway. Add AGENTS.md and docs/todo.md, costs nothing. Then check the [triggers](docs/resources/triggers.md#already-have-a-project).
+Stage 1 add AGENTS.md and docs/todo.md. Then check the [triggers](docs/resources/triggers.md#already-have-a-project).
 
 **How is this different from just writing a good README?**
-AGENTS.md is structured to govern your project, not just describe it. The NOT field prevents scope creep. The rules tell your AI what to ask before acting. A README is for humans browsing GitHub; AGENTS.md is for your AI and your future self.
+AGENTS.md is structured to govern your project, not just describe it. The NOT field prevents scope creep. The rules tell your AI what to ask before acting. A README is for humans. AGENTS.md is for your AI and your future self.
 
 **What if my AI ignores the rules?**
-Check that AGENTS.md is in the project root and that your tool is configured to read it. If the AI still drifts, the rule is either too vague or too buried. Stage 3 adds automated enforcement that catches violations before they are committed.
+Check that AGENTS.md is in the project root and that your tool is configured to read it. If the AI still drifts, the rule is either too vague or too buried. Stage 3 adds automated enforcement.
 
 
 ---
 
 Built for my own projects. Shared because others had the same problems.
 
-[ROADMAP](ROADMAP.md) | [CHANGELOG](CHANGELOG.md) | [CC BY 4.0](LICENSE) -- Use it for anything, attribution required
+[ROADMAP](ROADMAP.md) · [CHANGELOG](CHANGELOG.md) · [CC BY 4.0](LICENSE) -- Use it for anything, attribution required
 
 https://github.com/Think100/CodeOath

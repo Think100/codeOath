@@ -30,7 +30,7 @@ Concepts 1 and 2 are straightforward. Concepts 3 and 4 are more advanced, but th
 
 The idea is simple: split your code so that your core logic does not depend on the outside world.
 
-(If you want to sound smart: this pattern is called *Hexagonal Architecture*, also known as *Ports and Adapters*. It is a well-established approach used in professional software engineering. codeOath uses it because it fits well with AI-assisted development. There are [other approaches](resources/alternatives.md) if you are curious.)
+(If you want to sound smart: this pattern is called *Hexagonal Architecture*, also known as *Ports and Adapters*. It is a well-established approach used in professional software engineering. codeOath uses it because it fits well with AI-assisted development. There are [other approaches](resources/architecture-patterns.md) if you are curious.)
 
 **domain/** (your logic) is where the core of your project lives. The rules, the calculations, the things that make your project do what it does. This code does not know about databases, APIs, or files. It just knows the rules.
 
@@ -183,7 +183,7 @@ In practice, you create three things:
 
 Your domain code only ever sees the description, never the supplier. If you replace SQLite with PostgreSQL tomorrow, you write a new supplier. The domain code does not change.
 
-For the concrete code syntax, see [languages/python.md](languages/python.md) or [ports-and-adapters.md](resources/ports-and-adapters.md) for the full pattern with examples.
+For the concrete code syntax, see [languages/python.md](languages/python.md) or [domain-and-adapters.md](resources/domain-and-adapters.md) for the full pattern with examples.
 
 **Why bother?** Three reasons:
 
@@ -191,7 +191,7 @@ For the concrete code syntax, see [languages/python.md](languages/python.md) or 
 2. You can test your logic without a real database. Just create a test adapter that stores everything in memory.
 3. Your AI sees clear boundaries: in `domain/`, no database imports allowed.
 
-There are two kinds of ports: ones where the outside world calls your logic (e.g., a button click triggers a calculation), and ones where your logic needs something from outside (e.g., saving data). The example above shows the second kind. For both kinds explained in detail, see [ports-and-adapters.md](resources/ports-and-adapters.md).
+There are two kinds of ports: ones where the outside world calls your logic (e.g., a button click triggers a calculation), and ones where your logic needs something from outside (e.g., saving data). The example above shows the second kind. For both kinds explained in detail, see [domain-and-adapters.md](resources/domain-and-adapters.md).
 
 
 ### 4. Start Testing

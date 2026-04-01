@@ -1,4 +1,4 @@
-> [README](../../README.md) > [Docs](../) > **Ports and Adapters**
+> [README](../../README.md) > [Docs](../) > **Domain and Adapters**
 
 # Ports and Adapters
 

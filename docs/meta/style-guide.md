@@ -167,8 +167,8 @@ See [grow.md](grow.md) for details.
 Plain text, no backticks in link text:
 
 ```markdown
-Good: See [ports-and-adapters.md](resources/ports-and-adapters.md)
-Bad:  See [`ports-and-adapters.md`](resources/ports-and-adapters.md)
+Good: See [domain-and-adapters.md](resources/domain-and-adapters.md)
+Bad:  See [`domain-and-adapters.md`](resources/domain-and-adapters.md)
 ```
 
 ### Section Anchors

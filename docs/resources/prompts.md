@@ -173,18 +173,18 @@ For context on when and why to use each prompt, see the linked source document.
 
 > "Read my AGENTS.md and understand the project. I want to migrate to a domain/adapters structure using the Strangler Fig approach. Do not rewrite everything at once. Pick the one file where business logic and infrastructure are most tangled. Extract the business logic into domain/ and the infrastructure code into adapters/. Create the port interface in domain/. Wire them together in main. Fix imports. Run the tests. Then stop and let me review before moving to the next file."
 
-**Reorganize into feature slices** ([alternatives.md](alternatives.md))
+**Reorganize into feature slices** ([architecture-patterns.md](architecture-patterns.md))
 
 > "Read my AGENTS.md. My domain/ folder has grown too large with unrelated models. Reorganize the project into feature-sliced architecture: create a features/ folder with one subfolder per feature area. Each feature gets its own domain/, adapters/, and tests/. Move shared types to shared/. Update imports."
 
-**Convert to modular monolith** ([alternatives.md](alternatives.md))
+**Convert to modular monolith** ([architecture-patterns.md](architecture-patterns.md))
 
 > "Read my AGENTS.md. I want to convert this project to a modular monolith. Create a modules/ folder. Each module gets its own api/ (public interface), application/, domain/, and adapters/. Modules may only communicate through each other's api/. No direct access to another module's domain or adapters. Update imports and add import rules."
 
-**Reorganize into vertical slices** ([alternatives.md](alternatives.md))
+**Reorganize into vertical slices** ([architecture-patterns.md](architecture-patterns.md))
 
 > "Read my AGENTS.md. Reorganize this project into vertical slices: one folder per user-facing operation under features/. Each slice gets its own handler, validator (if needed), and test. Shared logic goes into shared/. No shared service layer."
 
-**Which architecture fits my project?** ([alternatives.md](alternatives.md))
+**Which architecture fits my project?** ([architecture-patterns.md](architecture-patterns.md))
 
 > "Read my AGENTS.md and analyze the project structure. Which files change together most often? Are there feature areas that could be isolated? Would the project benefit from feature-sliced, modular monolith, or vertical slice architecture? Explain why."

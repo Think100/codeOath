@@ -223,6 +223,6 @@ Security and performance apply from day one, not just at Stage 3: [Security](res
 
 ## Beyond Stage 3
 
-If your project has 20+ modules with conflicting conventions or features blocking each other, you may need a different architecture style: [alternatives.md](resources/alternatives.md) covers feature-sliced, modular monolith, or splitting into separate projects.
+If your project has 20+ modules with conflicting conventions or features blocking each other, you may need a different architecture style: [architecture-patterns.md](resources/architecture-patterns.md) covers feature-sliced, modular monolith, or splitting into separate projects.
 
 The codeOath principles still apply at that scale. "Define before you build", "lower layers never violate upper layers", "maintenance must be cheap": these do not expire. What changes is the mechanism: instead of one AGENTS.md you might have one per module, instead of one decisions.md you have an ADR directory, instead of folder-based separation you have package-based boundaries. The thinking stays the same. The tools grow with the project.

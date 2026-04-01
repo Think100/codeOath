@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.6.0] - 2026-04-02
+
+### Added
+- Refactor vs. Rewrite decision guide in triggers.md: "When Starting Fresh Makes
+  More Sense" with 5 signals (language change, bridges more expensive than migration,
+  fundamental security flaw, no tests/understanding, dead technology) and
+  second-system effect warning
+- Cross-link from triggers.md migration section to grow.md shim pattern
+- "All Guides" compact link section in README (replaces two reference tables)
+
+### Changed
+- README completely rewritten: new opening that explains what codeOath is without
+  jargon ("Define your project in plain text"), Get Started before code example,
+  proven-practices framing, no-install messaging moved to opening
+- Renamed ports-and-adapters.md to domain-and-adapters.md (clearer for beginners)
+- Renamed alternatives.md to architecture-patterns.md (clearer scope)
+- Updated all references to renamed files across 10 documents
+- triggers.md: TL;DR rewritten in plain language, tables formatted consistently,
+  "costs nothing" softened to "low effort", 80% threshold replaced with
+  qualitative signal
+- Stage table: "New project" changed to "Any project" (existing projects welcome)
+- See It in Action table: simplified from 3 columns to 2
+
+### Removed
+- Rebuild vs. fix guide from roadmap (now covered by triggers.md rewrite section)
+- docs/README.md content overlap (root README is now the only index)
+
 ## [0.5.0] - 2026-03-29
 
 ### Added
