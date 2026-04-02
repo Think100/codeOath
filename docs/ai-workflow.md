@@ -214,6 +214,25 @@ If you give the same prompt repeatedly, turn it into a reusable agent. Each agen
 > "What were the key learnings from this session? What surprised us? What would we do differently next time? Format as short bullet points I can add to my learning journal."
 
 
+## Working with Multiple Agents
+
+Modern AI tools can run multiple agents at the same time. Your main agent writes code while a second agent reviews it, a third runs tests, and a fourth checks security. Most of the time, your tool decides when to start these agents automatically. You do not need to manage them.
+
+When it matters is when two agents touch the same files. If one agent is rewriting a function while another is reviewing the old version, the review is worthless. If two agents edit the same file at the same time, you get conflicts.
+
+Three principles that stay true regardless of which tool you use:
+
+**One writer per file.** If an agent is changing a file, no other agent should be changing that file at the same time. Reading is fine. Writing at the same time is not. Your tool usually handles this, but if you start agents manually, keep this in mind.
+
+**Separate jobs, not shared ones.** A good split: one agent writes code, a different agent reviews it, a third runs tests. A bad split: two agents both adding features to the same module. When in doubt, let one agent finish before the next one starts.
+
+**The AGENTS.md is the shared rulebook.** Every agent reads it. If your rules are in AGENTS.md, every agent follows them. If your rules are only in the conversation, only the current agent knows them. This is the main reason to keep your project rules in a file, not in your head.
+
+> "I want to run a review while you keep working. Which files are you currently changing? I will make sure the review agent does not touch those."
+
+You do not need to understand how agents work internally. You need to understand that they are independent: they do not see each other's work until it is saved. Think of it like two people working in the same office. They can work in parallel, but they should not both be editing the same document at the same time.
+
+
 ## Learn from Your Past Projects
 
 Your past projects are full of patterns that worked and mistakes that did not.

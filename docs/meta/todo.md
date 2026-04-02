@@ -8,7 +8,7 @@
 - [ ] languages/javascript.md and languages/typescript.md mapping tables
 - [ ] Enforcement examples: eslint-plugin-boundaries config (JavaScript/TypeScript, when language guides exist)
 - [ ] Pre-commit hook examples for non-Python languages
-- [ ] `2-next` Multi-Agent Patterns: guide on coordinating multiple AI agents (write permissions, conflict avoidance, orchestrator patterns). Separate guide or section in ai-workflow.md
+- [x] Multi-Agent Patterns: added as section in ai-workflow.md (practical principles, no separate guide)
 - [ ] Error handling in start/grow: add 3-5 lines to grow.md Concept 1 ("handle errors explicitly, fail fast"), one-liner in start.md Rules. Detail-Guide existiert (ai-code-review.md), Einfuegungen in Hauptdokumente stehen noch aus
 - [ ] Dependency evaluation in start/grow: one-liner in start.md Rules ("ask before installing"), short mention in grow.md. Detail-Guide existiert (dependency-evaluation.md), Einfuegungen stehen noch aus
 - [ ] ai-code-review.md "Your Review Workflow" Sektion: Release-Pipeline/Commit-Workflow fuehlt sich deplatziert im Guide. Bessere Struktur finden oder in eigenen Abschnitt auslagern

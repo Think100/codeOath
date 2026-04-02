@@ -7,7 +7,7 @@ What is planned, what comes next, and what might happen eventually. For what alr
 
 What is done or actively being worked on for the next release.
 
-- Multi-Agent Patterns: coordinating multiple AI agents (write permissions, conflict avoidance, orchestrator patterns)
+- Multi-Agent Patterns: practical principles for working with multiple agents (added to ai-workflow.md)
 - Debugging with AI: practical prompts for describing bugs and letting AI fix them (added to ai-workflow.md)
 - Dependency evaluation: when to add a library, how to check if a package is trustworthy (draft done)
 - Code review of AI output: what to check when reviewing AI-generated code as a non-programmer (draft done)
