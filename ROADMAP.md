@@ -7,11 +7,9 @@ What is planned, what comes next, and what might happen eventually. For what alr
 
 What is done or actively being worked on for the next release.
 
-- Multi-Agent Patterns: practical principles for working with multiple agents (added to ai-workflow.md)
-- Debugging with AI: practical prompts for describing bugs and letting AI fix them (added to ai-workflow.md)
-- Dependency evaluation: when to add a library, how to check if a package is trustworthy (draft done)
-- Code review of AI output: what to check when reviewing AI-generated code as a non-programmer (draft done)
-
+- Text pipelines as a dedicated project type / track
+- Auto-documentation: prompt recipe that generates project documentation from codebase structure, docstrings, and README fragments
+- Flow diagram generator: prompt recipe that produces Mermaid flow diagrams from project structure and code
 
 ## Next
 
@@ -23,15 +21,12 @@ Planned, but not started yet.
 - Build pipeline guide: CI/CD basics, when to automate, what a minimal pipeline looks like for AI-assisted projects
 - Frontend/UI guide: how React/Vue/Svelte components map to the domain/adapters model
 - CONTRIBUTING.md: contribution workflow when PRs open
-- Auto-documentation: prompt recipe that generates project documentation from codebase structure, docstrings, and README fragments
-- Flow diagram generator: prompt recipe that produces Mermaid flow diagrams from project structure and code
 
 
 ## Later
 
 Ideas we want to explore. No timeline, no commitment.
 
-- Text pipelines as a dedicated project type / track
 - Community-contributed language packs
 - Video walkthrough of the three stages
 - API design guide: how to structure endpoints following the domain/adapters model

@@ -84,6 +84,8 @@ One prompt, four outcomes. Each example was built by an AI that only read the ma
 
 [Full walkthrough and prompts](examples/README.md)
 
+We also tested the same prompt with and without codeOath across three experiments. Sonnet + codeOath scored highest every time. [Full experiment results](experiments/README.md)
+
 
 ## All Guides
 
@@ -121,6 +123,4 @@ Check that AGENTS.md is in the project root and that your tool is configured to 
 
 Built for my own projects. Shared because others had the same problems.
 
-[ROADMAP](ROADMAP.md) · [CHANGELOG](CHANGELOG.md) · [CC BY 4.0](LICENSE) -- Use it for anything, attribution required
-
-https://github.com/Think100/CodeOath
+[ROADMAP](ROADMAP.md) · [CHANGELOG](CHANGELOG.md) · [CC BY 4.0](LICENSE) - Use it for anything, attribution required

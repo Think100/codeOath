@@ -19,7 +19,7 @@ The core prompt was always the same: "I want to track my expenses from the termi
 | **Enforcement** | none | none | none | pre-commit, import-linter, CI |
 | **Dependencies** | stdlib only | stdlib only | stdlib only | click, import-linter |
 
-**Note:** These examples were generated with Claude Sonnet 4 in March 2026. AI model behavior changes over time. Results with newer models or different providers may differ.
+**Note:** These examples were generated with Claude Sonnet 4.6 in March 2026. codeOath version: 0.1.0. AI model behavior changes over time. Results with newer models or different providers may differ.
 
 ## What We Learned
 
@@ -33,7 +33,7 @@ The core prompt was always the same: "I want to track my expenses from the termi
 
 ## Stage 1
 
-Prompt given to Claude Sonnet:
+Prompt given to Claude Sonnet 4.6:
 
 > I want to track my expenses from the terminal. Simple Python CLI, nothing fancy. Read docs/start.md and follow that structure. Build it in examples/stage-1/. No other steps.
 
@@ -42,7 +42,7 @@ The AI built a working CLI with tests and a package structure on its own. That i
 
 ## Stage 2a
 
-Prompt given to Claude Sonnet:
+Prompt given to Claude Sonnet 4.6:
 
 > I want to track my expenses from the terminal. Python CLI. Read docs/grow.md up to "You can stop here" and follow that structure. Build it in examples/stage-2a/. No other steps.
 
@@ -51,7 +51,7 @@ The AI split the code into `domain/` (core logic, no external imports) and `adap
 
 ## Stage 2b
 
-Prompt given to Claude Sonnet:
+Prompt given to Claude Sonnet 4.6:
 
 > I want to track my expenses from the terminal. Python CLI. Read docs/grow.md completely and follow that structure. Build it in examples/stage-2b/. No other steps.
 
@@ -60,7 +60,7 @@ The AI read past "You can stop here" and built the full Stage 2: domain/adapters
 
 ## Stage 3
 
-Prompt given to Claude Sonnet:
+Prompt given to Claude Sonnet 4.6:
 
 > I want to track my expenses from the terminal. Python CLI. Read docs/start.md, docs/grow.md, and docs/enforce.md. Follow all three stages. Build it in examples/stage-3/. No other steps.
 

@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.7.0] - 2026-04-02
+
+### Added
+- ai-code-review.md: error handling principles, five common AI code problems,
+  review workflow with copy-paste prompts
+- dependency-evaluation.md: when to add a library, three checks before install
+  (real, maintained, license), when to remove
+
+### Changed
+- Experiments link in README "See It in Action" section
+- codeOath version metadata to all experiment runs (Beta) and examples (0.1.0)
+- experiments/README.md restructured: Results overview table and cross-run
+  learnings before method and individual runs (results first, lab setup second)
+- experiments/README.md: model names corrected to Sonnet 4.6 / Opus 4.6
+- examples/README.md: model name corrected to Sonnet 4.6
+- grow.md overhaul: Concept 1-4 texts simplified, testing intro rewritten,
+  error/logging check prompt before separator, testing prompt focused on tests
+  (static analysis removed)
+- Multi-Agent Patterns added as section in ai-workflow.md
+- Error handling guidance added to start.md (rule) and grow.md (Concept 1),
+  linked to ai-code-review.md
+- Dependency evaluation rule added to start.md, linked in grow.md routines table
+- enforce.md: ai-code-review.md linked at audit agents
+- grow.md: dependency-evaluation and ai-code-review linked in routines table
+- README: references to ai-code-review.md and dependency-evaluation.md added
+- README: broken anchor #already-have-a-project fixed
+- README: footer cleaned up (removed redundant GitHub URL)
+
 ## [0.6.0] - 2026-04-02
 
 ### Added
