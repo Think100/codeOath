@@ -59,11 +59,11 @@ For context on when and why to use each prompt, see the linked source document.
 
 **Add an application layer** ([enforce.md](../enforce.md))
 
-> "Read my AGENTS.md. My use cases are getting complex and mix orchestration with business logic. Introduce an application/ layer: extract use case orchestration from domain/ into application/use_cases.*. Domain should only contain pure logic. Application coordinates the steps and calls through ports. Update the import rules accordingly."
+> "Read my AGENTS.md. My use cases mix orchestration with business logic. Introduce an application/ layer: extract use case orchestration from domain/ into application/use_cases.*. Domain should only contain pure logic. Update the import rules accordingly."
 
 **Migrate to formal ADRs** ([enforce.md](../enforce.md))
 
-> "Migrate my docs/decisions.md to individual ADR files under docs/adr/. Create 0001-template.md as a reusable template. For each active decision, create a numbered ADR file with: Date, Status, Context, Decision, Consequences."
+> "Migrate my docs/decisions.md to individual ADR files under docs/adr/. Create 0001-template.md as a reusable template."
 
 **Split AGENTS.md into path-specific rules** ([enforce.md](../enforce.md))
 
@@ -71,15 +71,15 @@ For context on when and why to use each prompt, see the linked source document.
 
 **Set up branch protection** ([enforce.md](../enforce.md))
 
-> "Set up branch protection for main: require pull requests, require at least one approval, require all CI checks to pass before merging. Create a CONTRIBUTING.md that explains the branching workflow."
+> "Set up branch protection for main: require pull requests, require at least one approval, require all CI checks to pass before merging."
 
 **Set up CI/CD pipeline** ([enforce.md](../enforce.md))
 
-> "Set up a CI pipeline (GitHub Actions / GitLab CI / your platform) that runs on every push: linter, formatter, import enforcement, secret scanner, and the full test suite. Block merges to main if any check fails."
+> "Set up a CI pipeline that runs on every push: linter, formatter, import enforcement, secret scanner, and the full test suite. Block merges to main if any check fails."
 
 **Create operations documentation** ([enforce.md](../enforce.md))
 
-> "Read my AGENTS.md and understand how this project is deployed and run. Create docs/operations.md with the sections that apply. Skip sections that do not apply to this project type."
+> "Read my AGENTS.md. Create docs/operations.md with the sections that apply to this project. Skip sections that do not apply."
 
 **Run the review checklist** ([enforce.md](../enforce.md))
 
