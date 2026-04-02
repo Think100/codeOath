@@ -76,6 +76,8 @@ domain/    -->  NOBODY (no external imports)
 
 **What about logging?** Your domain code does not know whether it runs in a web server, a CLI tool, or a test. So it should not decide where to log. Let the adapter handle logging. Domain code returns results or raises errors.
 
+**What about errors?** When something goes wrong, the code should stop and tell you. Not continue silently, not return empty results, not pretend everything is fine. This is the single most important habit for reliable software: errors must be visible. AI-generated code often hides errors behind try/catch blocks or fallback values. If you notice your program failing silently, that is a problem to fix, not a feature. For concrete patterns and review prompts, see [ai-code-review.md](resources/ai-code-review.md).
+
 
 ### 2. Document Your Decisions
 
