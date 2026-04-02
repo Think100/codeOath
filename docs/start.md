@@ -185,7 +185,12 @@ You put the project aside. Now you are back. Read in this order:
 
 1. `AGENTS.md` -- reminds you what the project is, what it is not, and what rules apply
 2. `docs/todo.md` -- shows what was planned, what questions were open, what was resolved
-3. Let your AI read the git history: *"Read AGENTS.md and docs/todo.md. Then look at the recent git history. What changed since I was last here? Summarize what happened."*
+
+Read these yourself. It is tempting to let the AI summarize them, but reading them yourself rebuilds your mental model faster than any summary.
+
+Then let your AI fill in the gaps:
+
+> *"Read AGENTS.md and docs/todo.md. Then look at the recent git history. What changed since I was last here? Summarize what happened."*
 
 That is the point of this structure: the files that steered your AI also bring you back up to speed.
 
