@@ -4,6 +4,8 @@
 
 > **TL;DR** -- (1) Split your code: `domain/` for logic, `adapters/` for database/API/files, `main` to connect them. (2) Write down decisions in `docs/decisions.md`. That covers 80% of the chaos. Concepts 3 (ports) and 4 (testing) are optional until you need them.
 
+Read the concepts in one sitting. Migrate your project in one session with your AI.
+
 Your project has more than ten files. Your AI is putting things in the wrong places. Database code and business logic are mixing. You forgot why you made a decision. Things are getting messy. If that is not you yet, check [triggers.md](resources/triggers.md) or stay at [Stage 1](start.md).
 
 
