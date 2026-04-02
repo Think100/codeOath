@@ -16,15 +16,15 @@ Your project has more than ten files. Your AI is putting things in the wrong pla
 
 Four new concepts. That is all. But do them in order, not all at once.
 
-**Start here** (you can do this today):
+**Start here** (most projects only need these two):
 
-1. **Separate your logic** from the outside world (database, API, files)
-2. **Document your decisions** so they are not forgotten
+1. **Split your code into two folders** -- one for your rules, one for everything that talks to the outside (database, API, files)
+2. **Write down your decisions** so they are not forgotten
 
 **Add later** (when the folder split alone is no longer enough):
 
-3. **Define what your logic needs** using contracts (ports)
-4. **Start testing** your logic independently
+3. **Define what your code needs** using contracts (ports)
+4. **Test your code** independently from the database
 
 Concepts 1 and 2 are straightforward. Concepts 3 and 4 are more advanced, but this guide explains them in plain language. Your AI can help you implement all of them.
 
