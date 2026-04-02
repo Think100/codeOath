@@ -79,10 +79,12 @@ Examples of learnings worth capturing:
 
 ### Handing Off Between Sessions
 
-If your tool supports persistent memory, save learnings there too. Things like "we tried approach X and it did not work because Y" are obvious right now but invisible tomorrow.
+If your tool supports persistent memory, save learnings there too. "We tried approach X and it did not work because Y" is obvious right now but invisible tomorrow.
 
 
 ## Prompt Patterns That Work
+
+These are habits, not one-time prompts. Use them regularly and they become second nature.
 
 ### "Show me before committing"
 
@@ -129,7 +131,7 @@ The most underrated prompt. After finishing a feature:
 
 ## Get Multiple Perspectives Fast
 
-Do not just ask one AI to review something. Give the same task to agents with different roles and run them in parallel. Three viewpoints in under five minutes.
+The prompt patterns above help you work. This section helps you check your work. Instead of asking one AI to review something, give the same task to agents with different roles and run them in parallel. Three viewpoints in under five minutes.
 
 ### Useful Roles
 
@@ -147,7 +149,7 @@ The key insight: **different roles find different problems.** A security auditor
 
 ### Review Cycles
 
-You do not just write code and move on. You write, then you let your AI review it from different angles, then you fix what it found, then you review again. This sounds slow, but with AI it takes minutes, not hours.
+The idea: do not just write and move on. Write, let your AI review it from different angles, fix what it found, review again. This sounds slow, but with AI it takes minutes, not hours.
 
 1. Write the first version
 2. Send to 2-3 agents in parallel (different roles from above)
@@ -162,7 +164,7 @@ A full cycle takes under 15 minutes with AI. The quality difference between one 
 
 ## Working with Multiple Agents
 
-Modern AI tools can run multiple agents at the same time. Your main agent writes code while a second agent reviews it, a third runs tests, and a fourth checks security. Most of the time, your tool decides when to start these agents automatically. You do not need to manage them.
+Once you are comfortable with reviews and prompt patterns, you might start using multiple agents. Modern AI tools can run multiple agents at the same time. Your main agent writes code while a second agent reviews it, a third runs tests, and a fourth checks security. Most of the time, your tool decides when to start these agents automatically. You do not need to manage them.
 
 When it matters is when two agents touch the same files. If one agent is rewriting a function while another is reviewing the old version, the review is worthless. If two agents edit the same file at the same time, you get conflicts.
 
@@ -189,8 +191,8 @@ Once you are comfortable with agents, the next step is turning repeated prompts 
 **Security audit** -- read-only, scans for vulnerabilities:
 > "Read the entire codebase. Check for: secrets in code, missing input validation, SQL injection, XSS, error messages leaking internals. Report sorted by severity. Do not fix anything."
 
-**Architecture check** -- read-only, verifies layer boundaries:
-> "Verify that domain/ has no imports from adapters/. Check all external dependencies are in adapters/. Report violations."
+**Architecture check** -- read-only, verifies that code is in the right place:
+> "Read AGENTS.md and check if the code follows the architecture rules. Is any code in the wrong folder? Report violations."
 
 **Documentation check** -- read-only, compares docs vs. reality:
 > "Read AGENTS.md, docs/todo.md, and docs/decisions.md. Compare with actual project state. Flag outdated decisions, completed tasks still open, documented files that do not exist."
@@ -204,7 +206,7 @@ Your past projects are full of patterns that worked and mistakes worth avoiding.
 
 > "Analyze the project at [path]. Look at git history, folder structure, AGENTS.md, and docs. What patterns were used? What worked well? What caused problems? What can we learn for our current project?"
 
-This is how codeOath's security and performance guides were written: by analyzing a real project and extracting what actually mattered in practice. Theory is cheap. Experience is expensive. If you already paid the price, harvest the lessons.
+This is how codeOath's security and performance guides were written: by analyzing a real project and extracting what actually mattered in practice. If you already learned something the hard way, capture it so you do not pay for it twice.
 
 
 ## Build Experiments to Make Decisions
@@ -213,7 +215,7 @@ When you are unsure about the right approach, do not debate. Build it multiple w
 
 1. Define a small, concrete task (buildable in one session)
 2. Run it with different conditions (with/without your rules, different models)
-3. Compare results against a fixed rubric (not gut feeling, actual criteria)
+3. Compare results against a checklist of what matters (not gut feeling, actual criteria)
 4. Feed findings back into your rules
 
 ### Example
@@ -227,7 +229,7 @@ We gave the same task (build a note-taking app) to Sonnet and Opus, with and wit
 | Opus reference | 7/12 | Good product decisions but no structure |
 | Opus + codeOath | 6/12 | Over-engineered, forgot basic features |
 
-This shaped the "proportional architecture" principle: over-engineering is as bad as under-engineering.
+The lesson: adding too much structure is as bad as adding none. Match the architecture to the size of the project.
 
 
 ## Stay Current with Your Tools
@@ -238,7 +240,7 @@ AI tools change fast. What did not work last month might work now.
 - **Revisit your AGENTS.md rules** quarterly. See the [Maturity Dial](resources/philosophy.md#the-maturity-dial) concept.
 - **Try new capabilities** on a branch, not on main
 
-The rules you wrote six months ago may be holding you back. Do not keep rules out of habit.
+The rules you wrote six months ago may no longer be needed. Review and remove what no longer applies.
 
 
 ---
