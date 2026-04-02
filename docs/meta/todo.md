@@ -19,7 +19,7 @@
 - [ ] `3-monitor` prompts.md: check if sorting still works when new prompts are added (currently clean)
 - [ ] `3-monitor` Root README reference length: watch for >20 guides, introduce sub-pages if needed
 - [ ] `3-monitor` FAQ length: watch (currently 6, threshold ~8, then move to docs/faq.md)
-- [ ] Frontend/UI guide: how React/Vue/Svelte components map to the domain/adapters model (next big feature)
+- [ ] Frontend/UI guide: how React/Vue/Svelte components map to the domain/adapters model. Include: multilingual UI patterns (i18n, string externalization, language switching) (next big feature)
 - [ ] `4-later` Auto-documentation: prompt recipe or minimal script that generates full project documentation from codebase structure, docstrings, and README fragments
 - [ ] `3-monitor` Code quality heuristics: guide with simple metrics to detect drift (file size trends, import depth, decision frequency). No tools, just heuristics and questions
 - [ ] `4-later` Git recovery patterns: branch-per-session, squash workflow, what to do when AI breaks the architecture. Low priority, review when opportunity arises
