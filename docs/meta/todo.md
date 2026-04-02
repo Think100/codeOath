@@ -9,8 +9,8 @@
 - [ ] Enforcement examples: eslint-plugin-boundaries config (JavaScript/TypeScript, when language guides exist)
 - [ ] Pre-commit hook examples for non-Python languages
 - [x] Multi-Agent Patterns: added as section in ai-workflow.md (practical principles, no separate guide)
-- [ ] Error handling in start/grow: add 3-5 lines to grow.md Concept 1 ("handle errors explicitly, fail fast"), one-liner in start.md Rules. Detail-Guide existiert (ai-code-review.md), Einfuegungen in Hauptdokumente stehen noch aus
-- [ ] Dependency evaluation in start/grow: one-liner in start.md Rules ("ask before installing"). Detail-Guide existiert (dependency-evaluation.md), grow.md Routines-Tabelle bereits verlinkt, start.md Einfuegung steht noch aus
+- [x] Error handling in start/grow: rule in start.md, paragraph in grow.md Concept 1, link to ai-code-review.md
+- [x] Dependency evaluation in start/grow: rule in start.md ("ask first, explain why"), grow.md Routines-Tabelle verlinkt
 - [ ] ai-code-review.md "Your Review Workflow" Sektion: Release-Pipeline/Commit-Workflow fuehlt sich deplatziert im Guide. Bessere Struktur finden oder in eigenen Abschnitt auslagern
 - [x] README: Referenzen auf ai-code-review.md und dependency-evaluation.md ergaenzen
 - [x] README: broken anchor #already-have-a-project gefixt
