@@ -171,7 +171,7 @@ These are defaults, not rules. A project under heavy development might check doc
 The next two concepts solve a specific frustration: your AI keeps importing database code inside `domain/`, or you want to test your logic but cannot because it is wired to a real database. If neither of these bothers you today, come back when they do.
 
 
-### 3. Define What Your Logic Needs
+### 3. Make Your Logic Swappable
 
 Together with Concept 1 (the folder split), this completes the pattern known as *Ports and Adapters* (also called *Hexagonal Architecture*). You do not need to know these names. You need to understand the idea.
 
