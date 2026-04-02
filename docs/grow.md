@@ -18,7 +18,7 @@ Four new concepts. That is all. But do them in order, not all at once.
 
 **Start here** (most projects only need these two):
 
-1. **Split your code into two folders** -- one for your rules, one for everything that talks to the outside (database, API, files)
+1. **Split your code** -- your rules in one folder, database/API/files in another, and one file that connects them
 2. **Write down your decisions** so they are not forgotten
 
 **Add later** (when the folder split alone is no longer enough):
