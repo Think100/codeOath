@@ -23,7 +23,7 @@ Four new concepts. That is all. But do them in order, not all at once.
 
 **Add later** (when the folder split alone is no longer enough):
 
-3. **Define what your logic needs** using contracts (ports and adapters)
+3. **Define what your logic needs** using contracts (ports)
 4. **Start testing** your logic independently
 
 Concepts 1 and 2 are straightforward. Concepts 3 and 4 are more advanced, but this guide explains them in plain language. Your AI can help you implement all of them.
@@ -33,7 +33,7 @@ Concepts 1 and 2 are straightforward. Concepts 3 and 4 are more advanced, but th
 
 The idea is simple: split your code so that your core logic does not depend on the outside world.
 
-(If you want to sound smart: this pattern is called *Hexagonal Architecture*, also known as *Ports and Adapters*. It is a well-established approach used in professional software engineering. codeOath uses it because it fits well with AI-assisted development. There are [other approaches](resources/architecture-patterns.md) if you are curious.)
+(This folder split is the first step of a well-established pattern called *Ports and Adapters* (also known as *Hexagonal Architecture*). Concept 1 gives you the folders. Concept 3 adds the contracts that make it complete. There are [other approaches](resources/architecture-patterns.md) if you are curious.)
 
 **domain/** (your logic) is where the core of your project lives. The rules, the calculations, the things that make your project do what it does. This code does not know about databases, APIs, or files. It just knows the rules.
 
