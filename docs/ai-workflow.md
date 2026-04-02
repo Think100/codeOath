@@ -65,9 +65,9 @@ This is the step most people skip and the one that makes the biggest difference 
 
 After every session, ask yourself one question: **"What did I learn today that I did not know before?"** This can be a technical insight, a workflow pattern, a mistake you made, or a tool feature you discovered.
 
-> "What were the key learnings from this session? What surprised us? What would we do differently next time? What worked well that we should keep doing?"
+> "What were the key learnings from this session? What surprised us? What would we do differently next time? What worked well that we should keep doing? Were there any aha moments where something suddenly made sense?"
 
-Write it down. Where does not matter: a note in your phone, a dedicated journal, a file in your project, a note-taking app. What matters is that you do it. Over weeks and months, these small learnings compound into real expertise.
+Write it down. Where does not matter: a note in your phone, a dedicated journal, a note-taking app. If you want a structured habit, keep a learning log as a file in your project (e.g., `docs/learnings.md`). One entry per session, a few bullet points. Over weeks and months, these small learnings compound into real expertise.
 
 Why this works: vibe coding moves fast. You solve problems, move on, forget. Without capturing learnings, you solve the same problems again next month. With a learning log, you build on what you already figured out.
 
