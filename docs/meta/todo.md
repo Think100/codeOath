@@ -10,7 +10,9 @@
 - [ ] Pre-commit hook examples for non-Python languages
 - [ ] `2-next` Multi-Agent Patterns: guide on coordinating multiple AI agents (write permissions, conflict avoidance, orchestrator patterns). Separate guide or section in ai-workflow.md
 - [ ] Error handling in start/grow: add 3-5 lines to grow.md Concept 1 ("handle errors explicitly, fail fast"), one-liner in start.md Rules. Detail-Guide existiert (ai-code-review.md), Einfuegungen in Hauptdokumente stehen noch aus
+- [ ] Dependency evaluation in start/grow: one-liner in start.md Rules ("ask before installing"), short mention in grow.md. Detail-Guide existiert (dependency-evaluation.md), Einfuegungen stehen noch aus
 - [ ] ai-code-review.md "Your Review Workflow" Sektion: Release-Pipeline/Commit-Workflow fuehlt sich deplatziert im Guide. Bessere Struktur finden oder in eigenen Abschnitt auslagern
+- [ ] README: Referenzen auf ai-code-review.md und dependency-evaluation.md ergaenzen
 - [ ] `3-monitor` prompts.md: check if sorting still works when new prompts are added (currently clean)
 - [ ] `3-monitor` Root README reference length: watch for >20 guides, introduce sub-pages if needed
 - [ ] `3-monitor` FAQ length: watch (currently 6, threshold ~8, then move to docs/faq.md)
