@@ -64,7 +64,8 @@ Run through the [security checklist](security.md#checklist). Key items for relea
 
 - [ ] No secrets in code or git history (run a secret scanner)
 - [ ] `.gitignore` covers credential files, `.env`, keys
-- [ ] Dependencies up to date, no known CVEs
+- [ ] Dependencies up to date, no known CVEs (see [dependency evaluation](dependency-evaluation.md))
+- [ ] All dependencies still maintained (last activity within 12 months)
 - [ ] If web-facing: OWASP Top 10 reviewed
 - [ ] Adversarial testing run at least once (see [security.md](security.md#adversarial-testing))
 

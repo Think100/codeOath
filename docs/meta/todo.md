@@ -9,7 +9,8 @@
 - [ ] Enforcement examples: eslint-plugin-boundaries config (JavaScript/TypeScript, when language guides exist)
 - [ ] Pre-commit hook examples for non-Python languages
 - [ ] `2-next` Multi-Agent Patterns: guide on coordinating multiple AI agents (write permissions, conflict avoidance, orchestrator patterns). Separate guide or section in ai-workflow.md
-- [ ] `2-next` Error handling earlier in flow: add 3-5 lines to grow.md Concept 1 ("handle errors explicitly, fail fast"), one-liner in start.md Rules. Currently only in security.md (optional reading)
+- [ ] Error handling in start/grow: add 3-5 lines to grow.md Concept 1 ("handle errors explicitly, fail fast"), one-liner in start.md Rules. Detail-Guide existiert (ai-code-review.md), Einfuegungen in Hauptdokumente stehen noch aus
+- [ ] ai-code-review.md "Your Review Workflow" Sektion: Release-Pipeline/Commit-Workflow fuehlt sich deplatziert im Guide. Bessere Struktur finden oder in eigenen Abschnitt auslagern
 - [ ] `3-monitor` prompts.md: check if sorting still works when new prompts are added (currently clean)
 - [ ] `3-monitor` Root README reference length: watch for >20 guides, introduce sub-pages if needed
 - [ ] `3-monitor` FAQ length: watch (currently 6, threshold ~8, then move to docs/faq.md)
