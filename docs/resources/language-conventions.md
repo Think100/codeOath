@@ -24,7 +24,7 @@ Language mixing is not a cosmetic issue. It causes real problems:
 
 ## The Table
 
-Add this to your `AGENTS.md` under a `## Language Conventions` heading:
+Add this to your `AGENTS.md` under a `## Language Conventions` heading. Here is an example for a German developer working on an open-source project:
 
 ```markdown
 ## Language Conventions
@@ -34,10 +34,13 @@ Add this to your `AGENTS.md` under a `## Language Conventions` heading:
 | Code (variables, functions)   | English  | Libraries and APIs expect it     |
 | Code comments                 | English  | Same language as the code        |
 | Commit messages               | English  | Git history searchable           |
-| docs/ (internal docs, decision records) | English | Or your language, pick one |
-| README.md                     | English  | Open-source: English. Private: your choice |
-| AI responses                  | Yours    | Whatever you write in            |
+| AGENTS.md, CLAUDE.md          | German   | My thinking tool, my language    |
+| docs/ (todo, decisions)       | German   | Internal docs, scope thinking    |
+| README.md                     | English  | Open-source, international audience |
+| AI responses                  | German   | My working language              |
 ```
+
+Adapt the languages to your situation. A private solo project might use your language for README.md too. An English-speaking team needs no table at all.
 
 The only hard rule: **pick one language per context and stick to it.** Your AI will follow whatever you put in the table.
 
@@ -98,26 +101,6 @@ This approach has been tested extensively across multiple projects and AI tools.
 
 **Works across tools.** The table format works in AGENTS.md (Claude), .cursorrules (Cursor), COPILOT.md (GitHub Copilot), and similar config files. The concept is tool-independent.
 
-
-## Example: Bilingual Project
-
-A German developer working on an open-source Python project:
-
-```markdown
-## Language Conventions
-
-| What                          | Language | Why                              |
-|-------------------------------|----------|----------------------------------|
-| Code (variables, functions)   | English  | Libraries and APIs expect it     |
-| Code comments                 | English  | Same language as the code        |
-| Commit messages               | English  | Git history searchable           |
-| AGENTS.md                     | German   | My thinking tool, my language    |
-| docs/ (todo, decisions)       | German   | Internal docs, scope thinking    |
-| README.md                     | English  | Open-source, international audience |
-| AI responses                  | German   | My working language              |
-```
-
-The same developer on a private solo project might change README.md to German and keep everything else the same.
 
 For a concrete example with Python tooling, see [languages/python.md](../languages/python.md).
 
