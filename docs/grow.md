@@ -29,31 +29,27 @@ Four new concepts. That is all. But do them in order, not all at once.
 Concepts 1 and 2 are straightforward. Concepts 3 and 4 are more advanced, but this guide explains them in plain language. Your AI can help you implement all of them.
 
 
-### 1. Separate Your Logic from the Outside World
+### 1. Split Your Code
 
-The idea is simple: split your code so that your core logic does not depend on the outside world.
+Split your code into three parts:
 
-(Curious about the theory? This is the starting point of a pattern called *Ports and Adapters*. Concept 3 below explains the rest. There are also [other approaches](resources/architecture-patterns.md).)
+**domain/** -- your rules. The calculations, the logic, the things that make your project do what it does. This code does not know about databases, APIs, or files.
 
-**domain/** (your logic) is where the core of your project lives. The rules, the calculations, the things that make your project do what it does. This code does not know about databases, APIs, or files. It just knows the rules.
+**adapters/** -- the outside world. Database, HTTP, file system, UI, bot. If you swap your database from SQLite to PostgreSQL, only adapter code changes. Your rules stay the same.
 
-**adapters/** (the outside world) is everything that talks to external systems. Database, HTTP, file system, UI, bot. If you swap your database from SQLite to PostgreSQL, only adapter code changes. Your logic stays the same.
-
-**main** (the glue) is the one place where you connect the two. It creates the database connection, creates the logic, and hooks them together. Nothing else does this.
-
-**config/** (settings) is where database paths, API endpoints, timeouts, and feature flags live. One place for all settings, not scattered across your code. Your domain code never reads config files directly; it receives settings as parameters from main.
+**main** -- the glue. One file that connects the two. It creates the database connection, creates the logic, and hooks them together.
 
 Your project now looks like this:
 
 ```text
 myproject/
-├── config/                      <- NEW: settings, environment defaults
+├── config/                      <- settings, environment defaults
 │   └── settings.*
 ├── docs/
 │   ├── todo.md
 │   └── decisions.md             <- NEW: why you made decisions
 ├── src/
-│   ├── domain/                  <- NEW: your logic, no external dependencies
+│   ├── domain/                  <- NEW: your rules, no external dependencies
 │   │   └── models.*
 │   ├── adapters/                <- NEW: database, API, files, UI
 │   │   ├── db.*
@@ -77,9 +73,7 @@ adapters/  -->  domain/
 domain/    -->  NOBODY (no external imports)
 ```
 
-**What about logging?** Your domain code does not know whether it runs in a web server, a CLI tool, or a test. So it should not decide where to log. Let the adapter handle logging. Domain code returns results or raises errors.
-
-**What about errors?** When something goes wrong, the code should stop and tell you. Not continue silently, not return empty results, not pretend everything is fine. This is the single most important habit for reliable software: errors must be visible. AI-generated code often hides errors behind try/catch blocks or fallback values. If you notice your program failing silently, that is a problem to fix, not a feature. For concrete patterns and review prompts, see [ai-code-review.md](resources/ai-code-review.md).
+**What about errors?** When something goes wrong, the code should stop and tell you. Not continue silently, not pretend everything is fine. AI-generated code often hides errors. If your program fails silently, that is a problem to fix. For concrete patterns, see [ai-code-review.md](resources/ai-code-review.md).
 
 
 ### 2. Document Your Decisions
@@ -199,7 +193,9 @@ For the concrete code syntax, see [languages/python.md](languages/python.md) or 
 2. You can test your logic without a real database. Just create a test adapter that stores everything in memory.
 3. Your AI sees clear boundaries: in `domain/`, no database imports allowed.
 
-There are two kinds of ports: ones where the outside world calls your logic (e.g., a button click triggers a calculation), and ones where your logic needs something from outside (e.g., saving data). The example above shows the second kind. For both kinds explained in detail, see [domain-and-adapters.md](resources/domain-and-adapters.md).
+There are two kinds of ports: ones where the outside world calls your logic (e.g., a button click triggers a calculation), and ones where your logic needs something from outside (e.g., saving data). The example above shows the second kind. For both kinds explained in detail, see [domain-and-adapters.md](resources/domain-and-adapters.md). For other architecture approaches, see [architecture-patterns.md](resources/architecture-patterns.md).
+
+**What about logging?** Your domain code does not know whether it runs in a web server, a CLI tool, or a test. So it should not decide where to log. Let the adapter handle logging. Domain code returns results or raises errors.
 
 
 ### 4. Start Testing
