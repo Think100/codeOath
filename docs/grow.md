@@ -73,8 +73,6 @@ adapters/  -->  domain/
 domain/    -->  NOBODY (no external imports)
 ```
 
-**What about errors?** When something goes wrong, the code should stop and tell you. Not continue silently, not pretend everything is fine. AI-generated code often hides errors. If your program fails silently, that is a problem to fix. For concrete patterns, see [ai-code-review.md](resources/ai-code-review.md).
-
 
 ### 2. Document Your Decisions
 
