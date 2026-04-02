@@ -102,7 +102,7 @@ Was plain text. Switched to Markdown for better readability.
 
 Date, decision, status, reason. Status is one of: **active** (still applies), **planned** (decided but not yet implemented), **replaced** (a newer decision supersedes it), or **dropped** (we tried it, it did not work). When your future self (or your AI) asks "why did we do it this way?", the answer is here. Stage 3 builds on this when one file is no longer enough.
 
-As your project grows, add a **Known Risks** section at the bottom of decisions.md. These are things you know about but choose not to fix right now. Documenting them prevents the same discussion from happening again and helps your future self (or a new contributor) understand what to watch for.
+As your project grows, add a **Known Risks** section at the bottom of decisions.md. These are things you know about but choose not to fix right now. One line per risk: what the risk is and what you do about it. If the answer is "we accept this for now", write that. Documenting them prevents the same discussion from happening again.
 
 ```markdown
 ## Known Risks
@@ -114,14 +114,10 @@ As your project grows, add a **Known Risks** section at the bottom of decisions.
 | Config file is not validated on startup | Add schema validation when config grows |
 ```
 
-One line per risk. Risk plus mitigation. If the mitigation is "we accept this for now", write that.
 
+### Maintenance Routines
 
-### Your Task List Grows Up
-
-In Stage 1, `docs/todo.md` was a flat list. As the project lives longer, two things happen: completed items pile up, and you start needing recurring checks.
-
-**Routines** are recurring tasks with no fixed due date. Add a `Routines` section to your todo.md:
+Some checks need to happen regularly: are the docs still accurate? Are dependencies up to date? Are there secrets in the code? Add a `Routines` section to your todo.md:
 
 ```markdown
 ## Routines
@@ -140,15 +136,34 @@ Suggested frequencies as a starting point:
 | Docs accuracy check | Every 2 weeks | Docs drift fast during active development |
 | Dependency audit | Monthly | CVEs are published continuously. See [dependency evaluation](resources/dependency-evaluation.md) |
 | Security scan | Monthly | Catches secrets or validation gaps before they accumulate |
-| AI code review | Monthly | Catches hidden errors and fake safety in AI-generated code. See [ai-code-review](resources/ai-code-review.md) |
+| AI code review | Weekly | Catches hidden errors and fake safety in AI-generated code. See [ai-code-review](resources/ai-code-review.md) |
 | Architecture check | Monthly | Detects boundary violations early |
 | Performance spot check | Quarterly | Only relevant once real data flows |
+| Todo cleanup | Monthly | Move resolved items from todo.md to docs/todo_archive.md |
 
 These are defaults, not rules. A project under heavy development might check docs weekly. A stable project might audit dependencies quarterly. Adjust to your pace.
 
-> "Read my AGENTS.md and docs/todo.md. Pick the routine with the oldest `last:` date. Run that check now: read the relevant files, verify the current state, report any issues, and update the `last:` date."
+> "Read my AGENTS.md and docs/todo.md. Pick the routine with the oldest `last:` date. Run that check now: read the relevant files, verify the current state, report any issues, and update the `last:` date. If the Resolved section in todo.md has more than a few items, move them to docs/todo_archive.md."
 
-**Archive:** when the Resolved section in todo.md gets longer than the open items, move completed entries to `docs/todo_archive.md`. Same format, different file. Keeps todo.md focused.
+
+## Keep Errors Visible
+
+This is not a new concept. It is a habit that matters as soon as your project has structure. Once you split your code into domain and adapters, hidden errors become harder to find because they can happen in either layer. An adapter that silently returns empty data looks fine to your domain code. Your domain produces wrong results and nobody knows why.
+
+The rule: when something goes wrong, the code should stop and tell you. Not continue silently, not return empty results, not pretend everything is fine. AI-generated code often hides errors behind fallback values. If your program fails silently, that is a problem to fix, not a feature to keep.
+
+Your AGENTS.md already has the rule ("Errors must be visible"). Now is the time to enforce it. For concrete patterns and review prompts, see [ai-code-review.md](resources/ai-code-review.md).
+
+
+## Keep Logging Out of Your Logic
+
+Your code in `domain/` does not know whether it runs in a web server, a CLI tool, or a test. So it should not decide where or how to log. If your logic writes directly to a log file, it becomes tied to that specific setup. Tomorrow you want to log to a cloud service instead, and suddenly you are changing code that should not have changed.
+
+Keep logging in `adapters/`. Your domain code returns results or raises errors. The adapter decides what to log, where to send it, and in what format.
+
+Ask your AI to verify both habits:
+
+> "Read my AGENTS.md and check the codebase: are all errors visible (no silent catches, no swallowed exceptions, no empty fallbacks)? Is logging only in adapters/, never in domain/?"
 
 
 ---
@@ -165,23 +180,23 @@ The next two concepts solve a specific frustration: your AI keeps importing data
 
 ### 3. Make Your Logic Swappable
 
-Together with Concept 1 (the folder split), this completes the pattern known as *Ports and Adapters* (also called *Hexagonal Architecture*). You do not need to know these names. You need to understand the idea.
+In Concept 1 you put your logic in `domain/` and your database code in `adapters/`. That helps with organization. But your logic still knows it talks to a database. This concept removes that last connection.
+
+Together with Concept 1, this completes the pattern known as *Ports and Adapters* (also called *Hexagonal Architecture*). You do not need to know these names. You need to understand the idea.
 
 Your domain code needs data from the outside (a database, a file, an API) but it should not know *how* that data is fetched.
 
 **Think of it like a restaurant.** The chef (your domain logic) says: "I need ingredients." The chef does not care whether the ingredients come from a local farm, a supermarket, or a warehouse. The chef just describes what is needed. The supplier (your adapter) goes and gets it.
 
-In code, this means: instead of your logic directly talking to the database, you write a description of what it needs. This description is called a **port**. The code that actually talks to the database is the **adapter**. Your logic only knows the port, never the adapter.
+In code, this means: you write a description of what your logic needs. This description is called a **port**. The port talks to the **adapter**. The adapter talks to the database. Your logic only knows the port, never the adapter. That way, your logic cannot talk to the database directly, and you can swap the database without changing your logic.
 
 In practice, you create three things:
 
-1. **The description** (port): a file in `domain/` that says "I need something that can save an invoice and find an invoice by ID." It does not say how. Just what.
+1. A file in `domain/` that describes what your logic needs: "I need something that can save an invoice and find an invoice by ID." It does not say how. Just what. This is called a **port**.
 
-2. **The supplier** (adapter): a file in `adapters/` that actually talks to the database. It fulfills the description: "Here is how I save and find invoices using SQL."
+2. A file in `adapters/` that actually does it: "Here is how I save and find invoices using SQL." This is the **adapter**.
 
-3. **The wiring** (main): one line in `main` that says "Use this specific supplier to fulfill that description."
-
-Your domain code only ever sees the description, never the supplier. If you replace SQLite with PostgreSQL tomorrow, you write a new supplier. The domain code does not change.
+3. One line in `main` that connects the two: "Use this specific adapter to fulfill that port."
 
 For the concrete code syntax, see [languages/python.md](languages/python.md) or [domain-and-adapters.md](resources/domain-and-adapters.md) for the full pattern with examples.
 
@@ -191,18 +206,14 @@ For the concrete code syntax, see [languages/python.md](languages/python.md) or 
 2. You can test your logic without a real database. Just create a test adapter that stores everything in memory.
 3. Your AI sees clear boundaries: in `domain/`, no database imports allowed.
 
-There are two kinds of ports: ones where the outside world calls your logic (e.g., a button click triggers a calculation), and ones where your logic needs something from outside (e.g., saving data). The example above shows the second kind. For both kinds explained in detail, see [domain-and-adapters.md](resources/domain-and-adapters.md). For other architecture approaches, see [architecture-patterns.md](resources/architecture-patterns.md).
-
-**What about logging?** Your domain code does not know whether it runs in a web server, a CLI tool, or a test. So it should not decide where to log. Let the adapter handle logging. Domain code returns results or raises errors.
+For the full pattern with code examples, see [domain-and-adapters.md](resources/domain-and-adapters.md). For other architecture approaches, see [architecture-patterns.md](resources/architecture-patterns.md).
 
 
 ### 4. Start Testing
 
-Because you separated your logic from the outside world, testing becomes much easier. Your domain code has no external dependencies, so tests are fast and simple.
+You have split your code, documented your decisions, and made errors visible. Now add one more tool: testing. Your AI writes code that checks if your other code works correctly. If something breaks later, the tests tell you before your users do.
 
-**Without separation** (everything tangled): to test whether a discount is calculated correctly, you need a real database with test data, a running server, and cleanup afterward. The test is slow, brittle, and breaks when the database schema changes.
-
-**With separation** (domain isolated): the discount logic takes an order and returns a number. No database, no server, no cleanup. The test runs in milliseconds:
+Your code in `domain/` does not need a database or a server to run. That makes it easy to test: give it input, check the output. No setup, no cleanup, no waiting. For example, testing a discount calculation:
 
 ```text
 test "10% discount on orders over 100":
@@ -221,9 +232,9 @@ Back to the restaurant analogy: you are testing the chef's recipe, not the deliv
 
 Ask your AI to get you started:
 
-> "Read my AGENTS.md and look at the code in domain/ and adapters/. Create tests under tests/: unit tests for all domain logic, basic security tests (reject bad input, no secrets in responses or logs), and set up language-specific checks (type checking, linting, formatting) for this project."
+> "Read my AGENTS.md and look at the code in domain/ and adapters/. Create tests under tests/: unit tests for all domain logic and basic security tests (reject bad input, no secrets in responses or logs)."
 
-This prompt sets up three different things (unit tests, security tests, static analysis). For what each one does and why, see [testing.md](resources/testing.md).
+For what each part does and why, see [testing.md](resources/testing.md).
 
 
 ## How to Migrate Your Existing Code

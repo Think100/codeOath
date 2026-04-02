@@ -3,7 +3,7 @@
 ## Tasks
 
 - [ ] CONTRIBUTING.md: PR submissions currently not open, feedback via Issues only. When PRs open: add CC BY 4.0 contribution clause
-- [ ] grow.md Ueberarbeitung (in progress): Concept 1-4 Texte vereinfacht, Concept 4 Testing-Intro noch nicht fertig. Uncommittete Aenderungen in grow.md. Naechster Schritt: Concept 4 Einleitungssatz fixen, dann gesamtes File reviewen und committen
+- [x] grow.md Ueberarbeitung: Concept 1-4 Texte vereinfacht, Testing-Intro neu, Error/Logging-Check Prompt vor Trenner, Testing-Prompt auf Tests fokussiert (Static Analysis raus)
 - [ ] `6-waiting` grow.md H2 "When Folders Are Not Enough": check if contrast to Concept 1-2 is strong enough (waiting for community/test user feedback)
 - [ ] languages/rust.md mapping table
 - [ ] languages/javascript.md and languages/typescript.md mapping tables
