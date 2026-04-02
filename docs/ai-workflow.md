@@ -145,21 +145,17 @@ Do not just ask one AI to review something. Give the same task to agents with di
 
 The key insight: **different roles find different problems.** A security auditor will never tell you that your explanation confuses beginners. A beginner will never find a timing attack. You need both.
 
-### Model Tiers
-
-- **Fast/cheap model:** quick gut check, simple tasks, formatting
-- **Mid-tier model:** solid analysis, balanced, good for most work
-- **Top-tier model:** deep analysis, complex reasoning, architecture
-
 ### Review Cycles
 
-The most effective pattern: write, review, fix, review again.
+You do not just write code and move on. You write, then you let your AI review it from different angles, then you fix what it found, then you review again. This sounds slow, but with AI it takes minutes, not hours.
 
 1. Write the first version
-2. Send to 2-3 agents in parallel (different roles)
-3. Consolidate findings, prioritize by impact
+2. Send to 2-3 agents in parallel (different roles from above)
+3. Read the findings, focus on the serious ones first
 4. Fix critical and high items
-5. Review again if changes were significant
+5. Review again if the fixes were significant
+
+Why the second review? Because fixes can introduce new problems. A security fix might break a feature. A performance optimization might make the code harder to read. The second pass catches what the first fix introduced.
 
 A full cycle takes under 15 minutes with AI. The quality difference between one pass and two is massive.
 
