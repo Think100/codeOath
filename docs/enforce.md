@@ -171,7 +171,7 @@ A general-purpose agent that "checks everything" will miss things and waste cont
 - **Security scanner:** reads `src/` and `docs/security.md`, flags issues. No fixing, just reporting.
 - **Test coverage checker:** reads `tests/` and `src/`, reports untested paths. No code generation.
 
-The principle: one agent, one question, minimal file access. A focused agent with 20 files of context produces better results than a broad agent with 200.
+The principle: one agent, one question, minimal file access. A focused agent with 20 files of context produces better results than a broad agent with 200. For ready-made review prompts that catch common AI mistakes, see [ai-code-review.md](resources/ai-code-review.md).
 
 ### Navigation Hints
 

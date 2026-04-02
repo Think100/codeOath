@@ -190,7 +190,7 @@ That is the point of this structure: the files that steered your AI also bring y
 
 ## One Rule About Security
 
-No passwords, API keys, or tokens in your code. Ever. Put them in environment variables. If you accidentally commit a secret, it is in your git history forever. Change the password immediately.
+No passwords, API keys, or tokens in your code. Ever. Put them in environment variables. If you accidentally commit a secret, it is in your git history forever. Change the password or rotate the credential immediately.
 
 That is the one thing you must get right from day one. For everything else, see [security.md](resources/security.md) when you are ready.
 

@@ -17,7 +17,7 @@ Or tell your AI right now:
 
 > *"Create AGENTS.md with a project definition (what it is, what it is NOT, rules, structure), docs/todo.md, src/, tests/, and .gitignore. Show me the AGENTS.md before committing so I can review it."*
 
-Already have a project that needs structure? [Start here](docs/resources/triggers.md#already-have-a-project).
+Already have a project that needs structure? [Start here](docs/resources/triggers.md#already-have-a-project-refactoring).
 
 
 ## What AGENTS.md Looks Like
@@ -88,7 +88,7 @@ One prompt, four outcomes. Each example was built by an AI that only read the ma
 
 **Core:** [start.md](docs/start.md) · [grow.md](docs/grow.md) · [enforce.md](docs/enforce.md) · [AI Workflow](docs/ai-workflow.md)
 
-**Resources:** [Triggers](docs/resources/triggers.md) · [Prompts](docs/resources/prompts.md) · [Testing](docs/resources/testing.md) · [Security](docs/resources/security.md) · [Performance](docs/resources/performance.md) · [Release Checklist](docs/resources/release-checklist.md)
+**Resources:** [Triggers](docs/resources/triggers.md) · [Prompts](docs/resources/prompts.md) · [AI Code Review](docs/resources/ai-code-review.md) · [Dependency Evaluation](docs/resources/dependency-evaluation.md) · [Testing](docs/resources/testing.md) · [Security](docs/resources/security.md) · [Performance](docs/resources/performance.md) · [Release Checklist](docs/resources/release-checklist.md)
 
 **Architecture:** [Domain and Adapters](docs/resources/domain-and-adapters.md) · [Architecture Patterns](docs/resources/architecture-patterns.md) · [Philosophy](docs/resources/philosophy.md)
 
@@ -107,7 +107,7 @@ No. Stage 1 works for anyone who can use an AI coding tool. Your AI can teach yo
 No. Just conventions and file structures. Nothing to install.
 
 **My project is already messy. Where do I start?**
-Stage 1 add AGENTS.md and docs/todo.md. Then check the [triggers](docs/resources/triggers.md#already-have-a-project).
+Stage 1 add AGENTS.md and docs/todo.md. Then check the [triggers](docs/resources/triggers.md#already-have-a-project-refactoring).
 
 **How is this different from just writing a good README?**
 AGENTS.md is structured to govern your project, not just describe it. The NOT field prevents scope creep. The rules tell your AI what to ask before acting. A README is for humans. AGENTS.md is for your AI and your future self.

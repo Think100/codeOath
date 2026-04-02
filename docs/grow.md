@@ -141,8 +141,9 @@ Suggested frequencies as a starting point:
 | Routine | Frequency | Why |
 |---|---|---|
 | Docs accuracy check | Every 2 weeks | Docs drift fast during active development |
-| Dependency audit | Monthly | CVEs are published continuously |
+| Dependency audit | Monthly | CVEs are published continuously. See [dependency evaluation](resources/dependency-evaluation.md) |
 | Security scan | Monthly | Catches secrets or validation gaps before they accumulate |
+| AI code review | Monthly | Catches hidden errors and fake safety in AI-generated code. See [ai-code-review](resources/ai-code-review.md) |
 | Architecture check | Monthly | Detects boundary violations early |
 | Performance spot check | Quarterly | Only relevant once real data flows |
 
