@@ -23,7 +23,7 @@ Four new concepts. That is all. But do them in order, not all at once.
 
 **Add later** (when the folder split alone is no longer enough):
 
-3. **Describe what your logic needs** without saying where it comes from (ports)
+3. **Make your logic swappable** -- change the database without rewriting your rules
 4. **Test your code** independently from the database
 
 Concepts 1 and 2 are straightforward. Concepts 3 and 4 are more advanced, but this guide explains them in plain language. Your AI can help you implement all of them.
