@@ -4,7 +4,7 @@
 
 > **TL;DR** -- Create `AGENTS.md` (what your project is, what it is NOT, rules, structure) and `docs/todo.md` (tasks, open questions). Make sure your AI reads it every session. Commit before coding. Done.
 
-Understand the basics in 10 minutes. Set up your first project in 30. Come back after four months and still know what you built.
+You will have your first project running in one vibe-coding session.
 
 
 ## When You Are Here
@@ -91,7 +91,7 @@ Read AGENTS.md for project rules.
 
 ```markdown
 # CLAUDE.md (Claude Code)
-Read AGENTS.md for project rules.
+Read @AGENTS.md for project rules.
 ```
 
 Pick your tool, create the file, done. The AI reads it automatically from that point on.

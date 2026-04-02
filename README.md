@@ -39,8 +39,9 @@ CLI tool that converts CSV files to JSON.
 - Code and comments in English
 - Never overwrite input files
 - No secrets in code or version control
+- Errors must be visible, never hide them silently
 - New files: ask first (AI rule)
-- New dependencies: ask first (AI rule)
+- New dependencies: ask first, explain why (AI rule)
 - Commit after each completed task (AI rule)
 - Prefix commits with your tool name: [claude], [cursor], [codex] (AI rule)
 - When uncertain: ask, don't guess (AI rule)
