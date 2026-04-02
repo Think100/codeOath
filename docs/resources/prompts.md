@@ -2,7 +2,7 @@
 
 # Prompt Cheatsheet
 
-> **TL;DR** -- Copy-paste prompts for every stage: Stage 1 (project setup), Stage 2 (migration, testing, maintenance), Stage 3 (enforcement, CI/CD). Plus security audits, performance reviews, workflow prompts, and architecture alternatives. No explanations here, see linked source docs for context.
+> **TL;DR** -- Copy-paste prompts for every stage: Stage 1 (project setup), Stage 2 (migration, testing, maintenance), Stage 3 (enforcement, CI/CD). Plus AI code review, dependency evaluation, security, performance, workflow, and architecture alternatives. No explanations here, see linked source docs for context.
 
 Every copy-paste prompt from codeOath in one place. No explanations. Copy what you need.
 
@@ -160,11 +160,97 @@ For context on when and why to use each prompt, see the linked source document.
 
 **Capture learnings** ([ai-workflow.md](../ai-workflow.md))
 
-> "What were the key learnings from this session? What surprised us? What would we do differently next time? Format as short bullet points I can add to my learning journal."
+> "What were the key learnings from this session? What surprised us? What would we do differently next time? What worked well that we should keep doing? Were there any aha moments where something suddenly made sense?"
+
+**Something is broken** ([ai-workflow.md](../ai-workflow.md))
+
+> "[paste the full error message here]. What does this mean and how do I fix it?"
+
+If more context is needed:
+
+> "I was trying to [what you did]. I expected [what should happen]. Instead, [what actually happened]. Here is the error: [paste error]. What is wrong?"
+
+**Multi-perspective review roles** ([ai-workflow.md](../ai-workflow.md))
+
+> "You are a user who just installed this for the first time. Try to follow the README and use the main features. Where do you get stuck? What is confusing? What error messages are unhelpful?"
+
+> "You are a senior fullstack developer with 20 years of experience. Review this for correctness, completeness, and dangerous simplifications. Cite line numbers."
+
+> "You are a red team security auditor. Find vulnerabilities. Sort by severity (Critical, High, Medium, Low)."
+
+> "You are a computer science professor. Check if the concepts are explained correctly. Suggest analogies that make complex ideas accessible."
+
+> "You are a vibe coder with 2 months of experience. Read this guide. Where do you get lost? Where would you stop reading?"
+
+**Multiple agents: check for file conflicts** ([ai-workflow.md](../ai-workflow.md))
+
+> "I want to run a review while you keep working. Which files are you currently changing? I will make sure the review agent does not touch those."
 
 **Analyze a past project for patterns** ([ai-workflow.md](../ai-workflow.md))
 
 > "Analyze the project at [path]. Look at git history, folder structure, AGENTS.md, and docs. What patterns were used? What worked well? What caused problems? What can we learn for our current project?"
+
+
+## AI Code Review
+
+**Check for hidden errors** ([ai-code-review.md](ai-code-review.md))
+
+> "Review the code you just wrote. Is there any place where an error is caught and ignored? Any place where the code continues as if nothing happened after something went wrong? I want errors to be visible, not hidden. Show me every place where a problem could happen silently."
+
+**After every AI response that writes code** ([ai-code-review.md](ai-code-review.md))
+
+> "Before we continue: check what you just wrote. Are there hidden errors (failures that I would not notice)? Unnecessary checks (for things that cannot happen)? Fallback values that could give me wrong results? Be honest, not defensive."
+
+**Check for fake safety** ([ai-code-review.md](ai-code-review.md))
+
+> "Look at the code you just wrote. Are there checks for impossible situations? For example: checking if a value is missing when you just created it one line above, or checking the type of something that already has a fixed type. Remove the checks that can never trigger. Explain which ones you removed and why they were unnecessary."
+
+**Check for wrong fallbacks** ([ai-code-review.md](ai-code-review.md))
+
+> "Check the code for fallback values. Are there places where the code returns a default (like an empty list, zero, or a blank value) when the real data is not available? For each case, tell me: is the fallback actually safe, or could it cause wrong results? If missing data means something is broken, the code should stop, not guess."
+
+**Check for retry without limits** ([ai-code-review.md](ai-code-review.md))
+
+> "Does the code retry anything (network calls, database connections, sending emails)? If yes: is there a maximum number of attempts? What happens after the maximum is reached? If there is no limit, add one. Three retries is a good default. After that, stop and report the error."
+
+**Check for functions that do too much** ([ai-code-review.md](ai-code-review.md))
+
+> "Look at the code you just wrote. Is there any function or block that does more than one job? For example: a function that validates input AND saves to the database AND sends an email. Split these into separate pieces. Each piece should do one thing. If one piece fails (email sending), the other pieces (saving the order) should not be affected."
+
+**Check if AI built what you asked for** ([ai-code-review.md](ai-code-review.md))
+
+> "Compare what you just built against what I asked for. List every requirement I gave you, and for each one, tell me: is it fully implemented, partially implemented, or missing? Then list everything you added that I did not ask for. I want an honest comparison, not a summary of what you built."
+
+**Full AI code review before release** ([ai-code-review.md](ai-code-review.md))
+
+> "Read AGENTS.md. Then review the entire codebase in six passes and report findings for each: 1. Hidden errors: where can something fail without me knowing? 2. Fake safety: where are there checks for impossible situations? 3. Wrong assumptions: where does the code guess instead of fail? 4. Scope: is everything I asked for implemented? Is there anything I did not ask for? 5. Secrets: any credentials in the code? 6. Structure: does the code follow the architecture rules in AGENTS.md? Do not fix anything. Report only. I will decide what to fix."
+
+
+## Dependency Evaluation
+
+**Should I use a library?** ([dependency-evaluation.md](dependency-evaluation.md))
+
+> "I need to [describe the problem]. Should I use a library for this, or can you write a small solution directly? If a library, which one and why? How many dependencies does it bring with it? If not, write the solution and explain it."
+
+**Verify a package is real** ([dependency-evaluation.md](dependency-evaluation.md))
+
+> "Before installing [package name]: verify that this package actually exists on the official package registry for my language. Show me the official page, the number of downloads, and when it was last published. If you are not 100% certain it exists, say so."
+
+**Check if a library is maintained** ([dependency-evaluation.md](dependency-evaluation.md))
+
+> "Check the health of [package name]. When was the last release? When was the last commit? How many open issues are there, and are maintainers responding? How many maintainers are there? Would you call this actively maintained?"
+
+**Check license compatibility** ([dependency-evaluation.md](dependency-evaluation.md))
+
+> "What license does [package name] use? Is it compatible with [your project's license, e.g., MIT, CC BY 4.0]? Are there any restrictions I need to know about? If the license is GPL or AGPL, explain what that means for my project."
+
+**Review all dependencies** ([dependency-evaluation.md](dependency-evaluation.md))
+
+> "Review my dependency list. For each library, tell me: what do we actually use from it? Could we replace it with a small amount of custom code? Are any libraries unused or barely used? Which ones would you recommend removing, and why?"
+
+**Check version pinning** ([dependency-evaluation.md](dependency-evaluation.md))
+
+> "Show me all dependencies in this project with their exact versions. Are any unpinned or using version ranges? If so, pin them."
 
 
 ## Architecture Alternatives
