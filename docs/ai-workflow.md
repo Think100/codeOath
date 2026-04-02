@@ -2,7 +2,7 @@
 
 # Working with Your AI
 
-> **TL;DR** -- Start every session with "read AGENTS.md and todo.md." End with state capture and learnings. Use multi-role reviews (junior, senior, security) for quality. When something breaks, paste the exact error. Multiple agents work best with separate jobs and one writer per file. Automate recurring prompts as single-purpose agents.
+> **TL;DR** -- Start every session with "read AGENTS.md and todo.md." End with state capture and learnings. When something breaks, paste the exact error. Use multi-role reviews for quality. Automate recurring prompts as single-purpose agents.
 
 Practical tips for working with AI day to day, so you get better results with less effort. Not about project structure (that is what start/grow/enforce cover).
 
@@ -110,9 +110,7 @@ AI fixes sometimes have side effects. You want to understand the fix before it i
 
 ### "Something is broken"
 
-When your project stops working, your AI is the fastest debugger you have. But it needs context. The difference between a 30-second fix and a 30-minute back-and-forth is how you describe the problem.
-
-**Copy the error message.** Do not describe it in your own words. Do not say "it does not work." Paste the exact error. Your AI can read error messages better than you can, and the details you would skip are often the ones that matter.
+When your project stops working, paste the exact error message. Do not describe it in your own words, do not say "it does not work." The details you would skip are often the ones that matter.
 
 > "[paste the full error message here]. What does this mean and how do I fix it?"
 
@@ -120,9 +118,7 @@ That is enough for most problems. If it is not, add what you were doing when it 
 
 > "I was trying to [what you did]. I expected [what should happen]. Instead, [what actually happened]. Here is the error: [paste error]. What is wrong?"
 
-Two things to avoid:
-- **Do not let your AI guess.** If it asks for more information, give it. Do not say "just try something." A fix based on guessing often creates a second bug.
-- **Do not accept a fix you do not understand.** Ask: "Explain what this fix does and why it solves the problem." If the explanation does not make sense to you, ask again in simpler terms. A fix you do not understand is a fix you cannot verify.
+If your AI suggests a fix, ask it to explain what the fix does and why it solves the problem. A fix you do not understand is a fix you cannot verify.
 
 ### "What am I missing?"
 
@@ -168,29 +164,6 @@ The most effective pattern: write, review, fix, review again.
 A full cycle takes under 15 minutes with AI. The quality difference between one pass and two is massive.
 
 
-## Build Experiments to Make Decisions
-
-When you are unsure about the right approach, do not debate. Build it multiple ways and compare.
-
-1. Define a small, concrete task (buildable in one session)
-2. Run it with different conditions (with/without your rules, different models)
-3. Compare results against a fixed rubric (not gut feeling, actual criteria)
-4. Feed findings back into your rules
-
-### Example
-
-We gave the same task (build a note-taking app) to Sonnet and Opus, with and without codeOath principles. Same prompt, one variable:
-
-| Variant | Score | Key finding |
-|---|---|---|
-| Sonnet + codeOath | 12/12 | Right architecture dose, complete features, no silent failures |
-| Sonnet reference | 10/12 | Feature-complete but monolithic |
-| Opus reference | 7/12 | Good product decisions but no structure |
-| Opus + codeOath | 6/12 | Over-engineered, forgot basic features |
-
-This shaped the "proportional architecture" principle: over-engineering is as bad as under-engineering.
-
-
 ## Working with Multiple Agents
 
 Modern AI tools can run multiple agents at the same time. Your main agent writes code while a second agent reviews it, a third runs tests, and a fourth checks security. Most of the time, your tool decides when to start these agents automatically. You do not need to manage them.
@@ -226,20 +199,39 @@ Once you are comfortable with agents, the next step is turning repeated prompts 
 **Documentation check** -- read-only, compares docs vs. reality:
 > "Read AGENTS.md, docs/todo.md, and docs/decisions.md. Compare with actual project state. Flag outdated decisions, completed tasks still open, documented files that do not exist."
 
-**Session wrapup** -- captures everything before you close:
-> "Update docs/todo.md with what we accomplished. Add decisions to docs/decisions.md. List learnings from this session. Summarize what next session should start with."
-
-**Learning capture** -- extracts what you learned:
-> "What were the key learnings from this session? What surprised us? What would we do differently next time? Format as short bullet points I can add to my learning journal."
+For session wrapup and learning capture agents, see the prompts in [Start and End Every Session Right](#start-and-end-every-session-right) above.
 
 
 ## Learn from Your Past Projects
 
-Your past projects are full of patterns that worked and mistakes that did not.
+Your past projects are full of patterns that worked and mistakes worth avoiding.
 
 > "Analyze the project at [path]. Look at git history, folder structure, AGENTS.md, and docs. What patterns were used? What worked well? What caused problems? What can we learn for our current project?"
 
 This is how codeOath's security and performance guides were written: by analyzing a real project and extracting what actually mattered in practice. Theory is cheap. Experience is expensive. If you already paid the price, harvest the lessons.
+
+
+## Build Experiments to Make Decisions
+
+When you are unsure about the right approach, do not debate. Build it multiple ways and compare.
+
+1. Define a small, concrete task (buildable in one session)
+2. Run it with different conditions (with/without your rules, different models)
+3. Compare results against a fixed rubric (not gut feeling, actual criteria)
+4. Feed findings back into your rules
+
+### Example
+
+We gave the same task (build a note-taking app) to Sonnet and Opus, with and without codeOath principles. Same prompt, one variable:
+
+| Variant | Score | Key finding |
+|---|---|---|
+| Sonnet + codeOath | 12/12 | Right architecture dose, complete features, no silent failures |
+| Sonnet reference | 10/12 | Feature-complete but monolithic |
+| Opus reference | 7/12 | Good product decisions but no structure |
+| Opus + codeOath | 6/12 | Over-engineered, forgot basic features |
+
+This shaped the "proportional architecture" principle: over-engineering is as bad as under-engineering.
 
 
 ## Stay Current with Your Tools
@@ -250,7 +242,7 @@ AI tools change fast. What did not work last month might work now.
 - **Revisit your AGENTS.md rules** quarterly. See the [Maturity Dial](resources/philosophy.md#the-maturity-dial) concept.
 - **Try new capabilities** on a branch, not on main
 
-The rules you wrote six months ago may be holding you back. Do not accumulate rules out of habit.
+The rules you wrote six months ago may be holding you back. Do not keep rules out of habit.
 
 
 ---
