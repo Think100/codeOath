@@ -108,6 +108,22 @@ For reviews and audits:
 
 AI fixes sometimes have side effects. You want to understand the fix before it is applied.
 
+### "Something is broken"
+
+When your project stops working, your AI is the fastest debugger you have. But it needs context. The difference between a 30-second fix and a 30-minute back-and-forth is how you describe the problem.
+
+**Copy the error message.** Do not describe it in your own words. Do not say "it does not work." Paste the exact error. Your AI can read error messages better than you can, and the details you would skip are often the ones that matter.
+
+> "[paste the full error message here]. What does this mean and how do I fix it?"
+
+That is enough for most problems. If it is not, add what you were doing when it happened:
+
+> "I was trying to [what you did]. I expected [what should happen]. Instead, [what actually happened]. Here is the error: [paste error]. What is wrong?"
+
+Two things to avoid:
+- **Do not let your AI guess.** If it asks for more information, give it. Do not say "just try something." A fix based on guessing often creates a second bug.
+- **Do not accept a fix you do not understand.** Ask: "Explain what this fix does and why it solves the problem." If the explanation does not make sense to you, ask again in simpler terms. A fix you do not understand is a fix you cannot verify.
+
 ### "What am I missing?"
 
 The most underrated prompt. After finishing a feature:
