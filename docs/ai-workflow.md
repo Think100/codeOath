@@ -133,7 +133,7 @@ Do not just ask one AI to review something. Give the same task to agents with di
 
 ### Useful Roles
 
-> "You are a junior developer seeing this code for the first time. What confuses you? Where would you need help?"
+> "You are a user who just installed this for the first time. Try to follow the README and use the main features. Where do you get stuck? What is confusing? What error messages are unhelpful?"
 
 > "You are a senior fullstack developer with 20 years of experience. Review this for correctness, completeness, and dangerous simplifications. Cite line numbers."
 
