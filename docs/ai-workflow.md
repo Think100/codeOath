@@ -2,7 +2,7 @@
 
 # Working with Your AI
 
-> **TL;DR** -- Start every session with "read AGENTS.md and todo.md." End with state capture and learnings. Use multi-role reviews (junior, senior, security) for quality. Let AI write tests first, then implement. Automate recurring prompts as single-purpose agents.
+> **TL;DR** -- Start every session with "read AGENTS.md and todo.md." End with state capture and learnings. Use multi-role reviews (junior, senior, security) for quality. When something breaks, paste the exact error. Multiple agents work best with separate jobs and one writer per file. Automate recurring prompts as single-purpose agents.
 
 Practical tips for working with AI day to day, so you get better results with less effort. Not about project structure (that is what start/grow/enforce cover).
 
@@ -191,9 +191,28 @@ We gave the same task (build a note-taking app) to Sonnet and Opus, with and wit
 This shaped the "proportional architecture" principle: over-engineering is as bad as under-engineering.
 
 
+## Working with Multiple Agents
+
+Modern AI tools can run multiple agents at the same time. Your main agent writes code while a second agent reviews it, a third runs tests, and a fourth checks security. Most of the time, your tool decides when to start these agents automatically. You do not need to manage them.
+
+When it matters is when two agents touch the same files. If one agent is rewriting a function while another is reviewing the old version, the review is worthless. If two agents edit the same file at the same time, you get conflicts.
+
+Three principles that stay true regardless of which tool you use:
+
+**One writer per file.** If an agent is changing a file, no other agent should be changing that file at the same time. Reading is fine. Writing at the same time is not. Your tool usually handles this, but if you start agents manually, keep this in mind.
+
+**Separate jobs, not shared ones.** A good split: one agent writes code, a different agent reviews it, a third runs tests. A bad split: two agents both adding features to the same module. When in doubt, let one agent finish before the next one starts.
+
+**The AGENTS.md is the shared rulebook.** Every agent reads it. If your rules are in AGENTS.md, every agent follows them. If your rules are only in the conversation, only the current agent knows them. This is the main reason to keep your project rules in a file, not in your head.
+
+> "I want to run a review while you keep working. Which files are you currently changing? I will make sure the review agent does not touch those."
+
+You do not need to understand how agents work internally. You need to understand that they are independent: they do not see each other's work until it is saved. Think of it like two people working in the same office. They can work in parallel, but they should not both be editing the same document at the same time.
+
+
 ## Automate Recurring Work with Agents
 
-If you give the same prompt repeatedly, turn it into a reusable agent. Each agent has one job and minimal permissions.
+Once you are comfortable with agents, the next step is turning repeated prompts into reusable ones. If you give the same instruction more than twice, make it a standing agent. Each agent has one job and minimal permissions.
 
 **Test runner** -- cannot edit files, only runs tests and reports failures:
 > "Execute pytest. Report only failures. Do not suggest fixes. Do not edit files."
@@ -212,25 +231,6 @@ If you give the same prompt repeatedly, turn it into a reusable agent. Each agen
 
 **Learning capture** -- extracts what you learned:
 > "What were the key learnings from this session? What surprised us? What would we do differently next time? Format as short bullet points I can add to my learning journal."
-
-
-## Working with Multiple Agents
-
-Modern AI tools can run multiple agents at the same time. Your main agent writes code while a second agent reviews it, a third runs tests, and a fourth checks security. Most of the time, your tool decides when to start these agents automatically. You do not need to manage them.
-
-When it matters is when two agents touch the same files. If one agent is rewriting a function while another is reviewing the old version, the review is worthless. If two agents edit the same file at the same time, you get conflicts.
-
-Three principles that stay true regardless of which tool you use:
-
-**One writer per file.** If an agent is changing a file, no other agent should be changing that file at the same time. Reading is fine. Writing at the same time is not. Your tool usually handles this, but if you start agents manually, keep this in mind.
-
-**Separate jobs, not shared ones.** A good split: one agent writes code, a different agent reviews it, a third runs tests. A bad split: two agents both adding features to the same module. When in doubt, let one agent finish before the next one starts.
-
-**The AGENTS.md is the shared rulebook.** Every agent reads it. If your rules are in AGENTS.md, every agent follows them. If your rules are only in the conversation, only the current agent knows them. This is the main reason to keep your project rules in a file, not in your head.
-
-> "I want to run a review while you keep working. Which files are you currently changing? I will make sure the review agent does not touch those."
-
-You do not need to understand how agents work internally. You need to understand that they are independent: they do not see each other's work until it is saved. Think of it like two people working in the same office. They can work in parallel, but they should not both be editing the same document at the same time.
 
 
 ## Learn from Your Past Projects
