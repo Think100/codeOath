@@ -33,7 +33,7 @@ Concepts 1 and 2 are straightforward. Concepts 3 and 4 are more advanced, but th
 
 The idea is simple: split your code so that your core logic does not depend on the outside world.
 
-(This folder split is the first step of a well-established pattern called *Ports and Adapters* (also known as *Hexagonal Architecture*). Concept 1 gives you the folders. Concept 3 adds the contracts that make it complete. There are [other approaches](resources/architecture-patterns.md) if you are curious.)
+(Curious about the theory? This is the starting point of a pattern called *Ports and Adapters*. Concept 3 below explains the rest. There are also [other approaches](resources/architecture-patterns.md).)
 
 **domain/** (your logic) is where the core of your project lives. The rules, the calculations, the things that make your project do what it does. This code does not know about databases, APIs, or files. It just knows the rules.
 
@@ -161,7 +161,7 @@ These are defaults, not rules. A project under heavy development might check doc
 
 ---
 
-**You can stop here. Most projects do.** Concepts 1 and 2 (folder split + decisions file) solve 80% of the chaos. If your project feels organized and your AI puts things in the right places, you are done with Stage 2. Do not add more structure just because it exists.
+**You can stop here. Most projects do.** Concepts 1 and 2 (folder split + decisions file) solve most of the chaos. If your project feels organized and your AI puts things in the right places, you are done with Stage 2. Do not add more structure just because it exists.
 
 ---
 
@@ -172,6 +172,8 @@ The next two concepts solve a specific frustration: your AI keeps importing data
 
 
 ### 3. Define What Your Logic Needs
+
+Together with Concept 1 (the folder split), this completes the pattern known as *Ports and Adapters* (also called *Hexagonal Architecture*). You do not need to know these names. You need to understand the idea.
 
 Your domain code needs data from the outside (a database, a file, an API) but it should not know *how* that data is fetched.
 
