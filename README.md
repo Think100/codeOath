@@ -91,7 +91,7 @@ We also tested the same prompt with and without codeOath across three experiment
 
 **Core:** [start.md](docs/start.md) · [grow.md](docs/grow.md) · [enforce.md](docs/enforce.md) · [AI Workflow](docs/ai-workflow.md)
 
-**Resources:** [Triggers](docs/resources/triggers.md) · [Prompts](docs/resources/prompts.md) · [AI Code Review](docs/resources/ai-code-review.md) · [Dependency Evaluation](docs/resources/dependency-evaluation.md) · [Testing](docs/resources/testing.md) · [Security](docs/resources/security.md) · [Performance](docs/resources/performance.md) · [Release Checklist](docs/resources/release-checklist.md)
+**Resources:** [Triggers](docs/resources/triggers.md) · [Prompts](docs/resources/prompts.md) · [Auto-Documentation](docs/resources/auto-documentation.md) · [AI Code Review](docs/resources/ai-code-review.md) · [Dependency Evaluation](docs/resources/dependency-evaluation.md) · [Testing](docs/resources/testing.md) · [Security](docs/resources/security.md) · [Performance](docs/resources/performance.md) · [Release Checklist](docs/resources/release-checklist.md)
 
 **Architecture:** [Domain and Adapters](docs/resources/domain-and-adapters.md) · [Architecture Patterns](docs/resources/architecture-patterns.md) · [Philosophy](docs/resources/philosophy.md)
 

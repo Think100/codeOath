@@ -274,3 +274,52 @@ If more context is needed:
 **Which architecture fits my project?** ([architecture-patterns.md](architecture-patterns.md))
 
 > "Read my AGENTS.md and analyze the project structure. Which files change together most often? Are there feature areas that could be isolated? Would the project benefit from feature-sliced, modular monolith, or vertical slice architecture? Explain why."
+
+
+## Documentation Generation
+
+From [auto-documentation.md](auto-documentation.md). Each prompt asks the AI to cite file and line inline so you can spot-check. The two main generators have a paired Verify prompt to run in a fresh chat session.
+
+**Generate architecture overview** ([auto-documentation.md](auto-documentation.md))
+
+> "Generate `docs/architecture.md`: Purpose (one paragraph from AGENTS.md), Modules table (name, responsibility, key files), Mermaid `flowchart LR` of dependencies, 2-3 paragraphs on how modules connect. Cite file and line inline for every dependency and claim, like `(src/adapters/db.py:12)`. Drop what you cannot cite. Append unclear items to docs/todo.md as `- [ ] clarify: ...`."
+
+**Verify architecture overview** ([auto-documentation.md](auto-documentation.md))
+
+> "Verify `docs/architecture.md`: every module in the table must be a folder that exists, every arrow in the diagram must come from a real import, every inline citation must point to a real file and line. Remove anything that does not check out."
+
+**Generate module documentation** ([auto-documentation.md](auto-documentation.md))
+
+> "Generate `docs/<module-name>.md` for `src/<module-path>/`: Purpose, Public API table (symbol, kind, one-line docstring or `(no docstring)`), Dependencies, Invariants, Not responsible for, Notable WHY-comments quoted with file:line. Embed a diagram from the toolbox below if one fits (class, state, activity, db schema). Cite file and line inline for every symbol and claim. Drop what you cannot cite. Append unclear items to docs/todo.md as `- [ ] clarify: ...`."
+
+**Verify module documentation** ([auto-documentation.md](auto-documentation.md))
+
+> "Verify `docs/<module-name>.md`: every symbol in the Public API table must exist in `src/<module-path>/`, every dependency must be a real import, every inline citation must point to a real file and line. Remove anything that does not check out."
+
+**Generate Mermaid architecture diagram** ([auto-documentation.md](auto-documentation.md))
+
+> "Generate a Mermaid `flowchart LR` of this project's top-level module dependencies. One node per real module folder, one arrow per real import. Label arrows where the purpose is obvious (`uses`, `implements`). Group with `subgraph` where it helps. Below the diagram, list each arrow with its source file and line. Drop arrows you cannot source. Do not infer from names."
+
+**Generate Mermaid activity flowchart** ([auto-documentation.md](auto-documentation.md))
+
+> "Generate a Mermaid `flowchart TD` for [function or use case]. Shapes: `([Start])` / `([End])` for terminators, `[step]` for steps, `{decision?}` for branches, `[/data/]` for I/O. One node per real step, one diamond per real branch (`if`, `match`, early return). Below the diagram, list each node with its source file and line. Drop anything you cannot source. Do not invent steps or branches."
+
+**Generate Mermaid call flow diagram** ([auto-documentation.md](auto-documentation.md))
+
+> "Generate a Mermaid `sequenceDiagram` for [use case]. Each participant is a module or external system, each message is a real function call or return. Show the main path; note branches as comments. Below the diagram, list each message with its source file and line. Drop messages you cannot source. Do not invent steps."
+
+**Generate Mermaid state diagram** ([auto-documentation.md](auto-documentation.md))
+
+> "Generate a Mermaid `stateDiagram-v2` for [entity]. One node per state from the enum or type, one transition per real state change in the code, labelled with the event or function that triggers it. Use `[*]` for initial and terminal states. Below the diagram, list each transition with its source file and line. Drop transitions you cannot source. Do not invent states."
+
+**Generate Mermaid data flow diagram** ([auto-documentation.md](auto-documentation.md))
+
+> "Generate a Mermaid `flowchart TD` showing how data moves in this project. Nodes are real data sources, stores, and transformation functions. Label arrows with the data shape (`raw JSON`, `validated Order`, `row in orders table`). Below the diagram, list each arrow with its source file and line. Drop arrows you cannot source. Do not invent sources or destinations."
+
+**Generate Mermaid database schema diagram** ([auto-documentation.md](auto-documentation.md))
+
+> "Generate a Mermaid `erDiagram` from this project's schema source (migrations, ORM models, or dump). Entities with columns as `<type> <name>` and `PK`/`FK`/`UK` annotations. Relationships with correct cardinality (`||--o{`, `}o--o{`, `||--||`). Below the diagram, list each table and relationship with its source file and line, plus a short 'Normalisation notes' section for 1NF violations, duplicated columns, and foreign keys without an index. Drop what you cannot source. Do not infer relationships from column names."
+
+**Generate Mermaid class diagram** ([auto-documentation.md](auto-documentation.md))
+
+> "Generate a Mermaid `classDiagram` for classes in `src/<area>/`. One block per type with public fields and methods. Inheritance with `<|--`, composition with `*--`, association with `-->`. Below the diagram, list each class and relationship with its source file and line. Drop what you cannot source. Do not invent fields or relationships."

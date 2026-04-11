@@ -9,9 +9,10 @@
 - [ ] `4-later` Pre-commit hook examples for non-Python languages
 - [ ] `3-soon` Frontend/UI guide: how React/Vue/Svelte components map to the domain/adapters model. Include: multilingual UI patterns (i18n, string externalization, language switching)
 - [ ] `6-waiting` CONTRIBUTING.md: PR submissions currently not open, feedback via Issues only. When PRs open: add CC BY 4.0 contribution clause
-- [ ] `1-now` Auto-documentation: prompt recipe or minimal script that generates full project documentation from codebase structure, docstrings, and README fragments
+- [x] `1-now` Auto-documentation: prompt recipe or minimal script that generates full project documentation from codebase structure, docstrings, and README fragments
 - [ ] `4-later` Git recovery patterns: branch-per-session, squash workflow, what to do when AI breaks the architecture. Low priority, review when opportunity arises
-- [ ] `4-later` Flow diagram generator: prompt recipe or minimal script that produces Mermaid flow diagrams (architecture, call flows, data flows) from project structure and code
+- [x] `1-later` Flow diagram generator: prompt recipe or minimal script that produces Mermaid flow diagrams (architecture, call flows, data flows) from project structure and code
+- [ ] `3-soon` End-user documentation guide: separate guide for generating user-facing docs (README, user guide, feature descriptions, getting started for non-devs). Complement to auto-documentation.md which covers developer docs
 - [ ] `5-routines` prompts.md: check if sorting still works when new prompts are added (currently clean)
 - [ ] `5-routines` Root README reference length: watch for >20 guides, introduce sub-pages if needed
 - [ ] `5-routines` FAQ length: watch (currently 6, threshold ~8, then move to docs/faq.md)

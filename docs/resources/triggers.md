@@ -54,15 +54,15 @@ Even when rewriting: start with AGENTS.md. Define the project, the rules, and th
 
 ## From Stage 1 to [Stage 2](../grow.md)
 
-| When you notice...                                         | Introduce...                          |
-|------------------------------------------------------------|---------------------------------------|
-| AI creates files in wrong places or ignores your rules     | `domain/` and `adapters/` separation  |
-| You forgot why you made a decision                         | `docs/decisions.md`                   |
-| Database code mixed with business logic in the same file   | Split by layer (domain vs. adapter)   |
-| You want to test your logic without a real database or API | Ports as interfaces in `domain/`      |
-| AI keeps asking the same scope questions                   | Architecture rules in `AGENTS.md`     |
-| Resolved items in todo.md are longer than open items       | `docs/todo_archive.md`               |
-| You keep forgetting to check docs or dependencies          | Routines section in `todo.md`         |
+| When you notice...                                         | Introduce...                                 |
+|------------------------------------------------------------|----------------------------------------------|
+| AI creates files in wrong places or ignores your rules     | `domain/` and `adapters/` separation         |
+| You forgot why you made a decision                         | `docs/decisions.md`                          |
+| Database code mixed with business logic in the same file   | Split by layer (domain vs. adapter)          |
+| You want to test your logic without a real database or API | Ports as interfaces in `domain/`             |
+| AI keeps asking the same scope questions                   | Architecture rules in `AGENTS.md`            |
+| Resolved items in todo.md are longer than open items       | `docs/todo_archive.md`                       |
+| You keep forgetting to check docs or dependencies          | Routines section in `todo.md`                |
 
 
 ## From Stage 2 to [Stage 3](../enforce.md)

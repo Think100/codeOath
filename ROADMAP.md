@@ -8,8 +8,8 @@ What is planned, what comes next, and what might happen eventually. For what alr
 What is done or actively being worked on for the next release.
 
 - Text pipelines as a dedicated project type / track
-- Auto-documentation: prompt recipe that generates project documentation from codebase structure, docstrings, and README fragments
-- Flow diagram generator: prompt recipe that produces Mermaid flow diagrams from project structure and code
+- [x] Auto-documentation: prompt recipe that generates project documentation from codebase structure, docstrings, and README fragments
+- [x] Flow diagram generator: prompt recipe that produces Mermaid flow diagrams from project structure and code
 
 ## Next
 
@@ -19,6 +19,7 @@ Planned, but not started yet.
 - eslint-plugin-boundaries config (JavaScript/TypeScript)
 - Pre-commit hook examples for non-Python languages
 - Build pipeline guide: CI/CD basics, when to automate, what a minimal pipeline looks like for AI-assisted projects
+- End-user documentation guide: user guides, feature descriptions, getting-started pages. Explicitly out of scope in auto-documentation.md, needs its own guide with different failure modes.
 - Frontend/UI guide: how React/Vue/Svelte components map to the domain/adapters model
 - CONTRIBUTING.md: contribution workflow when PRs open
 
