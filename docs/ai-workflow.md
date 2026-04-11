@@ -6,7 +6,11 @@
 
 Practical tips for working with AI day to day, so you get better results with less effort. Not about project structure (that is what start/grow/enforce cover).
 
-This guide follows the natural flow of how you work: set up your environment, start a session, get things done, check quality, capture what you learned, close cleanly.
+**Jump to what you need:**
+- **Setup once:** [Environment](#set-up-your-environment-once)
+- **Each session:** [Start and End](#start-and-end-every-session-right) · [Git Safety](#keep-a-git-safety-net) · [Prompt Patterns](#prompt-patterns-that-work) · [Reviews](#get-multiple-perspectives-fast)
+- **Scaling up:** [Multi-Agent](#working-with-multiple-agents) · [Automation](#automate-recurring-work-with-agents) · [Context Window](#context-window-management)
+- **Long-term:** [Past Projects](#learn-from-your-past-projects) · [Experiments](#build-experiments-to-make-decisions) · [Staying Current](#stay-current-with-your-tools)
 
 
 ## Set Up Your Environment Once
@@ -80,6 +84,47 @@ Examples of learnings worth capturing:
 ### Handing Off Between Sessions
 
 If your tool supports persistent memory, save learnings there too. "We tried approach X and it did not work because Y" is obvious right now but invisible tomorrow.
+
+
+## Keep a Git Safety Net
+
+AI moves fast. Sometimes too fast. A rename that touches 40 files, a "cleanup" that rewrites your folder layout, a refactor that looked right until you tried to run it. You want a way to undo all of it, even if you do not know git.
+
+The good news: you do not need to know git. You need to know what to ask for. Your AI handles the commands.
+
+### Commit Often
+
+Every time your project is in a working state (feature done, test passing, a sensible stopping point), save it:
+
+> "Commit the current state with a short message summarizing what we just did."
+
+Every commit is a point you can come back to later. The more often you commit, the smaller the chunks you can undo. Before anything that touches many files (renames, moves, architecture changes), commit first even if the piece you just finished is small. A ten-second commit is cheaper than rebuilding an hour of lost work.
+
+### When AI Breaks Something
+
+Three situations, three things to say:
+
+**One file is broken, the rest is fine:**
+
+> "The file `path/to/thing.py` is wrong now. Roll it back to the last saved version. Leave everything else alone."
+
+**The last change broke it, everything before was fine:**
+
+> "The last change is wrong. Undo it completely. Go back to the previous commit."
+
+**Something broke and you are not sure when:**
+
+> "Something broke and I am not sure when. Show me the last few saved states and help me figure out which one was the last working version. Then go back to it."
+
+You do not type the commands yourself. The point is knowing these options exist, so you ask for them instead of panicking.
+
+### Second Copy as a Last Resort
+
+If you are about to let the AI do something that feels genuinely risky and saving alone does not feel like enough, make a full copy of your project folder:
+
+> "Before we do anything, make a copy of this entire project folder next to it, called `backup-2026-04-11`. I want a second version I can walk over to if this goes wrong."
+
+Now you have two versions on disk. One you experiment on, one you fall back to with no git knowledge at all. If things go wrong, copy the backup folder back and continue.
 
 
 ## Prompt Patterns That Work
@@ -198,6 +243,29 @@ Once you are comfortable with agents, the next step is turning repeated prompts 
 > "Read AGENTS.md, docs/todo.md, and docs/decisions.md. Compare with actual project state. Flag outdated decisions, completed tasks still open, documented files that do not exist."
 
 For session wrapup and learning capture agents, see the prompts in [Start and End Every Session Right](#start-and-end-every-session-right) above.
+
+
+## Context Window Management
+
+Your AI has a context window: everything loaded into the conversation (files, rules, past messages, tool outputs) competes for the same limited space. Modern tools compress older messages automatically when things get tight, but compression flattens details, and attention already degrades long before the hard limit. The more you pile in, the less sharp the AI is about any single piece. This is a 2026 concern; context windows keep growing, so the patterns below will matter less over time.
+
+### Keep AGENTS.md Lean
+
+AGENTS.md loads every session, so every line costs context for the whole conversation. Past ~100 lines the AI starts skipping parts of it. Move folder-specific rules into `frontend/AGENTS.md`, `db/AGENTS.md` etc. (many tools only load them when the AI works in that folder), and add navigation hints so the AI does not scan every file to find your layout:
+
+> "The auth code is in `src/auth`. The database code is in `src/db`. The HTTP routes are in `src/routes`. Start there before reading anything else."
+
+### Read Large Files in Pieces
+
+For very long files (generated code, data dumps, huge test suites), ask for a slice, not the whole thing:
+
+> "Read lines 200-400 of `big_file.py`, I want to understand `process_batch`."
+
+Never let a 3000-line file eat a third of your context because you forgot to ask.
+
+### Commit Before a Context Reset
+
+When your tool warns that context is filling up, or you notice the AI forgetting things from earlier in the session, stop. Commit what you have, run your session-end ritual (update todo.md, capture learnings), and start fresh. A long degraded session is worse than a clean new one.
 
 
 ## Learn from Your Past Projects
