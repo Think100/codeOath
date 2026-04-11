@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.8.0] - 2026-04-11
+
+### Added
+- resources/auto-documentation.md: prompt recipes for developer docs
+  and Mermaid diagrams (architecture, activity, call flow, state, data
+  flow, database schema, class) with file:line citations and paired
+  Verify prompts. Absorbs the flow diagram generator.
+- ai-workflow.md "Keep a Git Safety Net" section: commit-often rhythm,
+  three undo prompts, folder-copy as last resort. Written for solo
+  vibecoders, no branch or reflog knowledge assumed.
+- ai-workflow.md "Context Window Management" section: lean AGENTS.md,
+  partial file reads, commit before context reset. Framed as a 2026
+  concern so it ages gracefully.
+- ai-workflow.md mini-index (Setup once / Each session / Scaling up /
+  Long-term) for the now 10-section guide.
+
+### Changed
+- resources/prompts.md: long recipes replaced with one-paragraph
+  versions, API reference stubs and onboarding sections removed, four
+  new diagram types aligned with auto-documentation.md
+- resources/triggers.md: stage 1 to 2 table aligned with the other
+  stage tables
+- ROADMAP.md: auto-documentation and flow diagram done; build pipeline
+  promoted to Now; frontend/UI and code quality heuristics pulled up
+  to Next; end-user documentation moved to Later
+- README.md, docs/README.md: auto-documentation.md linked in resources
+
 ## [0.7.0] - 2026-04-02
 
 ### Added
