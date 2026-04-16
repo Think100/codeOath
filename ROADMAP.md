@@ -8,6 +8,7 @@ What is planned, what comes next, and what might happen eventually. For what alr
 What is done or actively being worked on for the next release.
 
 - [ ] Text pipelines as a dedicated project type / track
+- [x] Build pipeline guide: CI/CD basics, when to automate, what a minimal pipeline looks like for AI-assisted projects
 
 ## Next
 
