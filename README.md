@@ -95,7 +95,7 @@ We also tested the same prompt with and without codeOath across three experiment
 
 **Architecture & Quality:** [Domain and Adapters](docs/resources/domain-and-adapters.md) · [Architecture Patterns](docs/resources/architecture-patterns.md) · [Philosophy](docs/resources/philosophy.md) · [Testing](docs/resources/testing.md) · [Dependency Evaluation](docs/resources/dependency-evaluation.md)
 
-**Production:** [Security](docs/resources/security.md) · [Performance](docs/resources/performance.md) · [Release Checklist](docs/resources/release-checklist.md)
+**Production:** [Security](docs/resources/security.md) · [Performance](docs/resources/performance.md) · [Build Pipeline](docs/resources/build-pipeline.md) · [Release Checklist](docs/resources/release-checklist.md)
 
 **Languages:** [Python](docs/languages/python.md) · [Rust](docs/languages/rust.md) · [Language Conventions](docs/resources/language-conventions.md)
 
