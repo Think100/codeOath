@@ -34,3 +34,4 @@ Ideas we want to explore. No timeline, no commitment.
 - More languages based on demand (C++, Go, Lua)
 - Project templates (cookiecutter/copier per language/stage), likely unnecessary as AI scaffolding improves
 - End-user documentation guide: user guides, feature descriptions, getting-started pages, and in-app help (tooltips, contextual help, onboarding flows). Explicitly out of scope in auto-documentation.md, needs its own guide with different failure modes.
+- Language selection guide for vibecoders: which programming language fits which kind of project (web app, script, data tool, mobile, game). Focused on vibecoding trade-offs: AI support quality per language, ecosystem maturity, deployment simplicity, not on benchmarks or theory.
