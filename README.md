@@ -60,11 +60,11 @@ CLI tool that converts CSV files to JSON.
 
 Stage 1 is enough for most projects. Only add more structure when something starts going wrong.
 
-| Stage | When | What | Guide |
-|---|---|---|---|
-| **1. Start** | Any project | AGENTS.md + todo.md | [start.md](docs/start.md) |
-| **2. Grow** | Things get messy | Separate logic from infrastructure, document decisions | [grow.md](docs/grow.md) |
-| **3. Enforce** | Rules keep getting broken | Automated checks, pick what you need | [enforce.md](docs/enforce.md) |
+| Stage | When | What |
+|---|---|---|
+| **1. [Start](docs/start.md)** | Any project | AGENTS.md + todo.md |
+| **2. [Grow](docs/grow.md)** | Things get messy | Separate logic from infrastructure, document decisions |
+| **3. [Enforce](docs/enforce.md)** | Rules keep getting broken | Automated checks, pick what you need |
 
 Not sure if you should move stage? Check the [triggers](docs/resources/triggers.md).
 
@@ -77,10 +77,10 @@ One prompt, four outcomes. Each example was built by an AI that only read the ma
 
 | Stage | Result |
 |---|---|
-| [1: Start](examples/stage-1/expense-tracker/) | CLI, JSON storage, tests |
-| [2a: Grow](examples/stage-2a/expense-tracker/) | domain/adapters split, SQLite, decisions.md |
-| [2b: Grow](examples/stage-2b/expense-tracker/) | Ports, services layer, frozen dataclasses |
-| [3: Enforce](examples/stage-3/expense-tracker/) | Import enforcement, pre-commit hooks, CI, ADRs |
+| **1. [Start](examples/stage-1/expense-tracker/)** | CLI, JSON storage, tests |
+| **2a. [Grow](examples/stage-2a/expense-tracker/)** | domain/adapters split, SQLite, decisions.md |
+| **2b. [Grow](examples/stage-2b/expense-tracker/)** | Ports, services layer, frozen dataclasses |
+| **3. [Enforce](examples/stage-3/expense-tracker/)** | Import enforcement, pre-commit hooks, CI, ADRs |
 
 [Full walkthrough and prompts](examples/README.md)
 
@@ -91,11 +91,13 @@ We also tested the same prompt with and without codeOath across three experiment
 
 **Core:** [start.md](docs/start.md) · [grow.md](docs/grow.md) · [enforce.md](docs/enforce.md) · [AI Workflow](docs/ai-workflow.md)
 
-**Resources:** [Triggers](docs/resources/triggers.md) · [Prompts](docs/resources/prompts.md) · [Auto-Documentation](docs/resources/auto-documentation.md) · [AI Code Review](docs/resources/ai-code-review.md) · [Dependency Evaluation](docs/resources/dependency-evaluation.md) · [Testing](docs/resources/testing.md) · [Security](docs/resources/security.md) · [Performance](docs/resources/performance.md) · [Release Checklist](docs/resources/release-checklist.md)
+**Daily Work:** [Triggers](docs/resources/triggers.md) · [Prompts](docs/resources/prompts.md) · [AI Code Review](docs/resources/ai-code-review.md) · [Auto-Documentation](docs/resources/auto-documentation.md)
 
-**Architecture:** [Domain and Adapters](docs/resources/domain-and-adapters.md) · [Architecture Patterns](docs/resources/architecture-patterns.md) · [Philosophy](docs/resources/philosophy.md)
+**Architecture & Quality:** [Domain and Adapters](docs/resources/domain-and-adapters.md) · [Architecture Patterns](docs/resources/architecture-patterns.md) · [Philosophy](docs/resources/philosophy.md) · [Testing](docs/resources/testing.md) · [Dependency Evaluation](docs/resources/dependency-evaluation.md)
 
-**Language Guides:** [Python](docs/languages/python.md) · [Language Conventions](docs/resources/language-conventions.md)
+**Production:** [Security](docs/resources/security.md) · [Performance](docs/resources/performance.md) · [Release Checklist](docs/resources/release-checklist.md)
+
+**Languages:** [Python](docs/languages/python.md) · [Rust](docs/languages/rust.md) · [Language Conventions](docs/resources/language-conventions.md)
 
 
 ## FAQ

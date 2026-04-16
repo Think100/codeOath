@@ -31,7 +31,7 @@ codeOath uses generic terms. Here is what they mean in Rust:
 | License / source policy | `cargo deny`                                              | Stage 3 |
 | Secret scanner          | `gitleaks` (language-agnostic, pre-commit hook)           | Stage 3 |
 | Error handling          | `Result<T, E>`, `thiserror` for libs, `anyhow` for apps   | All |
-| Async pattern           | `tokio` or `async-std`, `async`/`await`                   | When needed |
+| Async pattern           | `tokio`, `async`/`await`                                  | When needed |
 
 You do not need everything from this table on day one. Start with Stage 1 tools, add the rest when you move to Stage 2 or 3.
 
@@ -84,11 +84,6 @@ rust-version = "1.85"
 [dependencies]
 
 [dev-dependencies]
-
-[profile.release]
-lto = true
-codegen-units = 1
-strip = true
 ```
 
 To run your project and tests:
@@ -177,7 +172,7 @@ myproject/
 
 `lib.rs` declares the modules and re-exports the public API. `main.rs` is the binary entry point that wires everything together.
 
-At Stage 2, the domain/adapters rule is discipline: the compiler does not stop `domain/models.rs` from writing `use crate::adapters::db;`. That enforcement arrives in Stage 3.
+**Note:** At Stage 2, the domain/adapters rule is discipline. The compiler does not stop `domain/models.rs` from writing `use crate::adapters::db;`. That enforcement arrives in Stage 3.
 
 ---
 
@@ -187,7 +182,7 @@ At Stage 2, the domain/adapters rule is discipline: the compiler does not stop `
 
 ### Stage 3: Workspace with enforced boundaries
 
-Same conceptual structure as Stage 2, but each layer is a separate crate inside a Cargo workspace. The compiler enforces layer boundaries: if `domain` does not list `adapters` as a dependency, importing from adapters inside domain is a compile error, not a lint warning. This is stronger enforcement than Python's `import-linter`.
+Same structure as Stage 2, but each layer is a separate crate inside a Cargo workspace. The compiler rejects cross-layer imports at compile time. Stronger than Python's `import-linter`, which runs as a post-hoc check.
 
 ```text
 myproject/
@@ -316,7 +311,7 @@ impl OrderRepository for SqliteOrderRepository {
 }
 ```
 
-The trait is synchronous, so this example uses `rusqlite` (sync). If you need an async database driver like `sqlx`, the trait methods have to become `async fn` too (Rust 1.75+ supports native async in traits; before that, the `async-trait` crate).
+**Note:** The trait is synchronous, so this example uses `rusqlite` (sync). For an async driver like `sqlx`, the trait methods become `async fn` (native since Rust 1.75; use the `async-trait` crate for older versions).
 
 The composition root (`main.rs`) wires them together. This is the only place that knows about both domain and adapters:
 
@@ -353,20 +348,66 @@ impl<R: OrderRepository> OrderService<R> {
 ```
 
 
+## Testing
+
+Rust splits tests into unit tests (inline, next to the code) and integration tests (in `tests/` at the project root). Both run with `cargo test`.
+
+**Unit tests** live inside the source file in a `#[cfg(test)] mod tests { ... }` block. They can access private items:
+
+```rust
+// src/domain/services.rs
+pub fn total(prices: &[u64]) -> u64 {
+    prices.iter().sum()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn sums_prices() {
+        assert_eq!(total(&[10, 20, 30]), 60);
+    }
+}
+```
+
+**Integration tests** live in `tests/`, one file per test target. They see only the public API, just like a real user of your crate would.
+
+**Faking a port in tests** -- no mocking library required. Write a struct that implements the trait with whatever behavior the test needs:
+
+```rust
+struct FakeOrderRepository {
+    stored: Mutex<Vec<Order>>,
+}
+
+impl OrderRepository for FakeOrderRepository {
+    fn find_by_id(&self, _id: &str) -> Result<Option<Order>, RepositoryError> {
+        Ok(None)
+    }
+    fn save(&self, order: &Order) -> Result<(), RepositoryError> {
+        self.stored.lock().unwrap().push(order.clone());
+        Ok(())
+    }
+}
+```
+
+For traits with many methods, the `mockall` crate generates fakes from the trait definition.
+
+
 ## Import Enforcement (Stage 3)
 
-In Python, import enforcement is a post-hoc lint. In Rust, it is part of the build. A workspace crate can only use items from crates listed in its `[dependencies]`. If `domain`'s `Cargo.toml` does not list `adapters`, the line
+A workspace crate can only use items from crates listed in its `[dependencies]`. If `domain`'s `Cargo.toml` does not list `adapters`, the line
 
 ```rust
 use myproject_adapters::db::SqliteOrderRepository;
 ```
 
-inside `domain` will fail to compile with a clear error. No extra tooling needed, no CI check to configure.
+inside `domain` fails to compile. No extra tooling, no CI check.
 
-Related tools for deeper control:
+Related tools:
 
-- `cargo-modules`: visualize the module and crate graph (useful for spotting unintended coupling before it compiles).
-- `cargo-deny`: enforce licenses, banned crates, and duplicate-version policies across the workspace.
+- `cargo-modules`: visualize the module and crate graph (spot unintended coupling before it compiles).
+- `cargo-deny`: enforce licenses, banned crates, and duplicate-version policies.
 - `cargo-machete`: find unused dependencies.
 
 
@@ -377,7 +418,7 @@ Rust has two dominant error-handling crates. Pick one per crate type:
 - **Library crates (including `domain`)**: use `thiserror`. Define a typed error enum per module. Callers can pattern-match specific variants.
 - **Binary crates (`app`, `main.rs`)**: use `anyhow::Result`. Ergonomic propagation with `?`, good default `Display` for logs. No need for callers to pattern-match.
 
-Why not one or the other everywhere? `anyhow::Error` erases the concrete type, which is fine for top-level reporting but bad for domain logic that needs to react to specific failure modes. `thiserror` keeps types precise but is verbose in glue code where you only want to bubble errors up.
+**Why?** `anyhow::Error` erases the concrete type, which is fine for top-level reporting but bad for domain logic that needs to react to specific failure modes. `thiserror` keeps types precise but is verbose in glue code where you only want to bubble errors up.
 
 ```rust
 // domain uses thiserror
@@ -399,7 +440,30 @@ fn main() -> anyhow::Result<()> {
 
 Avoid `Box<dyn Error>` in new code. It works but has none of the ergonomics of either pattern.
 
-Never use `.unwrap()` or `.expect()` in production code paths. They panic on error, which usually means the binary aborts. Reserve them for tests and for situations where a panic is genuinely the right response (invariant violation, unreachable branch).
+**Watch out:** Never use `.unwrap()` or `.expect()` in production code paths. They panic on error, which aborts the binary. Reserve them for tests and for genuine invariant violations (unreachable branches, static resources that must exist).
+
+
+## Common Pitfalls
+
+### Reference Cycles with `Rc`/`Arc`
+
+A cycle of `Rc<RefCell<T>>` or `Arc<Mutex<T>>` references (A points to B, B points back to A) will never be freed. Rust cannot detect this at compile time.
+
+**Watch out:** Any graph-like structure with back-references (trees with parent pointers, observers, doubly-linked lists) is a candidate. Use `Weak<T>` for the back-reference to break the cycle.
+
+### `Send`/`Sync` Bounds on Async Code
+
+When an async function returns a `Future`, that future captures every value it references. If any captured value is not `Send`, the future is not `Send` either, and it cannot be moved between threads. Tokio's default multi-thread runtime requires `Send` futures.
+
+**Why?** Common culprits: `Rc<T>` (use `Arc<T>`), `RefCell<T>` (use `Mutex<T>` or `tokio::sync::Mutex`), non-Send database handles, or holding a `MutexGuard` across an `.await`.
+
+If the compiler complains about `Send`, check which borrow is held across the `.await`. Drop it earlier, or switch to a `Send`-safe type.
+
+### Unbounded Channels
+
+`tokio::sync::mpsc::unbounded_channel()` and `crossbeam_channel::unbounded()` grow without limit. If the producer is faster than the consumer, memory grows until the process dies.
+
+Default to bounded channels (`mpsc::channel(capacity)`). Backpressure is a feature, not a bug: it tells you the consumer is too slow before OOM does.
 
 
 ## Security Patterns
@@ -414,7 +478,7 @@ Add this to `lib.rs` or `main.rs`:
 #![forbid(unsafe_code)]
 ```
 
-This makes the compiler reject any `unsafe` block in the crate. If you genuinely need `unsafe` (FFI, performance primitives), use `#![deny(unsafe_code)]` instead and allow it only in specific modules with `#[allow(unsafe_code)]`, with a comment explaining why.
+The compiler rejects any `unsafe` block in the crate. If you genuinely need `unsafe` (FFI, performance primitives), use `#![deny(unsafe_code)]` and allow it per-module with `#[allow(unsafe_code)]` plus a comment explaining why.
 
 ### Deserialization
 
@@ -431,7 +495,7 @@ pub struct ApiRequest {
 
 Without `deny_unknown_fields`, extra fields are silently ignored, which hides typos and can mask injection attempts that rely on field confusion.
 
-Never deserialize untrusted `bincode`, `rmp-serde`, or other binary formats without size limits. Malicious input can request multi-gigabyte allocations and DoS the process. Use `bincode`'s `Configuration::with_limit()` or validate sizes before decoding.
+**Watch out:** Never deserialize untrusted `bincode`, `rmp-serde`, or other binary formats without size limits. Malicious input can request multi-gigabyte allocations and DoS the process. Use `bincode`'s `Configuration::with_limit()` or validate sizes before decoding.
 
 ### Command Execution
 
@@ -462,11 +526,11 @@ if expected.ct_eq(provided).into() {
 }
 ```
 
-Regular `==` short-circuits on the first mismatched byte, leaking timing information that attackers can use to guess secrets one byte at a time.
+**Why?** Regular `==` short-circuits on the first mismatched byte, leaking timing information that attackers can use to guess secrets one byte at a time.
 
 ### Cryptographic Randomness
 
-Use `rand::rngs::OsRng` or the `getrandom` crate for security-sensitive randomness (tokens, session IDs, keys). Never use the default `rand::thread_rng()` for secrets without confirming it is backed by the OS entropy source.
+For long-lived secrets (keys, stored tokens), use `rand::rngs::OsRng` or the `getrandom` crate. `rand::thread_rng()` is OS-seeded and periodically reseeded in modern `rand` versions, so it is acceptable for short-lived values like per-request session IDs. When in doubt, use `OsRng`. The overhead is negligible for secret generation.
 
 ### Dependency Auditing
 
@@ -489,7 +553,7 @@ These patterns address Rust-specific performance concerns. For general performan
 
 ### Release Profile
 
-Debug builds are 10-100x slower than release builds. Always measure performance with `cargo build --release` or `cargo run --release`. For production binaries, tune the release profile:
+Debug builds are 10-100x slower than release builds. Always measure with `cargo build --release`. For production binaries, tune the release profile:
 
 ```toml
 [profile.release]
@@ -499,17 +563,17 @@ strip = true            # remove debug symbols from the binary
 panic = "abort"         # smaller binary, faster panics, no unwinding
 ```
 
-`panic = "abort"` removes the ability to catch panics with `catch_unwind`. Only set it if you do not rely on panic recovery.
+**Watch out:** `panic = "abort"` removes the ability to catch panics with `catch_unwind`. Only set it if you do not rely on panic recovery.
 
 ### Prefer Iterators Over Manual Loops
 
-The compiler optimizes iterator chains aggressively, often vectorizing them. Manual indexed loops can block those optimizations:
+The compiler usually generates equivalent code for both. The reason to prefer iterators is readability and fewer off-by-one bugs, not performance:
 
 ```rust
-// Idiomatic, optimizes well
+// Idiomatic, clear intent
 let total: u64 = orders.iter().map(|o| o.amount).sum();
 
-// Manual loop, usually slower and harder to read
+// Manual loop, harder to read, index arithmetic is a bug vector
 let mut total = 0u64;
 for i in 0..orders.len() {
     total += orders[i].amount;
@@ -575,7 +639,7 @@ This tells you where allocations happen and how long they live, which often beat
 
 ### Async Runtime Choice
 
-`tokio` is the default for networked services. `async-std` has smaller mindshare now. For CPU-bound work, do not reach for async: it helps with I/O concurrency, not with parallelism. Use `rayon` for parallel CPU work.
+`tokio` is the default for networked services. For CPU-bound work, do not reach for async: it helps with I/O concurrency, not with parallelism. Use `rayon` for parallel CPU work.
 
 ### Performance Checklist
 

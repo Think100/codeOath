@@ -3,6 +3,7 @@
 ## Tasks
 
 - [ ] `3-soon` ai-code-review.md "Your Review Workflow" section: release pipeline / commit workflow feels out of place in the guide. Find a better structure or move to its own section
+- [ ] `3-soon` languages/rust.md: human review by Rust-experienced person (correctness of current best practices, new Testing and Common Pitfalls sections, tone consistency with python.md)
 - [ ] `4-later` languages/rust.md mapping table
 - [ ] `4-later` languages/javascript.md and languages/typescript.md mapping tables
 - [ ] `3-soon` Enforcement examples: eslint-plugin-boundaries config (JavaScript/TypeScript, when language guides exist)
