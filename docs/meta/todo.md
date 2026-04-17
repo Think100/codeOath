@@ -8,7 +8,7 @@
 - [x] `4-later` languages/rust.md mapping table
 - [ ] `4-later` languages/javascript.md and languages/typescript.md mapping tables
 - [ ] `3-soon` Enforcement examples: eslint-plugin-boundaries config (JavaScript/TypeScript, when language guides exist)
-- [ ] `4-later` Pre-commit hook examples for non-Python languages
+- [x] `4-later` Pre-commit hook examples for non-Python languages
 - [ ] `3-soon` Frontend/UI guide: how React/Vue/Svelte components map to the domain/adapters model. Include: multilingual UI patterns (i18n, string externalization, language switching)
 - [ ] `6-waiting` CONTRIBUTING.md: PR submissions currently not open, feedback via Issues only. When PRs open: add CC BY 4.0 contribution clause
 - [ ] `3-soon` End-user documentation guide: separate guide for generating user-facing docs (README, user guide, feature descriptions, getting started for non-devs). Complement to auto-documentation.md which covers developer docs

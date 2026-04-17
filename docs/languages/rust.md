@@ -411,6 +411,44 @@ Related tools:
 - `cargo-machete`: find unused dependencies.
 
 
+## Pre-Commit Hooks
+
+Automated checks that run before each `git commit`. If a check fails, the commit is blocked. The `pre-commit` tool itself comes from the Python ecosystem but works across languages. Install once (`pip install pre-commit && pre-commit install`), then every commit is checked automatically.
+
+Rust tools are not published as pre-commit mirrors, so Rust checks run as local hooks using your installed toolchain:
+
+```yaml
+# .pre-commit-config.yaml
+repos:
+  - repo: local
+    hooks:
+      - id: cargo-fmt
+        name: cargo fmt
+        entry: cargo fmt --all --
+        language: system
+        types: [rust]
+        pass_filenames: false
+      - id: cargo-clippy
+        name: cargo clippy
+        entry: cargo clippy --all-targets -- -D warnings
+        language: system
+        types: [rust]
+        pass_filenames: false
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.0
+    hooks:
+      - id: gitleaks
+```
+
+What each hook does:
+
+- **cargo fmt**: makes your code look consistent (indentation, spacing, line breaks)
+- **cargo clippy**: finds common mistakes and bad habits in your Rust code. The `-D warnings` flag blocks the commit on any warning, not just errors.
+- **gitleaks**: catches passwords or API keys accidentally written into the code before they enter Git
+
+For general CI/CD context and the relationship between pre-commit and GitHub Actions, see [build-pipeline.md](../resources/build-pipeline.md).
+
+
 ## Error Handling Strategy
 
 Rust has two dominant error-handling crates. Pick one per crate type:

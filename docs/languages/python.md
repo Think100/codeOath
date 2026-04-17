@@ -294,6 +294,40 @@ Note: in the `layers` contract, earlier entries may import from later entries, b
 Run `lint-imports` in CI or as a pre-commit hook. If someone adds a wrong import, the build fails.
 
 
+## Pre-Commit Hooks
+
+Automated checks that run before each `git commit`. If a check fails, the commit is blocked. Install once (`pip install pre-commit && pre-commit install`), then every commit is checked automatically.
+
+Minimal `.pre-commit-config.yaml` for a Python project:
+
+```yaml
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.5.0
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.11.0
+    hooks:
+      - id: mypy
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.0
+    hooks:
+      - id: gitleaks
+```
+
+What each hook does:
+
+- **ruff**: finds common mistakes in your code and auto-fixes many of them
+- **ruff-format**: makes your code look consistent (indentation, spacing, quote style)
+- **mypy**: checks that types match, for example that you don't pass a string where a number is expected (alternative: pyright, but requires a Node runtime)
+- **gitleaks**: catches passwords or API keys accidentally written into the code before they enter Git
+
+For general CI/CD context and the relationship between pre-commit and GitHub Actions, see [build-pipeline.md](../resources/build-pipeline.md).
+
+
 ## Security Patterns
 
 These patterns address Python-specific security concerns. For general security principles (input validation, authentication, OWASP): [security.md](../resources/security.md).
