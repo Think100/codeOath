@@ -34,6 +34,21 @@ Pre-commit hooks are cheap: they run locally in seconds, catch problems instantl
 
 > "Set up pre-commit hooks for this project: linter, formatter, import checker, and secret scanner. Make sure they run automatically before every git commit."
 
+### Introducing Linters to an Existing Codebase
+
+You switch on a linter in an older project and it reports thousands of warnings. Fixing all of them at once is not realistic, and turning the linter off again is how most attempts die.
+
+The answer is a **baseline**: a snapshot that tells the linter to ignore everything that already exists, but fail on anything new. This keeps the build green from day one, forces every new line to meet the rules, and lets you shrink the baseline gradually, file by file, as you edit old code. Most modern linters support this directly, either with a built-in flag or a suppressions file.
+
+The rollout:
+
+1. Run the linter once against the whole codebase and generate the baseline. Commit it.
+2. Turn the linter on in pre-commit and CI. Old violations are ignored, any new one blocks the commit.
+3. Whenever you edit an old file, remove its entries from the baseline so the linter forces you to clean up what you touched (Boy Scout Rule: leave it better than you found it).
+4. Optional: activate rules in waves (correctness first, style later). Each new wave gets its own baseline.
+
+> "Set up the linter for this project. Run it once against the whole codebase and commit a baseline file of the current violations. Configure pre-commit and CI to pass on the baseline but fail on any new violation. Do not fix old code now. Whenever I later edit a file, remove its entries from the baseline so the linter forces me to clean up what I touched."
+
 ### Testing Strategy
 
 You are not sure which parts of your code are actually tested. Define what gets tested where so nothing falls through the cracks. For what each type of test does, see [testing.md](resources/testing.md).
@@ -201,7 +216,7 @@ People push directly to main and break things. Protect main:
 
 CI/CD (Continuous Integration / Continuous Deployment) means a server automatically runs checks on your code every time you push. Pre-commit hooks can be skipped (`--no-verify`). A CI/CD pipeline runs the same checks on a server where nobody can bypass them.
 
-At minimum: linter, formatter, import checker, test suite, secret scan.
+At minimum: linter, formatter, import checker, test suite, secret scan. For a full walkthrough (pre-commit setup, GitHub Actions example, CD and signing), see [build-pipeline.md](resources/build-pipeline.md).
 
 > "Set up a CI pipeline that runs on every push: linter, formatter, import enforcement, secret scanner, and the full test suite. Block merges to main if any check fails."
 
