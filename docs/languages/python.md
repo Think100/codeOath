@@ -18,7 +18,8 @@ codeOath uses generic terms. Here is what they mean in Python:
 | Source folder           | `<projectname>/` with `__init__.py`                   | Stage 1+ |
 | Build config            | `pyproject.toml`                                      | Stage 1+ |
 | Tests                   | `pytest`, files: `tests/test_<module>.py`             | Stage 1+ |
-| Linter + Formatter      | `ruff` (linting) and `ruff format` (formatting)       | Stage 1+ |
+| Linter                  | `ruff`                                                | Stage 1+ |
+| Formatter               | `ruff format`                                         | Stage 1+ |
 | Dependency management   | `uv` (recommended) or `pip` with pinned versions      | Stage 1+ |
 | Type checker            | `mypy --strict` or `pyright`                          | Stage 2+ |
 | Port / Interface        | `typing.Protocol` in `domain/ports.py`                | Stage 2+ |
@@ -82,6 +83,10 @@ build/
 Minimal `pyproject.toml`:
 
 ```toml
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "myproject"
 version = "0.1.0"
@@ -119,7 +124,7 @@ MAX_RETRIES=3
 DEBUG=false
 ```
 
-Load them into a typed dataclass:
+Load them into a typed dataclass. `frozen=True` makes the object immutable after creation (any reassignment raises an error), which is what you want for config:
 
 ```python
 # config/settings.py
@@ -146,6 +151,8 @@ def load_config() -> AppConfig:
 ```
 
 Call `load_config()` once in `main.py` and pass the result to whatever needs it. Domain code never imports `config/` or reads environment variables directly; it receives values as parameters.
+
+For larger configs (multiple sources, layered overrides, automatic `.env` parsing), `pydantic-settings` does all of this out of the box. For small projects the plain dataclass stays simpler and has no extra dependency.
 
 ### Stage 2: Domain and adapters separated
 
@@ -221,7 +228,7 @@ myproject/
 
 ## Port Example
 
-Ports are how your domain says "I need something from the outside world" without knowing who provides it. In Python, you define them as `typing.Protocol` classes.
+Ports are how your domain says "I need something from the outside world" without knowing who provides it. In Python, you define them as `typing.Protocol` classes. A `Protocol` is similar to an interface in other languages, but more permissive: any class with matching method signatures counts as an implementation, even without `class Foo(Protocol)` inheritance. This is called **structural typing**.
 
 The domain defines the contract:
 
@@ -257,6 +264,21 @@ class SqlOrderRepository:
         ...
 ```
 
+The domain service uses the port, not a concrete adapter. It accepts anything that matches the `OrderRepository` Protocol:
+
+```python
+# domain/services.py
+from myproject.domain.models import Order
+from myproject.domain.ports import OrderRepository
+
+class OrderService:
+    def __init__(self, repo: OrderRepository) -> None:
+        self.repo = repo
+
+    def place_order(self, order: Order) -> None:
+        self.repo.save(order)
+```
+
 The composition root (`main.py`) wires them together. This is the only place that knows about both domain and adapters:
 
 ```python
@@ -267,6 +289,34 @@ from myproject.domain.services import OrderService
 repo = SqlOrderRepository("orders.db")
 service = OrderService(repo)
 ```
+
+
+## Testing
+
+For general test strategy (what to test, how to use tests to steer your AI), see [testing.md](../resources/testing.md). This section covers the Python-specific mechanics.
+
+Put tests in a `tests/` folder next to your package, one file per module (`tests/test_domain.py`, `tests/test_adapters.py`). Run them with `pytest` (or `uv run pytest`).
+
+**Faking a port in tests** -- no mocking library required. Thanks to structural typing with `Protocol`, any class that has the right methods can replace the real adapter:
+
+```python
+# tests/test_services.py
+from myproject.domain.models import Order
+
+class FakeOrderRepository:
+    def __init__(self) -> None:
+        self.stored: list[Order] = []
+
+    def find_by_id(self, order_id: str) -> Order | None:
+        return None
+
+    def save(self, order: Order) -> None:
+        self.stored.append(order)
+```
+
+Pass the fake into your service in the test, assert on `repo.stored`, done. No `@mock.patch` decorators, no magic.
+
+**Fixtures** (`@pytest.fixture`) help when several tests need the same starting state, for example a populated fake repository or a temporary database file. For complex call-tracking, `pytest-mock` or `unittest.mock` are available, but for most cases a plain fake class is simpler and more explicit.
 
 
 ## Import Enforcement (Stage 3)
@@ -289,7 +339,7 @@ layers = [
 ]
 ```
 
-Note: in the `layers` contract, earlier entries may import from later entries, but not the other way around. So `adapters` can import from `domain`, but `domain` cannot import from `adapters`.
+Note: in the `layers` contract, earlier entries may import from later entries, but not the other way around. So `adapters` can import from `domain`, but `domain` cannot import from `adapters`. The middle entry `application` is an optional use-case/orchestration layer ([see enforce.md](../enforce.md)) — if your project only has `domain/` and `adapters/`, drop it.
 
 Run `lint-imports` in CI or as a pre-commit hook. If someone adds a wrong import, the build fails.
 
@@ -318,11 +368,13 @@ repos:
       - id: gitleaks
 ```
 
+The `rev:` pins above are snapshots. Run `pre-commit autoupdate` every few months to keep them fresh — the command rewrites them to the latest released versions.
+
 What each hook does:
 
 - **ruff**: finds common mistakes in your code and auto-fixes many of them
 - **ruff-format**: makes your code look consistent (indentation, spacing, quote style)
-- **mypy**: checks that types match, for example that you don't pass a string where a number is expected (alternative: pyright, but requires a Node runtime)
+- **mypy**: checks that types match, for example that you don't pass a string where a number is expected (alternative: `pyright` or `basedpyright` — `basedpyright` ships as a pure Python wheel, so no Node runtime needed)
 - **gitleaks**: catches passwords or API keys accidentally written into the code before they enter Git
 
 For general CI/CD context and the relationship between pre-commit and GitHub Actions, see [build-pipeline.md](../resources/build-pipeline.md).
@@ -330,7 +382,7 @@ For general CI/CD context and the relationship between pre-commit and GitHub Act
 
 ## Security Patterns
 
-These patterns address Python-specific security concerns. For general security principles (input validation, authentication, OWASP): [security.md](../resources/security.md).
+These patterns address Python-specific security concerns. For general security principles (input validation, authentication, OWASP), see [security.md](../resources/security.md). For review prompts that catch common AI mistakes (hidden errors, scope drift, hardcoded secrets), see [ai-code-review.md](../resources/ai-code-review.md).
 
 ### YAML Deserialization
 
@@ -351,7 +403,7 @@ Never use `eval()`, `exec()`, or `compile()` with user input. Why? These execute
 eval("__import__('os').system('rm -rf /')")
 ```
 
-### Subprocess Handling
+### Command Execution
 
 When calling external commands, always use list arguments, never shell strings:
 
@@ -404,19 +456,20 @@ These patterns address Python-specific performance concerns. For general perform
 
 ### functools.lru_cache
 
-The simplest way to cache function results in Python. If a function is called multiple times with the same arguments, the result is returned from cache instead of recomputed.
+The simplest way to cache function results in Python. If a function is called multiple times with the same arguments, the result is returned from cache instead of recomputed. Only use it on **pure functions** — same input must always give the same output.
 
 ```python
 from functools import lru_cache
 
 @lru_cache(maxsize=128)
-def get_user_profile(user_id: int) -> dict:
-    return db.execute("SELECT * FROM users WHERE id = ?", (user_id,)).fetchone()
+def tax_rate(country_code: str, year: int) -> float:
+    # lookup in a static table loaded at import time
+    return TAX_TABLE[country_code][year]
 ```
 
-The first call with `user_id=42` hits the database. Every subsequent call with `user_id=42` returns the cached result instantly. `maxsize` limits how many results are kept (oldest are evicted).
+The first call computes, every subsequent call with the same arguments returns the cached result instantly. `maxsize` limits how many results are kept (oldest are evicted).
 
-**Watch out:** cached results are never updated. If the user profile changes, the cache still returns the old version. Use `get_user_profile.cache_clear()` when data changes, or use a TTL-based approach for time-sensitive data.
+**Watch out:** `lru_cache` on a function that reads from a database or any mutable source is an anti-pattern. When the underlying data changes, the cache still returns the old result. For time-sensitive data, use `cachetools.TTLCache` or explicit invalidation.
 
 ### String Concatenation in Loops
 
@@ -481,6 +534,8 @@ Python's GIL (Global Interpreter Lock) means only one thread can execute Python 
 - **CPU-bound C extensions** (numpy, Pillow, torch): threads often help, because these libraries release the GIL during computation.
 
 For most vibe coding projects (web apps, API clients, data pipelines), the bottleneck is I/O, so `threading.Thread` or `concurrent.futures.ThreadPoolExecutor` works fine.
+
+**Note on free-threaded Python:** PEP 703 introduces a GIL-free build, experimental in 3.13 and officially supported in 3.14. Most third-party C extensions still need time to adapt, so stick to the default GIL build unless you have a specific reason and are ready to verify every dependency.
 
 ### Memory Leaks
 

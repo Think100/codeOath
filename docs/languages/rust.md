@@ -2,7 +2,7 @@
 
 # Rust Language Mapping
 
-> **TL;DR** -- Stage 1: `Cargo.toml` + `clippy` + `cargo test`. Stage 2: `domain/` module with `trait` ports, `adapters/` with implementations, plain `struct` for models, `main.rs` wires them. Stage 3: Cargo workspace with `domain` and `adapters` as separate crates -- imports are enforced by the compiler, not by a linter. Errors: `thiserror` in domain/libs, `anyhow` in binaries. Security: `#![forbid(unsafe_code)]`, `serde(deny_unknown_fields)`, `cargo audit` and `cargo deny`.
+> **TL;DR** -- Stage 1: flat Cargo project, `clippy` + `cargo test`. Stage 2: split the code into a `domain/` module (business logic) and `adapters/` module (database, CLI, etc.), wired together in `main.rs`. Stage 3: promote each layer to its own crate inside a Cargo workspace — the compiler now rejects forbidden imports by itself. Rust-specific extras this guide covers: typed errors with `thiserror`/`anyhow`, `#![forbid(unsafe_code)]`, dependency scanning with `cargo audit` and `cargo deny`.
 
 This file translates codeOath concepts into Rust. If you read [start.md](../start.md) or [grow.md](../grow.md) and wondered "what does that look like in Rust?", this is the answer.
 
@@ -182,7 +182,7 @@ myproject/
 
 ### Stage 3: Workspace with enforced boundaries
 
-Same structure as Stage 2, but each layer is a separate crate inside a Cargo workspace. The compiler rejects cross-layer imports at compile time. Stronger than Python's `import-linter`, which runs as a post-hoc check.
+A Rust **workspace** is a set of related crates (packages) in one repository that share a build. Stage 3 promotes each Stage 2 layer to its own crate: `domain` and `adapters` become separate crates, and a new `app` crate holds `main.rs`. Why? Each crate declares its dependencies explicitly in its own `Cargo.toml`. When `domain`'s `Cargo.toml` does not list `adapters` as a dependency, importing from `adapters` inside `domain` fails to compile — the boundary is enforced by the compiler, not by a linter or convention. Stronger than Python's `import-linter`, which runs as a post-hoc check.
 
 ```text
 myproject/
@@ -218,14 +218,21 @@ Workspace `Cargo.toml`:
 
 ```toml
 [workspace]
-resolver = "2"
+resolver = "3"
 members = ["crates/domain", "crates/adapters", "crates/app"]
 
 [workspace.package]
 edition = "2024"
 rust-version = "1.85"
 version = "0.1.0"
+
+[workspace.dependencies]
+thiserror = "2"
+anyhow = "1"
+myproject-domain = { path = "crates/domain" }
 ```
+
+Declaring shared dependencies once at the workspace level (and referencing them via `foo.workspace = true` below) keeps versions in sync across crates and avoids accidental duplicates.
 
 `crates/domain/Cargo.toml`:
 
@@ -236,7 +243,7 @@ edition.workspace = true
 version.workspace = true
 
 [dependencies]
-thiserror = "2"
+thiserror.workspace = true
 ```
 
 `crates/adapters/Cargo.toml`:
@@ -248,7 +255,7 @@ edition.workspace = true
 version.workspace = true
 
 [dependencies]
-myproject-domain = { path = "../domain" }
+myproject-domain.workspace = true
 # database, http, etc.
 ```
 
@@ -278,6 +285,8 @@ pub enum RepositoryError {
     Backend(String),
 }
 ```
+
+If you plan to share the repository across threads (web handlers, worker pools), declare the trait with thread-safety bounds: `pub trait OrderRepository: Send + Sync`.
 
 An adapter implements the contract:
 
@@ -311,7 +320,7 @@ impl OrderRepository for SqliteOrderRepository {
 }
 ```
 
-**Note:** The trait is synchronous, so this example uses `rusqlite` (sync). For an async driver like `sqlx`, the trait methods become `async fn` (native since Rust 1.75; use the `async-trait` crate for older versions).
+**Note:** This example is synchronous. For an async driver like `sqlx`, use `async fn` in the trait (Rust 1.75+); the `async-trait` crate is still needed for `Box<dyn OrderRepository>` dynamic dispatch.
 
 The composition root (`main.rs`) wires them together. This is the only place that knows about both domain and adapters:
 
@@ -324,7 +333,9 @@ fn main() -> anyhow::Result<()> {
     let conn = rusqlite::Connection::open("orders.db")?;
     let repo = SqliteOrderRepository::new(conn);
     let service = OrderService::new(repo);
-    service.run()?;
+    // wiring done; in a real program, call service methods here
+    // (e.g. service.process_pending_orders()?).
+    let _ = service;
     Ok(())
 }
 ```
@@ -350,9 +361,9 @@ impl<R: OrderRepository> OrderService<R> {
 
 ## Testing
 
-Rust splits tests into unit tests (inline, next to the code) and integration tests (in `tests/` at the project root). Both run with `cargo test`.
+For general test strategy (what to test, how to use tests to steer your AI), see [testing.md](../resources/testing.md). This section covers the Rust-specific mechanics.
 
-**Unit tests** live inside the source file in a `#[cfg(test)] mod tests { ... }` block. They can access private items:
+Rust places unit tests inside the source file in a `#[cfg(test)] mod tests { ... }` block. They can access private items. Integration tests live in `tests/` at the project root and only see the public API. Both run with `cargo test`.
 
 ```rust
 // src/domain/services.rs
@@ -371,11 +382,13 @@ mod tests {
 }
 ```
 
-**Integration tests** live in `tests/`, one file per test target. They see only the public API, just like a real user of your crate would.
-
 **Faking a port in tests** -- no mocking library required. Write a struct that implements the trait with whatever behavior the test needs:
 
 ```rust
+use std::sync::Mutex;
+use crate::domain::models::Order;
+use crate::domain::ports::{OrderRepository, RepositoryError};
+
 struct FakeOrderRepository {
     stored: Mutex<Vec<Order>>,
 }
@@ -392,6 +405,8 @@ impl OrderRepository for FakeOrderRepository {
 ```
 
 For traits with many methods, the `mockall` crate generates fakes from the trait definition.
+
+For larger test suites, `cargo install cargo-nextest` gives you a faster test runner with clearer failure output. It runs each test in its own process, which also catches state that leaks between tests.
 
 
 ## Import Enforcement (Stage 3)
@@ -483,30 +498,28 @@ Avoid `Box<dyn Error>` in new code. It works but has none of the ergonomics of e
 
 ## Common Pitfalls
 
-### Reference Cycles with `Rc`/`Arc`
+### Memory that never gets freed
 
-A cycle of `Rc<RefCell<T>>` or `Arc<Mutex<T>>` references (A points to B, B points back to A) will never be freed. Rust cannot detect this at compile time.
+Rust normally cleans up memory automatically when a value goes out of scope. But if you build a data structure where two objects point at each other (think: a tree where each child also has a pointer back to its parent), neither of them can ever be cleaned up. Rust does not detect this at compile time, so the program runs fine but leaks memory slowly.
 
-**Watch out:** Any graph-like structure with back-references (trees with parent pointers, observers, doubly-linked lists) is a candidate. Use `Weak<T>` for the back-reference to break the cycle.
+**When to watch for it:** any graph-like structure with back-references, such as trees with parent pointers, observer patterns, or doubly-linked lists. The common fix is to make the "back" direction a weak reference, so it does not count toward ownership and the cycle can be broken.
 
-### `Send`/`Sync` Bounds on Async Code
+### Async code that refuses to compile across threads
 
-When an async function returns a `Future`, that future captures every value it references. If any captured value is not `Send`, the future is not `Send` either, and it cannot be moved between threads. Tokio's default multi-thread runtime requires `Send` futures.
+Async functions in Rust produce values (futures) that can sometimes be moved between threads and sometimes not. The default Tokio runtime uses multiple threads, so it requires values that can be moved. If you accidentally hold on to something that cannot, the compiler refuses to build your code with a cryptic message about `Send` bounds.
 
-**Why?** Common culprits: `Rc<T>` (use `Arc<T>`), `RefCell<T>` (use `Mutex<T>` or `tokio::sync::Mutex`), non-Send database handles, or holding a `MutexGuard` across an `.await`.
+The classic cause is holding a lock across an `.await` point: the task pauses, the lock stays alive, and now the whole future cannot travel to another thread. The fix is usually small: drop the lock before the `.await`, or switch to a thread-safe equivalent of whatever you were holding.
 
-If the compiler complains about `Send`, check which borrow is held across the `.await`. Drop it earlier, or switch to a `Send`-safe type.
+### Channels that grow forever
 
-### Unbounded Channels
+Channels in Rust come in two flavours: bounded (fixed capacity) and unbounded (no limit). Unbounded channels feel attractive because the producer never has to wait. But if the producer is faster than the consumer, the queue grows until the process runs out of memory and dies.
 
-`tokio::sync::mpsc::unbounded_channel()` and `crossbeam_channel::unbounded()` grow without limit. If the producer is faster than the consumer, memory grows until the process dies.
-
-Default to bounded channels (`mpsc::channel(capacity)`). Backpressure is a feature, not a bug: it tells you the consumer is too slow before OOM does.
+Default to bounded channels. When the channel is full, the producer has to wait, and this is called backpressure. It is a feature, not a bug: it tells you that the consumer cannot keep up, before the whole system falls over.
 
 
 ## Security Patterns
 
-These patterns address Rust-specific security concerns. For general security principles (input validation, authentication, OWASP): [security.md](../resources/security.md).
+These patterns address Rust-specific security concerns. For general security principles (input validation, authentication, OWASP), see [security.md](../resources/security.md). For review prompts that catch common AI mistakes (hidden errors, scope drift, hardcoded secrets), see [ai-code-review.md](../resources/ai-code-review.md).
 
 ### Forbid `unsafe` by Default
 
@@ -533,7 +546,7 @@ pub struct ApiRequest {
 
 Without `deny_unknown_fields`, extra fields are silently ignored, which hides typos and can mask injection attempts that rely on field confusion.
 
-**Watch out:** Never deserialize untrusted `bincode`, `rmp-serde`, or other binary formats without size limits. Malicious input can request multi-gigabyte allocations and DoS the process. Use `bincode`'s `Configuration::with_limit()` or validate sizes before decoding.
+**Watch out:** Never deserialize untrusted `bincode`, `rmp-serde`, or other binary formats without size limits. Malicious input can request multi-gigabyte allocations and DoS the process. In `bincode` 2.x use `config::standard().with_limit::<N>()` (const-generic byte limit), or validate sizes before decoding.
 
 ### Command Execution
 
@@ -559,16 +572,18 @@ When comparing secrets (tokens, API keys, MACs), use the `subtle` crate:
 ```rust
 use subtle::ConstantTimeEq;
 
-if expected.ct_eq(provided).into() {
+if expected.len() == provided.len()
+    && expected.as_bytes().ct_eq(provided.as_bytes()).into()
+{
     // token matches
 }
 ```
 
-**Why?** Regular `==` short-circuits on the first mismatched byte, leaking timing information that attackers can use to guess secrets one byte at a time.
+**Why?** Regular `==` short-circuits on the first mismatched byte, leaking timing information that attackers can use to guess secrets one byte at a time. `ct_eq` requires equal-length slices; a length mismatch is checked separately, which leaks the length (usually fine) but never the contents.
 
 ### Cryptographic Randomness
 
-For long-lived secrets (keys, stored tokens), use `rand::rngs::OsRng` or the `getrandom` crate. `rand::thread_rng()` is OS-seeded and periodically reseeded in modern `rand` versions, so it is acceptable for short-lived values like per-request session IDs. When in doubt, use `OsRng`. The overhead is negligible for secret generation.
+For long-lived secrets (keys, stored tokens), use `rand::rngs::OsRng` or the `getrandom` crate. From `rand` 0.9 onward, `rand::rng()` (formerly `thread_rng()`) is OS-seeded and periodically reseeded, so it is acceptable for short-lived values like per-request session IDs. When in doubt, use `OsRng`. The overhead is negligible for secret generation.
 
 ### Dependency Auditing
 

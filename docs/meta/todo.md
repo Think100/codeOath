@@ -17,8 +17,8 @@
 - [ ] `5-routines` FAQ length: watch (currently 6, threshold ~8, then move to docs/faq.md)
 - [ ] `5-routines` Code quality heuristics: guide with simple metrics to detect drift (file size trends, import depth, decision frequency). No tools, just heuristics and questions
 - [ ] `6-waiting` grow.md H2 "When Folders Are Not Enough": check if contrast to Concept 1-2 is strong enough (waiting for community/test user feedback)
-- [ ] `3-soon` Guide für Multi-Sprachen-Projekte: wie strukturiert man Projekte mit mehreren Programmiersprachen (z.B. Python-Backend + TypeScript-Frontend)? Grenzen, Ordnerstruktur, wo liegen Adapter/Domain pro Sprache, wie hält man Konventionen konsistent
-- [x] `3-soon` Guide zum sauberen Einführen von Lintern: wie führt man Linter (ruff, eslint, etc.) in bestehenden Projekten ein, ohne tagelang Warnungen abzuarbeiten. Schrittweises Onboarding, Baseline-Dateien, gezielte Regelaktivierung, Fokus auf neue Commits statt Big-Bang-Fix
+- [ ] `3-soon` Multi-language project guide: how to structure projects with multiple programming languages (e.g. Python backend + TypeScript frontend). Boundaries, folder structure, where domain/adapters live per language, how to keep conventions consistent
+- [x] `3-soon` Guide on introducing linters cleanly: how to bring linters (ruff, eslint, etc.) into existing projects without spending days clearing warnings. Incremental onboarding, baseline files, targeted rule activation, focus on new commits instead of big-bang fix
 
 ## Open Questions
 
