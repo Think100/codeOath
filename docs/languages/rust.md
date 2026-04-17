@@ -2,7 +2,7 @@
 
 # Rust Language Mapping
 
-> **TL;DR** -- Stage 1: flat Cargo project, `clippy` + `cargo test`. Stage 2: split the code into a `domain/` module (business logic) and `adapters/` module (database, CLI, etc.), wired together in `main.rs`. Stage 3: promote each layer to its own crate inside a Cargo workspace — the compiler now rejects forbidden imports by itself. Rust-specific extras this guide covers: typed errors with `thiserror`/`anyhow`, `#![forbid(unsafe_code)]`, dependency scanning with `cargo audit` and `cargo deny`.
+> **TL;DR.** Stage 1: a single Cargo project with the linter turned on. Stage 2: split the code into two modules, `domain` for the business logic and `adapters` for everything that talks to the outside world (databases, files, I/O). Stage 3: move each module into its own crate inside a Cargo workspace, so the compiler itself refuses imports that cross the line.
 
 This file translates codeOath concepts into Rust. If you read [start.md](../start.md) or [grow.md](../grow.md) and wondered "what does that look like in Rust?", this is the answer.
 

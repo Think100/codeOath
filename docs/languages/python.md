@@ -2,7 +2,7 @@
 
 # Python Language Mapping
 
-> **TL;DR** -- Stage 1: `pyproject.toml` + `ruff` + `pytest`. Stage 2: `domain/` with `typing.Protocol` ports, `adapters/` with implementations, `@dataclass(frozen=True)` for models, `main.py` wires them. Stage 3: `import-linter` enforces boundaries. Security: `yaml.safe_load`, never `pickle` or `eval` on untrusted input, Bandit rules via ruff.
+> **TL;DR.** Stage 1: a single Python package with a linter and a test folder. Stage 2: split the code into two folders, `domain` for the business logic and `adapters` for everything that talks to the outside world (databases, APIs, files). Stage 3: add a tool that blocks imports from crossing the line you drew.
 
 This file translates codeOath concepts into Python. If you read [start.md](../start.md) or [grow.md](../grow.md) and wondered "what does that look like in Python?", this is the answer.
 

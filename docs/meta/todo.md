@@ -2,13 +2,9 @@
 
 ## Tasks
 
-- [x] `3-soon` ai-code-review.md "Your Review Workflow" section: release pipeline / commit workflow feels out of place in the guide. Find a better structure or move to its own section
-- [ ] `3-soon` languages/rust.md: human review by Rust-experienced person (correctness of current best practices, new Testing and Common Pitfalls sections, tone consistency with python.md)
 - [ ] `3-soon` resources/build-pipeline.md: human review by CI/CD practitioner (GitHub Actions example correctness, pre-commit config accuracy, CD/signing details, stage-based recommendations)
-- [x] `4-later` languages/rust.md mapping table
 - [ ] `4-later` languages/javascript.md and languages/typescript.md mapping tables
 - [ ] `4-later` Enforcement examples (JS/TS only): eslint-plugin-boundaries config, when language guides exist
-- [x] `4-later` Pre-commit hook examples for non-Python languages
 - [ ] `3-soon` Frontend/UI guide: how React/Vue/Svelte components map to the domain/adapters model. Include: multilingual UI patterns (i18n, string externalization, language switching)
 - [ ] `6-waiting` CONTRIBUTING.md: PR submissions currently not open, feedback via Issues only. When PRs open: add CC BY 4.0 contribution clause
 - [ ] `3-soon` End-user documentation guide: separate guide for generating user-facing docs (README, user guide, feature descriptions, getting started for non-devs). Complement to auto-documentation.md which covers developer docs
@@ -18,7 +14,6 @@
 - [ ] `5-routines` Code quality heuristics: guide with simple metrics to detect drift (file size trends, import depth, decision frequency). No tools, just heuristics and questions
 - [ ] `6-waiting` grow.md H2 "When Folders Are Not Enough": check if contrast to Concept 1-2 is strong enough (waiting for community/test user feedback)
 - [ ] `3-soon` Multi-language project guide: how to structure projects with multiple programming languages (e.g. Python backend + TypeScript frontend). Boundaries, folder structure, where domain/adapters live per language, how to keep conventions consistent
-- [x] `3-soon` Guide on introducing linters cleanly: how to bring linters (ruff, eslint, etc.) into existing projects without spending days clearing warnings. Incremental onboarding, baseline files, targeted rule activation, focus on new commits instead of big-bang fix
 
 ## Open Questions
 

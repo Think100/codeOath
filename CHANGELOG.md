@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.9.0] - 2026-04-17
+
+### Added
+- languages/rust.md: full Rust mapping guide across Stage 1-3, with trait
+  example, testing, pre-commit hooks, error handling, plain-prose common
+  pitfalls, Rust-specific security and performance patterns.
+- resources/build-pipeline.md: CI/CD guide for AI-assisted projects
+  (pre-commit, GitHub Actions, cross-platform matrix, CD basics).
+- enforce.md "Introducing Linters to an Existing Codebase": baseline
+  strategy to roll out linters in legacy code without a big-bang fix.
+- languages/python.md Testing section: pytest fake pattern via Protocol,
+  linking to testing.md for the general strategy.
+- Pre-commit hook examples in python.md and rust.md.
+
+### Changed
+- ai-code-review.md: review prompts regrouped around natural checkpoints
+  (Before You Commit, Before You Release), no more per-response stops.
+- languages/python.md and languages/rust.md TL;DR: rewritten in plain
+  language, no tooling name-drops, no em-dashes.
+- languages/python.md: Protocol, dataclass(frozen=True) and OrderService
+  explained on first use; build-system block added to pyproject.toml;
+  lru_cache example replaced with a pure function; misc modernisation.
+- languages/rust.md: Stage 3 workspace intro explains what and why;
+  workspace.dependencies pattern added; subtle and bincode examples
+  updated for current APIs; async-trait note shortened.
+- README.md, docs/README.md: guides list restructured.
+
 ## [0.8.0] - 2026-04-11
 
 ### Added
