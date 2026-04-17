@@ -2,7 +2,7 @@
 
 ## Tasks
 
-- [ ] `3-soon` ai-code-review.md "Your Review Workflow" section: release pipeline / commit workflow feels out of place in the guide. Find a better structure or move to its own section
+- [x] `3-soon` ai-code-review.md "Your Review Workflow" section: release pipeline / commit workflow feels out of place in the guide. Find a better structure or move to its own section
 - [ ] `3-soon` languages/rust.md: human review by Rust-experienced person (correctness of current best practices, new Testing and Common Pitfalls sections, tone consistency with python.md)
 - [ ] `3-soon` resources/build-pipeline.md: human review by CI/CD practitioner (GitHub Actions example correctness, pre-commit config accuracy, CD/signing details, stage-based recommendations)
 - [x] `4-later` languages/rust.md mapping table

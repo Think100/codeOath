@@ -99,19 +99,15 @@ AI does not stick to your request. It expands scope (adds things you did not ask
 
 ## Your Review Workflow
 
-You do not need to review code yourself. You need to ask your AI to review its own work. The trick is knowing which questions to ask.
+You do not need to review code yourself. You need to ask your AI to review its own work. The trick is knowing which questions to ask, and when to ask them. Stopping after every AI response breaks the flow that makes vibe-coding fast. Review at natural checkpoints instead: before you commit, and before you release.
 
-### After Every AI Response That Writes Code
+### Before You Commit
 
-Copy this one prompt. It takes your AI 30 seconds to answer and catches the most common problems:
+A commit is the natural moment to pause. Three prompts, about two minutes total. First the general sanity check, then scope, then secrets:
 
 > "Before we continue: check what you just wrote. Are there hidden errors (failures that I would not notice)? Unnecessary checks (for things that cannot happen)? Fallback values that could give me wrong results? Be honest, not defensive."
 
 The last sentence matters. Without it, the AI tends to defend its own code.
-
-### Before You Commit
-
-These two prompts take another minute. Run them before saving your work permanently:
 
 > "Compare what you built against what I originally asked for. Did you implement everything? Did you add anything I did not ask for? Did you skip anything? Be specific."
 
@@ -129,6 +125,8 @@ For important milestones (first release, sharing with users, going live), run a 
 > 5. Secrets: any credentials in the code?
 > 6. Structure: does the code follow the architecture rules in AGENTS.md?
 > Do not fix anything. Report only. I will decide what to fix."
+
+For the full release process (build, tests, publishing), see [release-checklist.md](release-checklist.md) and [build-pipeline.md](build-pipeline.md).
 
 
 ## Adding Review Rules to Your Project
