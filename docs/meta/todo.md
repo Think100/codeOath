@@ -14,6 +14,7 @@
 - [ ] `5-routines` Code quality heuristics: guide with simple metrics to detect drift (file size trends, import depth, decision frequency). No tools, just heuristics and questions
 - [ ] `6-waiting` grow.md H2 "When Folders Are Not Enough": check if contrast to Concept 1-2 is strong enough (waiting for community/test user feedback)
 - [ ] `3-soon` Multi-language project guide: how to structure projects with multiple programming languages (e.g. Python backend + TypeScript frontend). Boundaries, folder structure, where domain/adapters live per language, how to keep conventions consistent
+- [ ] `3-soon` security.md relevance navigation: add a mini-nav after the TL;DR (Local tool / Web app / Multi-user / Cloud) and a "Only relevant if..." line at the start of each advanced section (Multi-Tenant, JWT/OAuth, Cloud Hardening), so Stage 1 readers do not drown in enterprise content
 
 ## Open Questions
 

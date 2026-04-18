@@ -118,6 +118,8 @@ Three situations, three things to say:
 
 You do not type the commands yourself. The point is knowing these options exist, so you ask for them instead of panicking.
 
+When your AI shows you what it changed: lines starting with `-` were removed, lines starting with `+` were added, and the file path is at the top. If you see something you did not want, tell the AI to undo that specific change before moving on.
+
 ### Second Copy as a Last Resort
 
 If you are about to let the AI do something that feels genuinely risky and saving alone does not feel like enough, make a full copy of your project folder:

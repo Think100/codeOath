@@ -204,6 +204,8 @@ For business logic: read src/domain/
 
 ### Branching Strategy
 
+A branch is a copy of your code where you can try changes without touching main. A pull request is the request to merge your branch back into main. It forces a short review (by a person or a CI check) before anything reaches main.
+
 People push directly to main and break things. Protect main:
 
 - `main` is protected (no direct pushes)

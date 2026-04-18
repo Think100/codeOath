@@ -64,7 +64,7 @@ myproject/
 └── README.md
 ```
 
-Your language might use a different folder layout. A language-specific guide is available for [Python](languages/python.md).
+Your language might use a different folder layout. Language-specific guides are available for [Python](languages/python.md) and [Rust](languages/rust.md).
 
 **The one rule:** adapters may use domain code. Domain must never use adapter code. Always in this direction:
 
@@ -198,7 +198,7 @@ In practice, you create three things:
 
 3. One line in `main` that connects the two: "Use this specific adapter to fulfill that port."
 
-For the concrete code syntax, see [languages/python.md](languages/python.md) or [domain-and-adapters.md](resources/domain-and-adapters.md) for the full pattern with examples.
+For the concrete code syntax, see [languages/python.md](languages/python.md), [languages/rust.md](languages/rust.md), or [domain-and-adapters.md](resources/domain-and-adapters.md) for the full pattern with examples.
 
 **Why bother?** Three reasons:
 
