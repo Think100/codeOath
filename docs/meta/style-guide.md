@@ -197,6 +197,49 @@ See the [NOT field](start.md#the-not-field) section.
 - No front matter (YAML or otherwise)
 
 
+## Meta Files
+
+Files under `docs/meta/` are internal project files, not user-facing docs. They follow relaxed rules:
+
+- No breadcrumb
+- No TL;DR block
+- H1 matches the file name (e.g. `# Decisions`, `# TODO`)
+
+### decisions.md
+
+Architecture decision log for codeOath itself. Process decisions do not belong here.
+
+Each entry uses this format:
+
+```markdown
+## YYYY-MM-DD: Short title
+**Status:** active
+One or two paragraphs explaining the decision and the reasoning behind it.
+```
+
+`**Status:**` values:
+- `active` -- decision currently in effect
+- `replaced by YYYY-MM-DD decision` -- superseded; keep the entry for history
+
+Sort entries chronologically with the newest on top. When a decision is superseded, do not delete the old entry, mark its status.
+
+### todo.md
+
+Working task list. Items use optional priority tags in the format `` `X-label` ``:
+
+| Tag           | Meaning           |
+|---------------|-------------------|
+| `0-goal`      | Direction, not a task |
+| `1-now`       | Do now            |
+| `2-next`      | Up next           |
+| `3-soon`      | Soon              |
+| `4-later`     | Someday           |
+| `5-routines`  | Recurring         |
+| `6-waiting`   | Blocked externally |
+
+Items without a tag default to rank `3-soon` for sorting.
+
+
 ## Vibe Coder Sections
 
 Vibe coders do not read documentation. They copy, try, fail, and copy again. The best developer tools understand this: they show results, not explanations. codeOath docs should do the same.
@@ -237,7 +280,7 @@ AI prompts are the most valuable content for vibe coders. They must not drown in
 
 Before committing changes to any file in `docs/`:
 
-- [ ] Breadcrumb on line 1 (except meta/ files and README.md)
+- [ ] Breadcrumb on line 1 (except `docs/meta/` files and `docs/README.md`)
 - [ ] Exactly one H1, matching the breadcrumb title
 - [ ] Intro line after H1
 - [ ] All code blocks have language tags
