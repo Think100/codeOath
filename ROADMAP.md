@@ -30,6 +30,8 @@ Ideas we want to explore. No timeline, no commitment.
 - Community-contributed language packs
 - Video walkthrough of the three stages
 - API design guide: how to structure endpoints following the domain/adapters model
+- Database guide: how to choose a database (SQLite vs Postgres vs Redis and when) and how to evolve the schema over time (migrations) without losing data
 - More languages based on demand (C++, Go, Lua)
 - Project templates (cookiecutter/copier per language/stage), likely unnecessary as AI scaffolding improves
 - End-user documentation guide: user guides, feature descriptions, getting-started pages, and in-app help (tooltips, contextual help, onboarding flows). Explicitly out of scope in auto-documentation.md, needs its own guide with different failure modes.
+- RAG system guide: how to structure a retrieval-augmented generation setup (vector store, embeddings, retrieval, prompt assembly) mapped to the domain/adapters model.
