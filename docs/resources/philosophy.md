@@ -159,7 +159,7 @@ These rules exist because current AI models work better with explicit constraint
 
 In practice this means:
 
-- Keep AGENTS.md concise (currently ~200 lines is a good target)
+- Keep AGENTS.md concise: start around 80 lines (a fresh project does not need more); ~200 lines is the upper bound before you split rules out
 - Extract detailed rules into path-specific files when AGENTS.md grows too long
 - Move the project definition to a separate file when it crowds out the rules
 - Mark AI-generated commits so they are distinguishable in the git log

@@ -16,6 +16,8 @@
 - [ ] `3-soon` Multi-language project guide: how to structure projects with multiple programming languages (e.g. Python backend + TypeScript frontend). Boundaries, folder structure, where domain/adapters live per language, how to keep conventions consistent
 - [ ] `3-soon` security.md relevance navigation: add a mini-nav after the TL;DR (Local tool / Web app / Multi-user / Cloud) and a "Only relevant if..." line at the start of each advanced section (Multi-Tenant, JWT/OAuth, Cloud Hardening), so Stage 1 readers do not drown in enterprise content
 - [ ] `4-later` Logging strategy guide: log levels (DEBUG/INFO/WARN/ERROR), structured logs, correlation IDs, proactive info logging beyond errors. Stage 3+ topic; complements the existing "errors must be visible" rule
+- [ ] `3-soon` docs/meta/decisions.md: restore reverse-chronological order (2026-03-31 and 2026-03-29 entries sit below older ones at the end of the file)
+- [ ] `3-soon` grow.md: configuration and secrets section is missing (config/ appears in the structure tree but is never explained; original text lost, see CHANGELOG 0.3.0). Cover: all settings in one place (config/), main reads config and passes values to domain (domain never reads env or files itself), validate at startup (fail fast). Secrets: never in checked-in files; .env + .gitignore + AI deny rule (.claude/settings.json) because .gitignore does not stop AI agents reading the file; .env.example pattern as documentation; password manager as source of truth. Keep proportional: no secret-manager CLI workflows, that is beyond the audience
 
 ## Open Questions
 
