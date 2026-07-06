@@ -1,5 +1,16 @@
 # Decisions
 
+## 2026-03-31: No deployment guide in codeOath
+**Status:** active
+Deployment (Docker, hosting, CI/CD pipelines) is too broad and platform-specific. codeOath covers project structure and code quality, not infrastructure. Adding deployment guidance would expand scope beyond what we can maintain and dilute the focus on AI-assisted development patterns.
+
+## 2026-03-29: CC BY 4.0 license (replaces NC-SA)
+**Status:** active
+NonCommercial was blocking adoption without providing real protection (ideas
+are not copyrightable regardless of license). ShareAlike discouraged companies
+from adapting the framework internally. CC BY 4.0 keeps attribution (the only
+thing that matters for a methodology) and removes all other restrictions.
+
 ## 2026-03-28: Architecture must be proportional to the problem
 **Status:** active
 Experiment finding: Opus with codeOath built 10 files with full ports-and-adapters for a 400-line text editor but forgot basic features. Sonnet with 4 files scored higher. Over-engineering is as much a violation of "Maintenance must be cheap" as no structure at all. Added proportionality paragraph to philosophy.md.
@@ -44,14 +55,3 @@ files under `languages/`. This avoids the credibility problem of claiming
 
 ## 2026-03-25: CC BY-NC-SA 4.0 license
 **Status:** replaced by 2026-03-29 decision
-
-## 2026-03-31: No deployment guide in codeOath
-**Status:** active
-Deployment (Docker, hosting, CI/CD pipelines) is too broad and platform-specific. codeOath covers project structure and code quality, not infrastructure. Adding deployment guidance would expand scope beyond what we can maintain and dilute the focus on AI-assisted development patterns.
-
-## 2026-03-29: CC BY 4.0 license (replaces NC-SA)
-**Status:** active
-NonCommercial was blocking adoption without providing real protection (ideas
-are not copyrightable regardless of license). ShareAlike discouraged companies
-from adapting the framework internally. CC BY 4.0 keeps attribution (the only
-thing that matters for a methodology) and removes all other restrictions.
