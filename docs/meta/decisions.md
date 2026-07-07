@@ -6,10 +6,7 @@ Deployment (Docker, hosting, CI/CD pipelines) is too broad and platform-specific
 
 ## 2026-03-29: CC BY 4.0 license (replaces NC-SA)
 **Status:** active
-NonCommercial was blocking adoption without providing real protection (ideas
-are not copyrightable regardless of license). ShareAlike discouraged companies
-from adapting the framework internally. CC BY 4.0 keeps attribution (the only
-thing that matters for a methodology) and removes all other restrictions.
+NonCommercial was blocking adoption without providing real protection (ideas are not copyrightable regardless of license). ShareAlike discouraged companies from adapting the framework internally. CC BY 4.0 keeps attribution (the only thing that matters for a methodology) and removes all other restrictions.
 
 ## 2026-03-28: Architecture must be proportional to the problem
 **Status:** active
@@ -33,25 +30,15 @@ Clear ownership: todo.md = internal working tasks, ROADMAP.md = public planned f
 
 ## 2026-03-27: Rename "Three-Layer Model" to "Pace Layers"
 **Status:** active
-The governance model (Project Definition / Conventions / Daily Work) and the
-migration model (Start / Grow / Enforce) both used "three" and "layer/stage"
-in their names. Renamed the governance model to "Pace Layers", inspired by
-Stewart Brand's Pace Layering concept (*The Clock of the Long Now*, 1999).
-The term describes layers that change at different speeds, which maps directly
-to Definition (slow), Conventions (medium), and Daily Work (fast).
+The governance model (Project Definition / Conventions / Daily Work) and the migration model (Start / Grow / Enforce) both used "three" and "layer/stage" in their names. Renamed the governance model to "Pace Layers", inspired by Stewart Brand's Pace Layering concept (*The Clock of the Long Now*, 1999). The term describes layers that change at different speeds, which maps directly to Definition (slow), Conventions (medium), and Daily Work (fast).
 
 ## 2026-03-26: Three stages with trigger-based migration
 **Status:** active
-Structure codeOath as three stages (Start/Grow/Enforce) where each stage adds
-structure only when real symptoms appear. No file-count thresholds. The user
-moves to a higher stage when they feel the pain, not because a document says so.
+Structure codeOath as three stages (Start/Grow/Enforce) where each stage adds structure only when real symptoms appear. No file-count thresholds. The user moves to a higher stage when they feel the pain, not because a document says so.
 
 ## 2026-03-26: Language-neutral core with language mapping files
 **Status:** active
-Core docs use pseudocode, no Python or TypeScript syntax. Language-specific
-details (folder structure, port syntax, tooling) live in separate mapping
-files under `languages/`. This avoids the credibility problem of claiming
-"language-neutral" while showing only Python examples.
+Core docs use pseudocode, no Python or TypeScript syntax. Language-specific details (folder structure, port syntax, tooling) live in separate mapping files under `languages/`. This avoids the credibility problem of claiming "language-neutral" while showing only Python examples.
 
 ## 2026-03-25: CC BY-NC-SA 4.0 license
 **Status:** replaced by 2026-03-29 decision

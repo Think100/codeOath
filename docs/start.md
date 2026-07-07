@@ -37,7 +37,7 @@ myproject/
 └── README.md
 ```
 
-Your language might use a different folder layout (e.g., `<projectname>/` instead of `src/` in Python). A language-specific guide is available for [Python](languages/python.md).
+Your language might use a different folder layout (e.g., `<projectname>/` instead of `src/` in Python). Language-specific guides are available for [Python](languages/python.md) and [Rust](languages/rust.md).
 
 
 ## AGENTS.md: The One File That Matters
@@ -177,6 +177,15 @@ git commit -m "init: project structure and rules"
 - One commit = one thing (not three bug fixes and a feature in one commit)
 - Before a big change, commit what you have first (your safety net)
 - Write what you did and why, not just "update" or "fix stuff"
+
+
+## Make Your AI Prove It Works
+
+AI-generated code often looks finished and still fails on real input. "Looks done" and "works" are different things, and you close that gap by making verification part of every task, not by reading the code. Tell your AI what to build and require it to test its own work in the same prompt:
+
+> "Add the CSV export. When you are done, run the program on a sample file, show me the command and the output, and fix any errors before telling me it is done."
+
+Your AI can also write small automated checks for its own work. That is what the `tests/` folder is for: ask it to keep those checks there and to run them before every commit. You do not need a testing strategy in Stage 1. You need one habit: nothing counts as done until you have seen it run.
 
 
 ## Coming Back After Months

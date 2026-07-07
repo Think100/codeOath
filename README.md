@@ -1,6 +1,6 @@
 # codeOath
 
-Define your project in plain text. Your AI reads it, follows the rules, stops guessing.
+Define your project in plain text. Your AI reads it, follows the rules, stops guessing. Mostly.
 
 You code with AI because it is fast and fun. But after a few weeks, things drift: files appear you did not ask for, decisions get forgotten, your AI starts doing its own thing.
 
@@ -84,7 +84,7 @@ One prompt, four outcomes. Each example was built by an AI that only read the ma
 
 [Full walkthrough and prompts](examples/README.md)
 
-We also tested the same prompt with and without codeOath across three experiments. Sonnet + codeOath scored highest every time. [Full experiment results](experiments/README.md)
+We also tested the same prompt with and without codeOath across four experiment runs, most recently with the 2026 model generation (Sonnet 5, Opus 4.8, Fable 5). A codeOath variant scored highest every time. [Full experiment results](experiments/README.md)
 
 
 ## All Guides

@@ -120,8 +120,12 @@ CLI tool that converts CSV files to JSON.
 
 ## Rules
 - Python 3.14+
+- Never overwrite input files
 - No secrets in code or version control
+- Errors must be visible, never hide them silently
 - New files: ask first (AI rule)
+- New dependencies: ask first, explain why (AI rule)
+- Commit after each completed task (AI rule)
 - Prefix commits with your tool name: [claude], [cursor], [codex] (AI rule)
 - Never amend or force-push without asking (AI rule)
 - Never delete files without confirmation (AI rule)
@@ -213,6 +217,10 @@ People push directly to main and break things. Protect main:
 - AI-generated commits prefixed (e.g., `[claude]`)
 
 > "Set up branch protection for main: require pull requests, require at least one approval, require all CI checks to pass before merging."
+
+Working alone? Skip the approval requirement: GitHub does not let you approve your own pull request, so requiring one would block every merge. The CI checks are your gate.
+
+> "Set up branch protection for main: require pull requests and require all CI checks to pass before merging. No approval requirement, I work solo."
 
 ### CI/CD Pipeline
 

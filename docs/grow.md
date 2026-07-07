@@ -73,6 +73,8 @@ adapters/  -->  domain/
 domain/    -->  NOBODY (no external imports)
 ```
 
+**What counts as external?** Anything that is not part of your language's standard library, and anything that talks to the outside world even if it is. `datetime`, `uuid`, or `dataclasses` in domain/ are fine. `requests` (third-party) or `sqlite3` (standard library, but talks to a database) belong in adapters/.
+
 
 ### 2. Document Your Decisions
 
@@ -96,7 +98,7 @@ SQLite. Single user, local data, no server needed. Revisit if we need concurrent
 Not implemented yet. Will add when response times become a problem.
 
 ## 2026-03-20: Markdown for all docs
-**Status:** replaced by 2026-03-26 decision
+**Status:** replaced by 2026-03-29 decision
 Was plain text. Switched to Markdown for better readability.
 ```
 
@@ -166,9 +168,31 @@ Ask your AI to verify both habits:
 > "Read my AGENTS.md and check the codebase: are all errors visible (no silent catches, no swallowed exceptions, no empty fallbacks)? Is logging only in adapters/, never in domain/?"
 
 
+## Keep Configuration in One Place
+
+Your project now has settings: file paths, API endpoints, limits, the database location. Scattered across the code, every change means hunting. That is what the `config/` folder in the structure above is for. all settings live there, nowhere else. Which format they use is a decision worth writing down; the "JSON instead of YAML" entry in the decisions.md example above is exactly this kind of decision.
+
+The direction rule applies here too. `main` reads the configuration at startup and passes values to domain and adapters. Domain code never reads environment variables or config files itself; it receives values and works with them. And validate at startup: if a required setting is missing, the program stops immediately with a clear message instead of failing halfway through a job.
+
+**Secrets are configuration too, but they never go into a checked-in file.** Passwords, API keys, and tokens live in a `.env` file that stays on your machine:
+
+1. Create `.env` in the project root and put secrets there (`API_KEY=...`).
+2. Add `.env` to `.gitignore` so it can never be committed.
+3. Add a deny rule for your AI. `.gitignore` stops Git, but it does not stop your AI from reading the file and echoing your key into a chat, a log, or a commit message. In Claude Code, deny read access to `.env` in `.claude/settings.json`; other tools have similar ignore settings.
+4. Create `.env.example` with the same keys but placeholder values (`API_KEY=your-key-here`) and commit that one. It documents which secrets the project needs without revealing any.
+
+The real keys live in your password manager; that is the source of truth. The `.env` file is only a working copy you can restore from there.
+
+Ask your AI to set it up:
+
+> "Set up configuration for this project: all settings in config/, main reads and validates them at startup, domain never reads env or files itself. Create .env for secrets, add it to .gitignore, add a deny rule so AI tools cannot read it, and create a committed .env.example with placeholder values. Then verify: run the program once with a required setting missing and show me that it stops with a clear error, and run git status to confirm .env is not tracked."
+
+
 ---
 
 **You can stop here. Most projects do.** Concepts 1 and 2 (folder split + decisions file) solve most of the chaos. If your project feels organized and your AI puts things in the right places, you are done with Stage 2. Do not add more structure just because it exists.
+
+[Stage 3](enforce.md) does not require Concepts 3 and 4 either. Enforcement only needs the folder split. If your AI keeps breaking the folder rule, you can jump there directly and come back to ports when you need them.
 
 ---
 
@@ -202,9 +226,9 @@ For the concrete code syntax, see [languages/python.md](languages/python.md), [l
 
 **Why bother?** Three reasons:
 
-1. You can swap the database without touching your logic. SQLite today, PostgreSQL tomorrow, only the adapter changes.
-2. You can test your logic without a real database. Just create a test adapter that stores everything in memory.
-3. Your AI sees clear boundaries: in `domain/`, no database imports allowed.
+1. You can test your logic without a real database. Just create a test adapter that stores everything in memory.
+2. Your AI sees clear boundaries: in `domain/`, no database imports allowed.
+3. As a bonus, you can swap the database without touching your logic. SQLite today, PostgreSQL tomorrow, only the adapter changes.
 
 For the full pattern with code examples, see [domain-and-adapters.md](resources/domain-and-adapters.md). For other architecture approaches, see [architecture-patterns.md](resources/architecture-patterns.md).
 
@@ -261,6 +285,7 @@ CLI tool that converts CSV files to JSON.
 - Errors must be visible, never hide them silently
 - New files: ask first (AI rule)
 - New dependencies: ask first, explain why (AI rule)
+- Commit after each completed task (AI rule)
 - Prefix commits with your tool name: [claude], [cursor], [codex] (AI rule)
 - When uncertain: ask, don't guess (AI rule)
 
