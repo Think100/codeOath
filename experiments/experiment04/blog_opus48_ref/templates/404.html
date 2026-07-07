@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %}Not Found - My Blog{% endblock %}
+
+{% block content %}
+    <h1>404 - Not Found</h1>
+    <p>That post does not exist.</p>
+    <p class="back-link"><a href="{{ url_for('index') }}">&larr; Back to all posts</a></p>
+{% endblock %}

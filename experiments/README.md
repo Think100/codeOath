@@ -11,15 +11,16 @@ These are not reference implementations. They are AI-generated programs compared
 
 ## Results
 
-All experiments were run with Claude Sonnet 4.6 and Claude Opus 4.6 in March 2026. AI model behavior changes over time. Results with newer models or different providers may differ.
+Runs 1-3 were run with Claude Sonnet 4.6 and Claude Opus 4.6 in March 2026. Run 4 reruns the Blog/CMS case with the next model generation (Sonnet 5, Opus 4.8, Fable 5) in July 2026. AI model behavior changes over time. Results with newer models or different providers may differ.
 
 | Run | Test Case | Best Variant | Score | Worst Variant | Score | Key Delta |
 |---|---|---|---|---|---|---|
+| 4 | Blog/CMS (medium, rerun) | Fable + codeOath | 12/12 | Opus 4.8 reference | 7/12 | First 2/2 error handling; reference variants improved |
 | 3 | Blog/CMS (medium) | Sonnet + codeOath | 10/12 | Opus reference | 7/12 | +2 architecture in both models |
 | 2 | Note-Taking App (simple) | Sonnet + codeOath | 12/12 | Opus + codeOath | 6/12 | codeOath hurts Opus on simple tasks |
 | 1 | Text Editor (simple) | Sonnet + codeOath | best | Opus + codeOath | worst | Architecture must be proportional |
 
-**Pattern:** Sonnet + codeOath wins every run. Opus + codeOath over-engineers simple problems but benefits from guidance on medium complexity.
+**Pattern:** A codeOath variant wins every run (Sonnet in runs 1-3, Fable in run 4). Opus + codeOath over-engineers simple problems but benefits from guidance on medium complexity.
 
 
 ## What We Learned Across All Runs
@@ -28,7 +29,7 @@ All experiments were run with Claude Sonnet 4.6 and Claude Opus 4.6 in March 202
 
 **The effect depends on problem size.** For simple problems, codeOath can hurt (Opus over-engineers a 10-file note app). For medium problems with natural boundaries, codeOath helps both models equally.
 
-**Error handling is the universal weak spot.** No variant across any run scores 2/2 on error handling. The agents show errors to users but never implement graceful recovery (skip the broken post, show the rest).
+**Error handling is the universal weak spot.** Across runs 1-3, no variant scored 2/2 on error handling. The agents showed errors to users but never implemented graceful recovery (skip the broken post, show the rest). Run 4 produced the first 2/2: Fable + codeOath skips broken posts, keeps the site up, and reports each skipped file with its reason in the UI.
 
 **Sonnet applies codeOath more proportionally than Opus.** Across all runs, Sonnet picks the right amount of structure for the problem size. Opus tends to build more layers than the problem needs, sometimes at the cost of basic features.
 
@@ -68,19 +69,73 @@ Score range: 0-12. The interesting comparison is not the absolute score but the 
 
 ### Generation Time
 
-How long each agent took to produce its result (wall clock, including file writes). codeOath variants take 2-3.5x longer because the agents generate more files, write tests, and create documentation.
+How long each agent took to produce its result. Run 3 is wall clock, including file writes. Run 4 is estimated from file timestamps (first to last file written), so real times are somewhat longer. codeOath variants take 2-3.5x longer because the agents generate more files, write tests, and create documentation.
 
-| Variant | Blog/CMS (Run 3) |
-|---|---|
-| Sonnet reference | 49s |
-| Sonnet + codeOath | 171s |
-| Opus reference | 90s |
-| Opus + codeOath | 153s |
+| Variant | Blog/CMS (Run 3) | Blog/CMS (Run 4, estimated) |
+|---|---|---|
+| Sonnet reference | 49s | 55s |
+| Sonnet + codeOath | 171s | 153s |
+| Opus reference | 90s | 89s |
+| Opus + codeOath | 153s | 167s |
+| Fable reference | - | 44s |
+| Fable + codeOath | - | 171s |
 
-Run 1 and Run 2 times were not recorded.
+Run 3 used Sonnet 4.6 and Opus 4.6; Run 4 used Sonnet 5, Opus 4.8, and Fable 5. Run 1 and Run 2 times were not recorded.
 
 
 ---
+
+
+## Run 4: Blog/CMS Rerun, New Model Generation (July 2026)
+
+Models: Sonnet 5, Opus 4.8, Fable 5. Evaluated by: Fable 5 (note: the evaluator is the same model that generated the fable variants; self-evaluation bias risk). codeOath version: 0.9.0. Same prompt and variants as Run 3.
+
+### Results
+
+| Variant | Folder | Score | Architecture | Key Difference |
+|---|---|---|---|---|
+| Fable + codeOath | `experiment04/blog_fable_codeoath/` | **12/12** | Ports and adapters with Protocol | Broken posts skipped AND reported in the UI with filename and reason; clickable tag filtering |
+| Sonnet 5 + codeOath | `experiment04/blog_sonnet5_codeoath/` | **11/12** | Ports and adapters with Protocol | Clean layers and graceful recovery, but load errors only reach the console |
+| Sonnet 5 reference | `experiment04/blog_sonnet5_ref/` | **10/12** | Two modules (web / loading) | Splits logic from web on its own; silent title fallback to slug |
+| Opus 4.8 + codeOath | `experiment04/blog_opus48_codeoath/` | **9/12** | Layered, stdlib only | Wrote its own Markdown renderer and HTTP server instead of using libraries; one bad post blocks the whole index |
+| Fable reference | `experiment04/blog_fable_ref/` | **8/12** | Single file | Clean monolith with path-traversal guard; errors only logged |
+| Opus 4.8 reference | `experiment04/blog_opus48_ref/` | **7/12** | Single file | Syntax highlighting extras, but silent fallbacks (missing date sorts last, missing title falls back to slug) |
+
+### Learnings
+
+1. **First 2/2 on error handling across all four runs.** Fable + codeOath skips broken posts, keeps the site running, and lists each skipped file with its reason in a warning box on the index page. The universal weak spot from runs 1-3 is solvable.
+2. **Reference variants improved a generation later.** Run 3's references were single-file monoliths (7-8/12). Sonnet 5's reference splits loading from web on its own and reaches 10/12. The gap between "with" and "without" codeOath narrows as models improve, consistent with the Maturity Dial in philosophy.md.
+3. **Opus over-engineering changed shape, it did not disappear.** Opus 4.8 + codeOath no longer builds excess layers. Instead it wrote its own Markdown renderer (~170 lines of regex) and HTTP server, stdlib-only by explicit choice. The structure is proportional; the reinvention is not.
+4. **Tag filtering finally appeared, once.** In run 3 no variant made tags clickable. In run 4 exactly one does (Fable + codeOath). It remains the discriminating quality indicator.
+5. **codeOath helped every model this run:** +4 (Fable), +2 (Opus 4.8), +1 (Sonnet 5). No variant got worse with codeOath, unlike runs 1-2 where it hurt Opus.
+6. **Fable without codeOath was the fastest variant of all four runs (44s, estimated).** The most capable model produced its reference solution in half the time of the other references, yet with codeOath it was the slowest (171s). Generation time is driven by the guidance and the extra artifacts it asks for (tests, docs, structure), not by model capability.
+
+### Generation Time
+
+Estimated from file timestamps (first to last file written per variant). Thinking time before the first file is not included, so real times are somewhat longer.
+
+| Variant | Estimated time |
+|---|---|
+| Fable reference | 44s |
+| Sonnet 5 reference | 55s |
+| Opus 4.8 reference | 89s |
+| Sonnet 5 + codeOath | 153s |
+| Opus 4.8 + codeOath | 167s |
+| Fable + codeOath | 171s |
+
+codeOath variants take roughly 2-3.5x longer, matching Run 3.
+
+### Running the Programs
+
+```bash
+pip install flask markdown pyyaml python-frontmatter pygments
+cd experiment04/blog_fable_codeoath && python app.py
+cd experiment04/blog_fable_ref && python app.py
+cd experiment04/blog_opus48_codeoath && python run.py    # stdlib only, no install needed
+cd experiment04/blog_opus48_ref && python app.py
+cd experiment04/blog_sonnet5_codeoath && python -m blog.main
+cd experiment04/blog_sonnet5_ref && python app.py
+```
 
 
 ## Run 3: Blog/CMS (March 2026)

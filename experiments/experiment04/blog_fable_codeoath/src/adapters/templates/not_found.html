@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Not found - Papertrail{% endblock %}
+{% block content %}
+  <p class="empty">Nothing here. The post or tag you asked for does not exist.</p>
+  <a class="backlink" href="{{ url_for('index') }}">&larr; all posts</a>
+{% endblock %}

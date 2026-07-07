@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} - My Blog{% endblock %}
+
+{% block content %}
+<article class="post">
+    <h1>{{ post.title }}</h1>
+    <p class="post-meta">
+        <time datetime="{{ post.date.isoformat() }}">{{ post.display_date }}</time>
+        {% if post.tags %}
+            <span class="tags">
+                {% for tag in post.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
+            </span>
+        {% endif %}
+    </p>
+    <div class="post-content">
+        {{ post.html | safe }}
+    </div>
+    <p class="back-link"><a href="{{ url_for('index') }}">&larr; Back to all posts</a></p>
+</article>
+{% endblock %}

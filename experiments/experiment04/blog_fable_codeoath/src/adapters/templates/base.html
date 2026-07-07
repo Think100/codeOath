@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Papertrail{% endblock %}</title>
+<style>
+  :root {
+    --paper: #f6f1e7;
+    --ink: #211c16;
+    --ink-soft: #6d6357;
+    --rule: #c9bda9;
+    --accent: #8c2f1b;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --mono: "IBM Plex Mono", Consolas, "Courier New", monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    background-image: radial-gradient(rgba(33, 28, 22, 0.05) 1px, transparent 1px);
+    background-size: 26px 26px;
+    color: var(--ink);
+    font-family: var(--serif);
+    line-height: 1.65;
+    font-size: 1.0625rem;
+  }
+  .sheet { max-width: 44rem; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
+  header.masthead { text-align: center; margin-bottom: 2.5rem; }
+  .masthead .kicker {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .masthead h1 { margin: 0.35rem 0; font-size: 2.6rem; letter-spacing: 0.02em; }
+  .masthead h1 a { color: var(--ink); text-decoration: none; }
+  .masthead .rules {
+    border-top: 3px double var(--ink);
+    border-bottom: 1px solid var(--ink);
+    height: 5px;
+    margin-top: 0.9rem;
+  }
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:hover { text-decoration-thickness: 2px; }
+  .meta { font-family: var(--mono); font-size: 0.75rem; color: var(--ink-soft); }
+  .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    text-transform: lowercase;
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 0.05rem 0.55rem;
+    margin-left: 0.3rem;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.45);
+  }
+  .tag:hover { border-color: var(--accent); color: var(--accent); }
+  .warning {
+    border: 1px solid var(--accent);
+    border-left-width: 6px;
+    background: rgba(140, 47, 27, 0.06);
+    padding: 0.75rem 1rem;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+  }
+  .warning strong { color: var(--accent); }
+  .warning ul { margin: 0.4rem 0 0; padding-left: 1.2rem; }
+  .warning code { font-family: var(--mono); font-size: 0.8rem; }
+  ul.post-list { list-style: none; margin: 0; padding: 0; }
+  ul.post-list li { padding: 1.1rem 0; border-bottom: 1px solid var(--rule); }
+  ul.post-list h2 { margin: 0.15rem 0 0; font-size: 1.45rem; }
+  ul.post-list h2 a { color: var(--ink); text-decoration: none; }
+  ul.post-list h2 a:hover { color: var(--accent); }
+  article header h1 { font-size: 2.1rem; margin: 0 0 0.3rem; line-height: 1.2; }
+  article header { border-bottom: 1px solid var(--rule); padding-bottom: 0.9rem; margin-bottom: 1.4rem; }
+  article .body h2, article .body h3 { line-height: 1.3; }
+  article .body pre {
+    background: #211c16;
+    color: #f6f1e7;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    padding: 0.9rem 1rem;
+    overflow-x: auto;
+    border-radius: 4px;
+  }
+  article .body code { font-family: var(--mono); font-size: 0.9em; }
+  article .body :not(pre) > code { background: rgba(33, 28, 22, 0.08); padding: 0.05rem 0.3rem; border-radius: 3px; }
+  article .body blockquote {
+    margin: 1rem 0;
+    padding: 0.1rem 1.1rem;
+    border-left: 3px solid var(--accent);
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  article .body table { border-collapse: collapse; }
+  article .body th, article .body td { border: 1px solid var(--rule); padding: 0.35rem 0.7rem; }
+  .backlink { display: inline-block; margin-top: 2.2rem; font-family: var(--mono); font-size: 0.8rem; }
+  .filter-note { margin: 0 0 1rem; font-family: var(--mono); font-size: 0.8rem; color: var(--ink-soft); }
+  .empty { color: var(--ink-soft); font-style: italic; }
+</style>
+</head>
+<body>
+  <div class="sheet">
+    <header class="masthead">
+      <div class="kicker">markdown &middot; locally pressed</div>
+      <h1><a href="{{ url_for('index') }}">Papertrail</a></h1>
+      <div class="rules"></div>
+    </header>
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</body>
+</html>

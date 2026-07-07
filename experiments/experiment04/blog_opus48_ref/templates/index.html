@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}My Blog{% endblock %}
+
+{% block content %}
+    <h1>All Posts</h1>
+    {% if posts %}
+        <ul class="post-list">
+            {% for post in posts %}
+                <li class="post-list-item">
+                    <a class="post-list-link" href="{{ url_for('post_detail', slug=post.slug) }}">
+                        {{ post.title }}
+                    </a>
+                    <time class="post-date" datetime="{{ post.date_iso }}">{{ post.date_display }}</time>
+                    {% if post.tags %}
+                        <span class="tags">
+                            {% for tag in post.tags %}
+                                <span class="tag">{{ tag }}</span>
+                            {% endfor %}
+                        </span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="empty">No posts yet. Add a Markdown file to the <code>posts/</code> folder.</p>
+    {% endif %}
+{% endblock %}

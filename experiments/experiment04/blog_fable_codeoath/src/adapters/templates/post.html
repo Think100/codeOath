@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }} - Papertrail{% endblock %}
+{% block content %}
+  <article>
+    <header>
+      <h1>{{ post.title }}</h1>
+      <span class="meta">{{ post.date|humandate }}</span>
+      {% for t in post.tags %}
+        <a class="tag" href="{{ url_for('posts_by_tag', tag=t) }}">{{ t }}</a>
+      {% endfor %}
+    </header>
+    <div class="body">{{ post.html|safe }}</div>
+  </article>
+  <a class="backlink" href="{{ url_for('index') }}">&larr; all posts</a>
+{% endblock %}

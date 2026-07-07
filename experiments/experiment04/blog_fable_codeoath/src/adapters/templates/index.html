@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}{% if tag %}Tag: {{ tag }} - {% endif %}Papertrail{% endblock %}
+{% block content %}
+  {% if errors %}
+    <div class="warning">
+      <strong>{{ errors|length }} post{{ 's' if errors|length != 1 }} could not be loaded</strong>
+      and {{ 'are' if errors|length != 1 else 'is' }} not shown below:
+      <ul>
+        {% for error in errors %}
+          <li><code>{{ error.source }}</code> &mdash; {{ error.reason }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  {% if tag %}
+    <p class="filter-note">
+      filtered by tag <a class="tag" href="{{ url_for('posts_by_tag', tag=tag) }}">{{ tag }}</a>
+      &nbsp;&middot;&nbsp; <a href="{{ url_for('index') }}">show all posts</a>
+    </p>
+  {% endif %}
+
+  {% if posts %}
+    <ul class="post-list">
+      {% for post in posts %}
+        <li>
+          <span class="meta">{{ post.date|humandate }}</span>
+          {% for t in post.tags %}
+            <a class="tag" href="{{ url_for('posts_by_tag', tag=t) }}">{{ t }}</a>
+          {% endfor %}
+          <h2><a href="{{ url_for('post_detail', slug=post.slug) }}">{{ post.title }}</a></h2>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="empty">No posts yet. Drop a Markdown file into the posts/ folder to get started.</p>
+  {% endif %}
+{% endblock %}
