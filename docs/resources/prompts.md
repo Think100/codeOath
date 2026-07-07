@@ -42,6 +42,14 @@ For context on when and why to use each prompt, see the linked source document.
 
 > "Read docs/todo.md. Move all entries from the Resolved section to docs/todo_archive.md (create it if it does not exist). Keep the same format. Leave the Resolved section header in todo.md but empty."
 
+**Verify error visibility and logging placement** ([grow.md](../grow.md))
+
+> "Read my AGENTS.md and check the codebase: are all errors visible (no silent catches, no swallowed exceptions, no empty fallbacks)? Is logging only in adapters/, never in domain/?"
+
+**Set up configuration and secrets** ([grow.md](../grow.md))
+
+> "Set up configuration for this project: all settings in config/, main reads and validates them at startup, domain never reads env or files itself. Create .env for secrets, add it to .gitignore, add a deny rule so AI tools cannot read it, and create a committed .env.example with placeholder values. Then verify: run the program once with a required setting missing and show me that it stops with a clear error, and run git status to confirm .env is not tracked."
+
 
 ## Stage 3: Enforce
 
@@ -72,6 +80,10 @@ For context on when and why to use each prompt, see the linked source document.
 **Set up branch protection** ([enforce.md](../enforce.md))
 
 > "Set up branch protection for main: require pull requests, require at least one approval, require all CI checks to pass before merging."
+
+**Set up branch protection (working solo)** ([enforce.md](../enforce.md))
+
+> "Set up branch protection for main: require pull requests and require all CI checks to pass before merging. No approval requirement, I work solo."
 
 **Set up CI/CD pipeline** ([enforce.md](../enforce.md))
 
@@ -255,9 +267,13 @@ If more context is needed:
 
 ## Architecture Alternatives
 
+**Diagnose which stage your project needs** ([triggers.md](triggers.md))
+
+> "Read AGENTS.md and docs/todo.md, then look at the codebase and the recent git history. Check for these problems: files that are hard to find, one change that forced edits in many places, rules from AGENTS.md that were violated, decisions that are not written down anywhere. Report what you find with examples, tell me which stage of structure the project needs next, and why. Do not change anything."
+
 **Migrate one tangled file (Strangler Fig)** ([triggers.md](triggers.md))
 
-> "Read my AGENTS.md and understand the project. I want to migrate to a domain/adapters structure using the Strangler Fig approach. Do not rewrite everything at once. Pick the one file where business logic and infrastructure are most tangled. Extract the business logic into domain/ and the infrastructure code into adapters/. Create the port interface in domain/. Wire them together in main. Fix imports. Run the tests. Then stop and let me review before moving to the next file."
+> "Read my AGENTS.md and understand the project. I want to migrate to a domain/adapters structure, one piece at a time, without rewriting everything at once. Pick the one file where core logic and database/file/API code are most tangled. Extract the core logic into domain/ and the rest into adapters/. Wire them together in main. Fix imports. Run the tests. Then stop and let me review before moving to the next file."
 
 **Reorganize into feature slices** ([architecture-patterns.md](architecture-patterns.md))
 
