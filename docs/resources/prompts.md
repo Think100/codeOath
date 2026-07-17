@@ -118,7 +118,11 @@ For context on when and why to use each prompt, see the linked source document.
 
 **Review authorization** ([security.md](security.md))
 
-> "Review my API endpoints. For each endpoint, check: is authentication required? Is authorization checked (does the user have permission to access *this specific resource*, not just *any resource*)? Flag any endpoint where a user could access another user's data by changing an ID in the URL."
+> "Review my API endpoints. For each endpoint, check: is authentication required? Is authorization checked (does the user have permission to access *this specific resource*, not just *any resource*)? Flag any endpoint where a user could access another user's data by changing an ID in the URL. Also flag any permission that is only enforced in the frontend (hidden or disabled UI elements) but not on the server, and any place where the server trusts a user ID or role sent by the client instead of taking it from the session."
+
+**Review password reset flow** ([security.md](security.md))
+
+> "Review my password reset flow. Check: is the reset token random and unguessable? Does it expire within an hour? Is it single-use? Is it stored hashed? Does the forgot-password response look identical whether the email exists or not? Are all active sessions invalidated after a successful reset? Flag any issues."
 
 **Quick security scan** ([security.md](security.md))
 

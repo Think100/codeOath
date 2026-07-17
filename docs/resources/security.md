@@ -9,6 +9,23 @@ Security is not a feature you add later. It is a mindset you start with. AI mode
 **Important:** No checklist makes you "secure." Security is a process, not a state. This document is a starting point, not a finish line. Review regularly, especially after adding features.
 
 
+## What Applies to You
+
+Not every section applies to every project. Find your project type, read the listed sections, skip the rest:
+
+| Your project | Read |
+|---|---|
+| Local tool on your own machine | [The Fundamentals](#the-fundamentals) and [AI-Specific Security Risks](#ai-specific-security-risks) |
+| Web app or API | ...plus [Web Application Security](#web-application-security) |
+| User accounts and login | ...plus [Authentication Deep Dive](#authentication-deep-dive) |
+| Multiple customers or teams (SaaS) | ...plus [Multi-Tenant Isolation](#multi-tenant-isolation) |
+| Deployed to a cloud server or containers | ...plus [Cloud Deployment Hardening](#cloud-deployment-hardening) |
+
+SaaS means "Software as a Service": you run the app on your server, and customers use it through their browser, usually for a monthly fee. Gmail and Dropbox are SaaS.
+
+Each row builds on the ones above it. A SaaS app in the cloud reads everything. A local CLI tool reads two sections and is done.
+
+
 ## Why Vibe Coders Must Care
 
 When you code with AI, the code works fast. That is the point. But "works" and "secure" are different things. A login page that works can still leak passwords. An API that responds correctly can still be open to the entire internet.
@@ -43,6 +60,8 @@ Passwords, API keys, tokens, and database credentials belong in environment vari
 
 Why this matters: git history preserves every version of every file. If a secret enters version control even briefly, it is stored forever in the history. Deleting the file does not remove it. Anyone who clones the repo has the secret. If this happens, rotate the secret immediately (generate a new one, revoke the old one).
 
+Frontend code is a special case: everything in it (JavaScript bundles, mobile apps) is delivered to the user's device, where anyone can read it with browser dev tools. An API key in frontend code is public even if your repo is private. Keys that must stay secret belong on the server: the frontend calls your backend, and your backend calls the external API with the key.
+
 > "Review my .gitignore and make sure it excludes files that might contain credentials. Check for: .env, .env.*, *.key, *.pem, *.pfx, *.p12, *.jks, secrets/, config.local.*, *.sqlite, *.db, .npmrc, .pypirc, .docker/config.json, terraform.tfstate. Also check git history for accidentally committed secrets."
 
 ### Prevent AI From Reading Secrets
@@ -50,13 +69,15 @@ Why this matters: git history preserves every version of every file. If a secret
 Your AI coding tool can read files in your project. If it reads a `.env` file or a secrets directory, that content enters the AI's context. Depending on the provider, this data may be logged, cached, or used for training. Configure deny rules so this cannot happen accidentally:
 
 ```json
-// .claude/settings.local.json (this file should be in .gitignore)
+// .claude/settings.local.json (if you create this file by hand, add it to .gitignore yourself)
 {
-  "deny": [
-    "Read(.env)", "Read(.env.*)", "Read(secrets/*)",
-    "Read(config/secrets*)", "Read(*.kdbx)", "Read(*.key)",
-    "Read(*.pem)", "Read(*.pfx)"
-  ]
+  "permissions": {
+    "deny": [
+      "Read(.env)", "Read(.env.*)", "Read(secrets/**)",
+      "Read(config/secrets*)", "Read(*.kdbx)", "Read(*.key)",
+      "Read(*.pem)", "Read(*.pfx)"
+    ]
+  }
 }
 ```
 
@@ -166,7 +187,9 @@ Why this is critical: Broken Access Control is #1 in the OWASP Top 10 (2021). Th
 
 Example: `GET /api/users/42` returns user 42's data. If you only check "is the request authenticated?" but not "is this user allowed to see user 42's data?", any authenticated user can view anyone's data by changing the number. This is called IDOR (Insecure Direct Object Reference).
 
-> "Review my API endpoints. For each endpoint, check: is authentication required? Is authorization checked (does the user have permission to access *this specific resource*, not just *any resource*)? Flag any endpoint where a user could access another user's data by changing an ID in the URL."
+A related mistake: hiding admin buttons in the UI and calling it access control. The UI only decides what is *shown*, not what is *allowed*. Anyone can unhide elements with browser dev tools or skip the UI entirely and call your API directly. Every permission rule must be enforced on the server. The reliable pattern: the server determines who the user is from the session or token (never from a user ID or role the client sends along) and checks permissions on every request. The UI then only displays what the server allows.
+
+> "Review my API endpoints. For each endpoint, check: is authentication required? Is authorization checked (does the user have permission to access *this specific resource*, not just *any resource*)? Flag any endpoint where a user could access another user's data by changing an ID in the URL. Also flag any permission that is only enforced in the frontend (hidden or disabled UI elements) but not on the server, and any place where the server trusts a user ID or role sent by the client instead of taking it from the session."
 
 ### XSS (Cross-Site Scripting)
 
@@ -265,6 +288,8 @@ If your app accepts file uploads:
 
 ## Authentication Deep Dive
 
+*Only relevant if your app has user accounts and login. Local single-user tools can skip this section.*
+
 The Authentication section above covers the basics. This section goes deeper into the mechanisms you will actually implement: OAuth flows, JSON Web Tokens, and when to use sessions vs tokens.
 
 ### OAuth Flows (Login with Google, GitHub, etc.)
@@ -353,8 +378,20 @@ When to use which:
 
 If you use JWTs and need revocation (e.g., "log out everywhere"), you need a token blacklist on the server. At that point, you have server-side state again, which removes the main advantage of JWTs. Consider whether sessions would have been simpler.
 
+### Password Reset
+
+If your app has passwords, it needs a reset flow. Attackers love reset flows because they are a way to take over an account without knowing the password. Three rules:
+
+- **The reset token is a credential.** It must be random and unguessable, expire quickly (one hour or less), work only once, and be stored hashed in the database. A database leak must not allow account takeover through old reset tokens.
+- **Never reveal whether an email is registered.** The response to "forgot password" must look identical whether the address exists or not ("If this address is registered, we sent a link"). Otherwise attackers can use the form to collect a list of your users (user enumeration).
+- **A successful reset logs out all sessions.** If an attacker had access to the account, the password change must end that access, not just add a new password.
+
+> "Review my password reset flow. Check: is the reset token random and unguessable? Does it expire within an hour? Is it single-use? Is it stored hashed? Does the forgot-password response look identical whether the email exists or not? Are all active sessions invalidated after a successful reset? Flag any issues."
+
 
 ## Multi-Tenant Isolation
+
+*Only relevant if multiple customers, teams, or organizations share one application (typical for SaaS). Single-user projects can skip this section.*
 
 Multi-tenancy means multiple users, teams, or organizations share one application and one database. Your SaaS app serves Company A and Company B from the same server. Each company is a "tenant."
 
@@ -421,6 +458,8 @@ Why `NOT_FOUND` instead of `FORBIDDEN`: returning "forbidden" confirms that the 
 
 
 ## Cloud Deployment Hardening
+
+*Only relevant if your app is deployed to a cloud server or container platform. Local tools can skip this section.*
 
 When your app runs on a cloud server or container platform, new attack surfaces appear that do not exist on your development machine. This section covers the essentials.
 
@@ -596,6 +635,8 @@ This is a starting point, not a finish line. Completing this list does not mean 
 - [ ] Output escaping in all templates (no raw user data in HTML)
 - [ ] Password hashing uses bcrypt/argon2 (not MD5/SHA256/plaintext)
 - [ ] Authorization checked per resource, not just authentication
+- [ ] Permissions enforced on the server (hiding UI elements is not access control)
+- [ ] User identity taken from the session/token, never from client-supplied IDs or roles
 - [ ] CSRF protection on all state-changing endpoints
 - [ ] CORS configured with specific origins (not `*` on authenticated endpoints)
 - [ ] Security headers set (CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy)
@@ -610,6 +651,7 @@ This is a starting point, not a finish line. Completing this list does not mean 
 - [ ] OAuth uses authorization code flow (not implicit), with state parameter and exact redirect URIs
 - [ ] JWTs stored in HttpOnly cookies (not localStorage), with signature validation, expiry, and issuer/audience checks
 - [ ] `none` algorithm rejected in JWT verification
+- [ ] Password reset: token random, expiring, single-use, stored hashed; identical response whether the email exists or not; all sessions invalidated after reset
 - [ ] Multi-tenant queries always filter by tenant_id
 - [ ] Tenant determined from authenticated session, never from client input
 - [ ] Tenant isolation tested with at least two tenants

@@ -232,11 +232,15 @@ At minimum: linter, formatter, import checker, test suite, secret scan. For a fu
 
 ### Operations Documentation
 
-Your project runs as a service but nobody knows how to restart it. Create `docs/operations.md` covering: Startup (prerequisites, env vars, commands), Monitoring (logs, health checks), Backup (what, how often, restore), Retention (what grows, cleanup policy), Troubleshooting (common problems).
+Your project runs as a service but nobody knows how to restart it. Create `docs/operations.md` covering: Startup (prerequisites, env vars, commands), Monitoring (logs, health checks, error tracking), Backup (what, how often, restore tested), Retention (what grows, cleanup policy), Troubleshooting (common problems).
 
 **Data retention matters.** Without a cleanup policy, storage grows silently until the disk is full. A simple rule: "logs: 30 days, completed jobs: 90 days, temp files: 7 days."
 
 **Health checks save debugging time.** A `/health` endpoint that returns "OK" answers "is it running?" in one second instead of ten minutes.
+
+**A backup you have never restored is not a backup.** Backups fail silently: the job stopped running months ago, the file is corrupt, a critical folder was never included. You find out on the day you need it. Test the restore once when you set the backup up, and write the restore steps into operations.md.
+
+**Errors your users hit are invisible without error tracking.** Most users do not report bugs, they leave. Add a way to see what breaks in production: an error tracking service that captures crashes automatically and notifies you, or at minimum a visible way for users to report problems (issue tracker link or contact address inside the app).
 
 > "Read my AGENTS.md. Create docs/operations.md with the sections that apply to this project. Skip sections that do not apply."
 
