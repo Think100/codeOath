@@ -11,7 +11,7 @@
 - [ ] `5-routines` prompts.md: check if sorting still works when new prompts are added (currently clean)
 - [ ] `5-routines` Root README reference length: watch for >20 guides, introduce sub-pages if needed
 - [ ] `5-routines` FAQ length: watch (currently 6, threshold ~8, then move to docs/faq.md)
-- [ ] `5-routines` Code quality heuristics: guide with simple metrics to detect drift (file size trends, import depth, decision frequency). No tools, just heuristics and questions
+- [x] `5-routines` Code quality heuristics: guide with simple metrics to detect drift (file size trends, import depth, decision frequency). No tools, just heuristics and questions (done 2026-07-19, resolved without a new guide: drift-check routine in grow.md, copy-paste section in ai-code-review.md, change-coupling trigger in triggers.md; commit 967d20d)
 - [ ] `6-waiting` grow.md H2 "When Folders Are Not Enough": check if contrast to Concept 1-2 is strong enough (waiting for community/test user feedback)
 - [ ] `3-soon` Multi-language project guide: how to structure projects with multiple programming languages (e.g. Python backend + TypeScript frontend). Boundaries, folder structure, where domain/adapters live per language, how to keep conventions consistent
 - [x] `2-next` security.md relevance navigation: add a mini-nav after the TL;DR (Local tool / Web app / Multi-user / Cloud) and a "Only relevant if..." line at the start of each advanced section (Multi-Tenant, JWT/OAuth, Cloud Hardening), so Stage 1 readers do not drown in enterprise content (done 2026-07-17, commit ae8c705)
