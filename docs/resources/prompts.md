@@ -38,6 +38,10 @@ For context on when and why to use each prompt, see the linked source document.
 
 > "Read my AGENTS.md and docs/todo.md. Pick the routine with the oldest `last:` date. Run that check now: read the relevant files, verify the current state, report any issues, and update the `last:` date. If you find problems, either fix them directly or add them as tasks to the Tasks section."
 
+**Monthly drift check** ([grow.md](../grow.md))
+
+> "Read my AGENTS.md. Run the monthly drift check and compare against the numbers stored below this routine in docs/todo.md (no stored numbers means this is the first run: measure and store them). Measure five things: (1) the three largest code files and the files that change most often relative to their size, (2) near-identical code blocks that exist in more than one place, (3) places where an error is caught and silently ignored or replaced by a default value, (4) pairs of code files that almost always change in the same commit (ignore docs and meta files), (5) the three longest functions. Compare with the stored numbers and report in plain language only what moved noticeably: one line per finding with the file name, and whether it is worth acting on. Then update the stored numbers below the routine entry and the `last:` date. Do not fix anything."
+
 **Archive completed todos** ([grow.md](../grow.md))
 
 > "Read docs/todo.md. Move all entries from the Resolved section to docs/todo_archive.md (create it if it does not exist). Keep the same format. Leave the Resolved section header in todo.md but empty."
@@ -237,9 +241,13 @@ If more context is needed:
 
 > "Compare what you just built against what I asked for. List every requirement I gave you, and for each one, tell me: is it fully implemented, partially implemented, or missing? Then list everything you added that I did not ask for. I want an honest comparison, not a summary of what you built."
 
+**Check for copy-paste duplicates** ([ai-code-review.md](ai-code-review.md))
+
+> "Look at the code you just wrote. Did you copy an existing block and change a detail instead of reusing it? Search the project for blocks that are nearly identical to the new code. If you find any, show me where, and propose one shared function to replace the copies. Do not merge blocks that only look similar but mean different things."
+
 **Full AI code review before release** ([ai-code-review.md](ai-code-review.md))
 
-> "Read AGENTS.md. Then review the entire codebase in six passes and report findings for each: 1. Hidden errors: where can something fail without me knowing? 2. Fake safety: where are there checks for impossible situations? 3. Wrong assumptions: where does the code guess instead of fail? 4. Scope: is everything I asked for implemented? Is there anything I did not ask for? 5. Secrets: any credentials in the code? 6. Structure: does the code follow the architecture rules in AGENTS.md? Do not fix anything. Report only. I will decide what to fix."
+> "Read AGENTS.md. Then review the entire codebase in seven passes and report findings for each: 1. Hidden errors: where can something fail without me knowing? 2. Fake safety: where are there checks for impossible situations? 3. Wrong assumptions: where does the code guess instead of fail? 4. Scope: is everything I asked for implemented? Is there anything I did not ask for? 5. Secrets: any credentials in the code? 6. Duplication: is the same logic copied in more than one place? 7. Structure: does the code follow the architecture rules in AGENTS.md? Do not fix anything. Report only. I will decide what to fix."
 
 
 ## Dependency Evaluation

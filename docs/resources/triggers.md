@@ -67,6 +67,7 @@ Even when rewriting: start with AGENTS.md. Define the project, the rules, and th
 | You told your AI where things go, and it still puts new files elsewhere | `domain/` and `adapters/` separation         |
 | You ask "why did we do it this way?" and nobody has an answer          | `docs/decisions.md`                          |
 | You change one small thing and something unrelated stops working        | Split by layer (domain vs. adapter)          |
+| Two files always have to change together, never one alone              | Move the shared logic into one place         |
 | You avoid touching working code because you cannot tell if it still works afterwards | Ports and tests in `domain/`    |
 | Your AI asks the same questions about scope every session              | Architecture rules in `AGENTS.md`            |
 | Resolved items in todo.md are longer than open items                   | `docs/todo_archive.md`                       |

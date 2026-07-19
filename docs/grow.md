@@ -139,6 +139,7 @@ Suggested frequencies as a starting point:
 | Dependency audit | Monthly | CVEs are published continuously. See [dependency evaluation](resources/dependency-evaluation.md) |
 | Security scan | Monthly | Catches secrets or validation gaps before they accumulate |
 | AI code review | Weekly | Catches hidden errors and fake safety in AI-generated code. See [ai-code-review](resources/ai-code-review.md) |
+| Drift check | Monthly | Five numbers that show slow decay before it hurts. Prompt below |
 | Architecture check | Monthly | Detects boundary violations early |
 | Performance spot check | Quarterly | Only relevant once real data flows |
 | Todo cleanup | Monthly | Move resolved items from todo.md to docs/todo_archive.md |
@@ -146,6 +147,12 @@ Suggested frequencies as a starting point:
 These are defaults, not rules. A project under heavy development might check docs weekly. A stable project might audit dependencies quarterly. Adjust to your pace.
 
 > "Read my AGENTS.md and docs/todo.md. Pick the routine with the oldest `last:` date. Run that check now: read the relevant files, verify the current state, report any issues, and update the `last:` date. If the Resolved section in todo.md has more than a few items, move them to docs/todo_archive.md."
+
+One routine deserves its own prompt: the drift check. Code quality rarely breaks in a day; it drifts. A file grows a little every week, the same block gets copied one more time, one more error gets swallowed. Each step is too small to notice, and no single session is to blame. The way to catch drift is to measure a few numbers each month and compare them with last month. The prompt stores its measurements next to the routine entry, so every run has something to compare against:
+
+> "Read my AGENTS.md. Run the monthly drift check and compare against the numbers stored below this routine in docs/todo.md (no stored numbers means this is the first run: measure and store them). Measure five things: (1) the three largest code files and the files that change most often relative to their size, (2) near-identical code blocks that exist in more than one place, (3) places where an error is caught and silently ignored or replaced by a default value, (4) pairs of code files that almost always change in the same commit (ignore docs and meta files), (5) the three longest functions. Compare with the stored numbers and report in plain language only what moved noticeably: one line per finding with the file name, and whether it is worth acting on. Then update the stored numbers below the routine entry and the `last:` date. Do not fix anything."
+
+If the drift check flags something, the fix paths already exist: growing files and file pairs that always change together point to [triggers.md](resources/triggers.md), copied blocks and swallowed errors to [ai-code-review.md](resources/ai-code-review.md).
 
 
 ## Keep Errors Visible

@@ -30,7 +30,7 @@ AI does this because it optimizes for "no crash." For the AI, a program that run
 > "Review the code you just wrote. Is there any place where an error is caught and ignored? Any place where the code continues as if nothing happened after something went wrong? I want errors to be visible, not hidden. Show me every place where a problem could happen silently."
 
 
-## Five Problems AI Creates (and How to Catch Them)
+## Six Problems AI Creates (and How to Catch Them)
 
 You do not need to understand the code to spot these. You need to ask your AI the right question. Each problem below has an explanation in plain language, a real-world analogy, and a prompt you can copy.
 
@@ -96,6 +96,18 @@ AI does not stick to your request. It expands scope (adds things you did not ask
 
 > "Compare what you just built against what I asked for. List every requirement I gave you, and for each one, tell me: is it fully implemented, partially implemented, or missing? Then list everything you added that I did not ask for. I want an honest comparison, not a summary of what you built."
 
+### 6. Copy-Paste Instead of Reuse
+
+**What it means:** The AI needs logic that already exists somewhere in your project. Instead of reusing it, it copies the block and changes a detail. Now the same logic lives in two or three places. When you fix a bug in one copy, the others keep the bug. Measurements across millions of AI-assisted code changes show duplicated blocks rising sharply since AI assistants became common, while reuse declines.
+
+**Analogy:** You write your address on three different notepads. Then you move. You update one notepad and forget the others. Half your mail still goes to the old address, and you cannot tell which notepad someone used.
+
+**Why AI does this:** Copying always works and needs no context. Reusing requires knowing that similar code already exists and where. In a long session or a large project, the AI often does not look. Copying is the path of least resistance.
+
+**How to catch it:**
+
+> "Look at the code you just wrote. Did you copy an existing block and change a detail instead of reusing it? Search the project for blocks that are nearly identical to the new code. If you find any, show me where, and propose one shared function to replace the copies. Do not merge blocks that only look similar but mean different things."
+
 
 ## Your Review Workflow
 
@@ -117,13 +129,14 @@ The last sentence matters. Without it, the AI tends to defend its own code.
 
 For important milestones (first release, sharing with users, going live), run a full review:
 
-> "Read AGENTS.md. Then review the entire codebase in six passes and report findings for each:
+> "Read AGENTS.md. Then review the entire codebase in seven passes and report findings for each:
 > 1. Hidden errors: where can something fail without me knowing?
 > 2. Fake safety: where are there checks for impossible situations?
 > 3. Wrong assumptions: where does the code guess instead of fail?
 > 4. Scope: is everything I asked for implemented? Is there anything I did not ask for?
 > 5. Secrets: any credentials in the code?
-> 6. Structure: does the code follow the architecture rules in AGENTS.md?
+> 6. Duplication: is the same logic copied in more than one place?
+> 7. Structure: does the code follow the architecture rules in AGENTS.md?
 > Do not fix anything. Report only. I will decide what to fix."
 
 For the full release process (build, tests, publishing), see [release-checklist.md](release-checklist.md) and [build-pipeline.md](build-pipeline.md).
@@ -139,6 +152,7 @@ Once you have a feel for which problems show up in your project, encode the rule
 - No fallback values for missing data. If something is missing, stop and report.
 - No checks for impossible situations. Validate input at the boundary, trust internal code.
 - Every function does one job. If it does two, split it.
+- Reuse existing code instead of copying it. One logic, one place.
 ```
 
 These rules prevent problems instead of catching them after the fact. Your AI reads AGENTS.md at the start of every session and follows the rules while writing code, not just during review.
