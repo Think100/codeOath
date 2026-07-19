@@ -5,6 +5,52 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.10.0] - 2026-07-19
+
+### Added
+- experiments: run 4, Blog/CMS rerun with the new model generation.
+- resources/security.md: Password Reset section (reset token as
+  credential, user enumeration, session invalidation after reset) with
+  review prompt and checklist entry.
+- resources/security.md: "What Applies to You" relevance navigation
+  after the TL;DR plus "only relevant if" lines on the advanced
+  sections, so Stage 1 readers skip enterprise content.
+- resources/security.md: frontend code is public (API keys never in
+  frontend bundles), the UI is not access control (permissions enforced
+  server-side, identity from the session, never from client input),
+  with matching checklist items.
+- resources/ai-code-review.md: sixth AI problem "Copy-Paste Instead of
+  Reuse" with review prompt; duplication pass added to the full
+  release review.
+- grow.md: "Keep Configuration in One Place" section (config/, .env
+  with AI deny rules, .env.example pattern, password manager as source
+  of truth).
+- grow.md: monthly drift check routine. Five trend numbers (hotspots,
+  duplicated blocks, swallowed errors, file pairs that change together,
+  function length), stored per run and compared against the last run.
+- resources/triggers.md: change-coupling symptom (two files always
+  change together, never one alone).
+- enforce.md operations: test the backup restore once, add error
+  tracking so failures that users hit become visible.
+
+### Changed
+- resources/triggers.md: replaced with a symptom-based rewrite. All
+  triggers are now observable moments in daily work instead of
+  architecture diagnoses; diagnose prompt added to prompts.md.
+- resources/prompts.md: new and changed prompts synced (authorization,
+  password reset, copy-paste check, drift check, seven-pass release
+  review).
+- AGENTS.md: line guidance clarified.
+- docs/README.md refreshed; docs/meta file formats documented in the
+  style guide.
+- meta/decisions.md: reverse-chronological order restored.
+- Vibecoder review detail fixes across docs.
+
+### Fixed
+- resources/security.md: the AI deny-rules example used a top-level
+  "deny" key that Claude Code ignores; rules now nest under
+  "permissions" and secrets/** covers subfolders.
+
 ## [0.9.0] - 2026-04-17
 
 ### Added

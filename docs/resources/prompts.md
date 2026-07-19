@@ -36,7 +36,7 @@ For context on when and why to use each prompt, see the linked source document.
 
 **Run a routine check** ([grow.md](../grow.md))
 
-> "Read my AGENTS.md and docs/todo.md. Pick the routine with the oldest `last:` date. Run that check now: read the relevant files, verify the current state, report any issues, and update the `last:` date. If you find problems, either fix them directly or add them as tasks to the Tasks section."
+> "Read my AGENTS.md and docs/todo.md. Pick the routine with the oldest `last:` date. Run that check now: read the relevant files, verify the current state, report any issues, and update the `last:` date. If the Resolved section in todo.md has more than a few items, move them to docs/todo_archive.md."
 
 **Monthly drift check** ([grow.md](../grow.md))
 

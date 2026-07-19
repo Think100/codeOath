@@ -9,7 +9,7 @@ What is done or actively being worked on for the next release.
 
 - [ ] Text pipelines as a dedicated project type / track
 - [ ] Building AI into your app: how to integrate LLMs (Claude, OpenAI, local models) into the software you are building - API basics, prompt patterns for in-app use, cost and safety
-- [ ] Code quality heuristics: simple metrics to detect project drift over time
+- [ ] Information flow guide: how data moves through a program (inputs, state, events, outputs), information architecture for AI-assisted projects
 
 ## Next
 
@@ -19,7 +19,6 @@ Planned, but not started yet.
 - Language mapping tables (JavaScript, TypeScript)
 - eslint-plugin-boundaries config (JavaScript/TypeScript)
 - CONTRIBUTING.md: contribution workflow when PRs open
-- Information flow guide: how data moves through a program (inputs, state, events, outputs), information architecture for AI-assisted projects
 - Language selection guide for vibecoders: which programming language fits which kind of project (web app, script, data tool, mobile, game). Focused on vibecoding trade-offs: AI support quality per language, ecosystem maturity, deployment simplicity, not on benchmarks or theory.
 
 
@@ -35,3 +34,4 @@ Ideas we want to explore. No timeline, no commitment.
 - Project templates (cookiecutter/copier per language/stage), likely unnecessary as AI scaffolding improves
 - End-user documentation guide: user guides, feature descriptions, getting-started pages, and in-app help (tooltips, contextual help, onboarding flows). Explicitly out of scope in auto-documentation.md, needs its own guide with different failure modes.
 - RAG system guide: how to structure a retrieval-augmented generation setup (vector store, embeddings, retrieval, prompt assembly) mapped to the domain/adapters model.
+- Working with autonomous coding agents: how you and a long-running agent share one codebase - hand-off points, review gates, what the agent may do on its own, keeping AGENTS.md as the shared contract.
